@@ -1,0 +1,660 @@
+2025-04-01T09:32:23.279Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T09:32:43.192Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T09:32:58.215Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T09:33:21.823Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T09:33:30.591Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T09:33:44.083Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T09:34:33.172Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T09:36:15.763Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T09:37:32.376Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T09:39:32.543Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T09:39:36.627Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T09:40:07.381Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T09:40:20.645Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T09:40:30.932Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T10:13:49.376Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T10:13:59.314Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T10:14:15.131Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T10:14:51.401Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T10:15:43.881Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T10:17:04.380Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T10:18:29.333Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T10:24:34.732Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T10:27:28.785Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T10:28:34.449Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T10:42:30.446Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T10:45:04.626Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T10:46:18.432Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T10:49:00.021Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T10:50:01.180Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T10:51:49.860Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T10:54:48.686Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T10:59:18.593Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 
+2025-04-01T10:59:42.725Z [ERROR]: uncaughtException: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+Error: Cannot find module '../../middleware/auth'
+Require stack:
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\app.js
+- C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1231:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\Vijay Nadigear\OneDrive\Desktop\Project Edgile\edgile\edgile-backend\src\routes\admin\dashboardRoutes.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) 

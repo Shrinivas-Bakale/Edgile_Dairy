@@ -1,0 +1,1395 @@
+import React, { useState, useEffect, ReactElement } from 'react';
+import axios from 'axios';
+import config from '@/config';
+import { Button } from '@/components/ui/button';
+import { FormSelect } from '@/components/ui/form-select';
+import LoadingOverlay from '@/components/LoadingOverlay';
+import EmptyState from '@/components/EmptyState';
+import { SearchAndFilter } from '@/components/SearchAndFilter';
+import { useAuth } from '@/hooks/useAuth';
+import { useSnackbar } from '@/hooks/useSnackbar';
+import withDashboard from '@/components/withDashboard';
+import { Tabs, TabsContent, TabsList, TabsTrigger, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, Separator } from '@/components/ui';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import TimetableEditor from "@/components/admin/TimetableEditor";
+import Loading from '@/components/Loading';
+import { AlertCircle, RefreshCw, Plus, Download, PlusCircle } from "lucide-react";
+import TimetableTemplates from "@/components/admin/TimetableTemplates";
+import { Template as TimetableTemplate, TimeSlot as TimetableTimeSlot, Day as TimetableDay, Subject as TimetableSubject } from '@/components/admin/TimetableTemplates';
+import { adminAPI } from "@/utils/api";
+
+// Constants for days and times
+const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] as const;
+const HOURS = Array.from({ length: 12 }, (_, i) => i + 8); // 8AM to 8PM
+
+// Style constants
+const CELL_CLASS = "border p-2 h-16 text-center";
+const BUTTON_CLASS = "flex items-center justify-center gap-2 w-full";
+const CARD_CLASS = "mb-6";
+
+// Fix the Tabs component props interface
+interface TabsProps {
+  value: string;
+  onValueChange: (value: string) => void;
+}
+
+// Define types for timetable data
+interface TimeSlot {
+  time: string;
+  startTime?: string;
+  endTime?: string;
+  subjectCode: string;
+  facultyId: string | null;
+}
+
+interface DaySchedule {
+  day: string;
+  slots: TimeSlot[];
+}
+
+interface ComponentTimeSlot {
+  startTime: string;
+  endTime: string;
+  subjectCode: string;
+  facultyId: string | null;
+}
+
+interface ComponentDay {
+  day: string;
+  slots: ComponentTimeSlot[];
+}
+
+interface ComponentTemplate {
+  year: string;
+  semester: number;
+  division: string;
+  classroomId: string;
+  days: ComponentDay[];
+}
+
+interface ComponentTimetable {
+  _id?: string;
+  year: string;
+  semester: number;
+  division: string;
+  classroomId: string;
+  days: ComponentDay[];
+  status?: string;
+}
+
+interface ComponentSubject {
+  _id: string;
+  code: string;
+  name: string;
+  creditHours: number;
+  type: string;
+  color: string;
+  subjectCode: string;
+}
+
+interface Template extends TimetableTemplate {
+  _id: string;
+  name: string;
+  description?: string;
+  academicYear: string;
+  createdAt?: string;
+}
+
+interface Timetable {
+  _id: string;
+  days: DaySchedule[];
+  year: string;
+  semester: number;
+  division: string;
+  classroom: string;
+  academicYear: string;
+  status: string;
+  createdAt?: string;
+}
+
+interface Classroom {
+  _id: string;
+  name: string;
+  capacity: number;
+  building?: string;
+  floor?: number;
+}
+
+interface Subject {
+  _id: string;
+  subjectName: string;
+  subjectCode: string;
+  type: string;
+  totalDuration: number;
+  weeklyHours: number;
+  year: string;
+  semester: number;
+  academicYear: string;
+  code: string;
+  name: string;
+  creditHours: number;
+  color: string;
+}
+
+interface ClassConfig {
+  year: string;
+  semester: string;
+  division: string;
+}
+
+// Constants
+const YEARS = ['First', 'Second', 'Third'] as const;
+const SEMESTERS = {
+  'First': [1, 2],
+  'Second': [3, 4],
+  'Third': [5, 6]
+} as const;
+
+// Add type for form state
+interface FormState {
+  year: string;
+  semester: string;
+  division: string;
+  classroom: string;
+  errors: Record<string, string>;
+}
+
+// Add type for filter state
+interface FilterState {
+  status: string;
+  date: string;
+}
+
+// Fix the SearchAndFilter component interface
+interface SearchFilterProps {
+  onSearch: (query: string) => void;
+  onFilter?: () => void; // Make onFilter optional since we use a new typed version
+  searchPlaceholder?: string;
+  className?: string;
+}
+
+// Main component
+const TimetablePage = (): ReactElement => {
+  const { user, token } = useAuth();
+  const { showSnackbar } = useSnackbar();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [isSavingTimetable, setIsSavingTimetable] = useState<boolean>(false);
+  const [selectedTimetable, setSelectedTimetable] = useState<Timetable | null>(null);
+  const [timetables, setTimetables] = useState<Timetable[]>([]);
+  const [facultyPreferences, setFacultyPreferences] = useState<any[]>([]);
+  const [classroomLoading, setClassroomLoading] = useState<boolean>(false);
+
+  // Fix the tabs component value type and active tab state
+  const [activeTab, setActiveTab] = useState<string>('create');
+  
+  // Loading states with descriptive names
+  const [isPageLoading, setIsPageLoading] = useState<boolean>(false);
+  const [isTemplatesLoading, setIsTemplatesLoading] = useState<boolean>(false);
+  const [isGeneratingTemplates, setIsGeneratingTemplates] = useState<boolean>(false);
+  
+  // Form state
+  const [formState, setFormState] = useState<FormState>({
+    year: '',
+    semester: '',
+    division: '',
+    classroom: '',
+    errors: {}
+  });
+  
+  // Data states
+  const [availableSemesters, setAvailableSemesters] = useState<number[]>([]);
+  const [divisions] = useState<string[]>(['A', 'B', 'C']);
+  const [classrooms, setClassrooms] = useState<Classroom[]>([]);
+  const [subjects, setSubjects] = useState<TimetableSubject[]>([]);
+  const [templates, setTemplates] = useState<TimetableTemplate[]>([]);
+  const [selectedTemplate, setSelectedTemplate] = useState<TimetableTemplate | null>(null);
+  const [conflicts, setConflicts] = useState<any[]>([]);
+  
+  // Search and filter states
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [filters, setFilters] = useState<FilterState>({
+    status: 'all',
+    date: 'all'
+  });
+
+  // Add error state
+  const [error, setError] = useState<string | null>(null);
+
+  // Initialize data on component mount
+  useEffect(() => {
+    console.log("TimetablePage mounted, initializing data");
+    // Load initial data
+    if (user?._id && token) {
+      console.log("User and token available, fetching initial data");
+      fetchInitialData();
+    } else {
+      console.warn("User or token not available on component mount");
+      setError("User authentication required. Please log in.");
+    }
+  }, [user, token]);
+
+  // Fetch initial data for the page
+  const fetchInitialData = async (): Promise<void> => {
+    setIsPageLoading(true);
+    setError(null);
+    try {
+      console.log("Fetching initial data for TimetablePage");
+      
+      // Fetch subjects
+      await fetchSubjects();
+      
+      // Fetch classrooms
+      await fetchAvailableClassrooms();
+      
+    } catch (error) {
+      console.error("Error fetching initial data:", error);
+      showSnackbar("Failed to load initial data. Please try refreshing the page.", "error");
+      setError("Failed to load initial data");
+    } finally {
+      setIsPageLoading(false);
+    }
+  };
+
+  // Fetch subjects
+  const fetchSubjects = async (): Promise<void> => {
+    if (!user?._id || !token) {
+      console.log("Missing user ID or token for fetchSubjects");
+      return;
+    }
+
+    try {
+      console.log("Fetching subjects");
+      const yearMap: { [key: string]: number } = {
+        'First': 1,
+        'Second': 2,
+        'Third': 3
+      };
+      
+      const response = await axios.get(`${config.API_URL}/api/admin/subjects`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        params: {
+          university: user._id,
+          academicYear: getCurrentAcademicYear()
+        }
+      });
+      
+      console.log("Subjects API response:", response.data);
+      
+      if (response.data?.success) {
+        let subjectsData = [];
+        
+        if (Array.isArray(response.data.subjects)) {
+          subjectsData = response.data.subjects;
+        } else if (Array.isArray(response.data.data)) {
+          subjectsData = response.data.data;
+        } else if (Array.isArray(response.data)) {
+          subjectsData = response.data;
+        }
+        
+        console.log(`Fetched ${subjectsData.length} subjects`);
+        
+        // Convert to TimetableSubject format
+        const timetableSubjects = subjectsData.map((subject: any) => ({
+          _id: subject._id,
+          name: subject.name || subject.subjectName,
+          subjectCode: subject.subjectCode || subject.code || '',
+          type: subject.type || 'Regular',
+          code: subject.code || subject.subjectCode || ''
+        }));
+        
+        setSubjects(timetableSubjects);
+      } else {
+        console.error("Failed to fetch subjects:", response.data?.message);
+      }
+    } catch (error: any) {
+      console.error("Error fetching subjects:", error.response?.data || error);
+    }
+  };
+
+  const handleTemplateSelect = (template: TimetableTemplate): void => {
+    // Create a full Template object from the TimetableTemplate
+    const fullTemplate: TimetableTemplate = {
+      ...template,
+      _id: template._id || crypto.randomUUID(),
+      name: template.name || `Template ${Date.now()}`,
+      academicYear: template.academicYear || getCurrentAcademicYear(),
+    };
+
+    setSelectedTemplate(fullTemplate);
+    // Convert template to internal format
+    const convertedTemplate: Timetable = {
+      _id: fullTemplate._id || crypto.randomUUID(),
+      days: fullTemplate.days.map((day: TimetableDay) => ({
+        day: day.day,
+        slots: day.slots.map((slot: TimetableTimeSlot) => ({
+          time: slot.time || `${slot.startTime} - ${slot.endTime}`,
+          startTime: slot.startTime,
+          endTime: slot.endTime,
+          subjectCode: slot.subjectCode,
+          facultyId: slot.facultyId
+        }))
+      })),
+      year: fullTemplate.year,
+      semester: fullTemplate.semester,
+      division: fullTemplate.division,
+      classroom: fullTemplate.classroomId,
+      academicYear: fullTemplate.academicYear || getCurrentAcademicYear(),
+      status: 'draft'
+    };
+    setSelectedTimetable(convertedTemplate);
+  };
+
+  const handleTimetableSave = async (): Promise<void> => {
+    if (!selectedTimetable) return;
+    await saveTimetable(selectedTimetable);
+  };
+
+  const saveTimetable = async (timetable: Timetable): Promise<void> => {
+    if (!timetable?._id || !user?._id || !token) return;
+    
+    setIsSavingTimetable(true);
+    try {
+      const response = await axios.put(`${config.API_URL}/api/admin/timetable/${timetable._id}`, 
+        {
+          university: user._id,
+          days: timetable.days
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      
+      if (response.data.success) {
+        showSnackbar('Timetable saved successfully', 'success');
+        setSelectedTimetable(response.data.data);
+      } else {
+        showSnackbar('Failed to save timetable', 'error');
+      }
+    } catch (error: any) {
+      console.error("Error saving timetable:", error.response || error);
+      showSnackbar('Failed to save timetable: ' + (error.response?.data?.message || error.message), 'error');
+    } finally {
+      setIsSavingTimetable(false);
+    }
+  };
+
+  const getCurrentAcademicYear = (): string => {
+    const today = new Date();
+    const currentMonth = today.getMonth(); // 0-11
+    
+    // If we're in the latter half of the calendar year (July-December), use current year as start
+    // Otherwise use previous year as start
+    let startYear: number;
+    if (currentMonth >= 6) { // July onwards
+      startYear = today.getFullYear();
+    } else {
+      startYear = today.getFullYear() - 1;
+    }
+    
+    // End year is always start year + 1, but we only take the last 2 digits
+    const endYear = (startYear + 1) % 100;
+    
+    // Format: YYYY-YY
+    return `${startYear}-${String(endYear).padStart(2, '0')}`;
+  };
+
+  // Validate form field
+  const validateField = (field: string, value: string): string => {
+    if (!value) {
+      return `${field} is required`;
+    }
+    return '';
+  };
+
+  // Handle form changes
+  const handleFormChange = (field: string, value: string): void => {
+    const error = validateField(field, value);
+    
+    setFormState(prev => ({
+      ...prev,
+      [field]: value,
+      errors: {
+        ...prev.errors,
+        [field]: error
+      }
+    }));
+
+    // Reset dependent fields
+    switch(field) {
+      case 'year':
+        setFormState(prev => ({
+          ...prev,
+          semester: '',
+          division: '',
+          classroom: ''
+        }));
+        updateAvailableSemesters(value);
+        break;
+      case 'semester':
+        setFormState(prev => ({
+          ...prev,
+          division: '',
+          classroom: ''
+        }));
+        break;
+      case 'division':
+        setFormState(prev => ({
+          ...prev,
+          classroom: ''
+        }));
+        fetchAvailableClassrooms();
+        break;
+    }
+  };
+
+  // Update available semesters based on year
+  const updateAvailableSemesters = (year: string): void => {
+    const semesterMap = {
+      'First': [1, 2],
+      'Second': [3, 4],
+      'Third': [5, 6]
+    };
+    setAvailableSemesters(semesterMap[year as keyof typeof semesterMap] || []);
+  };
+
+  // Check if form is complete
+  const isFormComplete = (): boolean => {
+    const requiredFields = ['year', 'semester', 'division', 'classroom'];
+    return requiredFields.every(field => Boolean(formState[field as keyof typeof formState]));
+  };
+
+  // Export timetable
+  const handleExport = async (): Promise<void> => {
+    if (!selectedTimetable) return;
+    
+    try {
+      setIsPageLoading(true);
+      const response = await axios.get(
+        `${config.API_URL}/api/admin/timetable/${selectedTimetable._id}/export`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          responseType: 'blob'
+        }
+      );
+      
+      // Create download link
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `timetable-${selectedTimetable._id}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      
+      showSnackbar('Timetable exported successfully', 'success');
+    } catch (error: any) {
+      console.error('Export error:', error);
+      showSnackbar('Failed to export timetable', 'error');
+    } finally {
+      setIsPageLoading(false);
+    }
+  };
+
+  // Search and filter handlers
+  const handleSearch = (query: string): void => {
+    setSearchQuery(query);
+  };
+
+  // Fix the handleFilter function - create a dummy implementation for the existing interface
+  const handleFilterSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    // Implement filter logic
+  };
+
+  // Update fetchAvailableClassrooms function
+  const fetchAvailableClassrooms = async (): Promise<void> => {
+    if (!user?._id || !token) {
+      console.log("Missing user ID or token for fetchAvailableClassrooms");
+      setError("Authentication required");
+      return;
+    }
+
+    setClassroomLoading(true);
+    try {
+      console.log("Fetching classrooms with params:", {
+        university: user._id,
+        academicYear: getCurrentAcademicYear(),
+        token: token ? "Present" : "Missing"
+      });
+      
+      // First test authentication
+      try {
+        console.log("Testing authentication first");
+        const authTestResponse = await axios.get(`${config.API_URL}/api/admin/classrooms/test-auth`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        console.log("Auth test result:", authTestResponse.data);
+      } catch (authError) {
+        console.error("Auth test failed:", authError);
+        showSnackbar('Authentication error: Your session may have expired', 'error');
+        setError("Authentication failed. Please log in again.");
+        
+        // Create test classrooms if authentication fails but we need some for testing
+        if (window.confirm("Would you like to create test classroom data for development?")) {
+          createTestClassroomsDev();
+          return;
+        }
+        return; // Stop if auth test fails
+      }
+      
+      // Now get classrooms
+      console.log("Making direct API call for classrooms");
+      const response = await axios.get(`${config.API_URL}/api/admin/classrooms`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        params: {
+          university: user._id,
+          academicYear: getCurrentAcademicYear()
+        }
+      });
+
+      console.log("Direct API response:", response.data);
+
+      if (response.data?.success) {
+        // Handle different possible response formats
+        let classroomsData;
+        
+        if (Array.isArray(response.data.data)) {
+          classroomsData = response.data.data;
+        } else if (Array.isArray(response.data.classrooms)) {
+          classroomsData = response.data.classrooms;
+        } else if (Array.isArray(response.data)) {
+          classroomsData = response.data;
+        } else {
+          classroomsData = [];
+        }
+        
+        console.log("Classrooms fetched:", classroomsData.length);
+        setClassrooms(classroomsData);
+        
+        // If no classrooms were found, check if we can create test data
+        if (classroomsData.length === 0) {
+          console.log("No classrooms found, offering to create test data");
+          if (window.confirm("No classrooms found. Would you like to create test classroom data?")) {
+            await createTestClassrooms();
+          }
+        }
+      } else {
+        console.error("Failed to fetch classrooms:", response.data?.message || "Unknown error");
+        showSnackbar('Failed to fetch classrooms: ' + (response.data?.message || "Unknown error"), 'error');
+        setError("Failed to fetch classrooms: " + (response.data?.message || "Unknown error"));
+        
+        // If API call fails but returns success:false, offer to create test data
+        if (window.confirm("Failed to fetch classrooms. Would you like to create test classroom data?")) {
+          await createTestClassrooms();
+        }
+      }
+    } catch (error: any) {
+      console.error("Error fetching classrooms:", error.response?.data || error);
+      showSnackbar('Failed to fetch classrooms: ' + (error.response?.data?.message || error.message), 'error');
+      setError("Error fetching classrooms: " + (error.response?.data?.message || error.message));
+      
+      // If the API call throws an exception, offer to create test data
+      if (window.confirm("Error fetching classrooms. Would you like to create test classroom data?")) {
+        await createTestClassrooms();
+      }
+    } finally {
+      // If still no classrooms, create dev classrooms without prompt
+      if (classrooms.length === 0) {
+        createTestClassroomsDev();
+      }
+      
+      setClassroomLoading(false);
+    }
+  };
+  
+  // Create test classrooms for development only
+  const createTestClassroomsDev = (): void => {
+    console.log("Creating development test classrooms");
+    const testClassrooms = [
+      { _id: "classroom1", name: "Room 101", capacity: 30, building: "Main Building", floor: 1 },
+      { _id: "classroom2", name: "Room 102", capacity: 40, building: "Main Building", floor: 1 },
+      { _id: "classroom3", name: "Room 201", capacity: 25, building: "Main Building", floor: 2 },
+      { _id: "classroom4", name: "Room 202", capacity: 35, building: "Main Building", floor: 2 },
+      { _id: "classroom5", name: "Lab 301", capacity: 20, building: "Science Block", floor: 3 },
+      { _id: "classroom6", name: "Conference Room", capacity: 15, building: "Admin Block", floor: 1 }
+    ];
+    setClassrooms(testClassrooms);
+  };
+  
+  // Create test classrooms
+  const createTestClassrooms = async (): Promise<void> => {
+    if (!user?._id || !token) {
+      console.log("Missing user ID or token for createTestClassrooms");
+      createTestClassroomsDev(); // Fallback to dev data
+      return;
+    }
+    
+    try {
+      console.log("Creating test classroom data");
+      const response = await axios.post(
+        `${config.API_URL}/api/admin/classrooms/create-test-data`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      
+      console.log("Test data creation response:", response.data);
+      
+      if (response.data?.success) {
+        showSnackbar('Test classrooms created successfully', 'success');
+        // Refresh classroom list
+        await fetchAvailableClassrooms();
+      } else {
+        showSnackbar('Failed to create test classrooms: ' + (response.data?.message || 'Unknown error'), 'error');
+        createTestClassroomsDev(); // Fallback to dev data
+      }
+    } catch (error: any) {
+      console.error("Error creating test classrooms:", error.response?.data || error);
+      showSnackbar('Error creating test classrooms: ' + (error.response?.data?.message || error.message), 'error');
+      createTestClassroomsDev(); // Fallback to dev data
+    }
+  };
+
+  // Generate timetable templates
+  const generateTemplates = async (): Promise<void> => {
+    if (!isFormComplete()) {
+      showSnackbar('Please complete the class configuration', 'error');
+      return;
+    }
+    
+    if (!user?._id || !token) {
+      showSnackbar('You must be logged in to generate templates', 'error');
+      return;
+    }
+
+    // Map the display year to the actual year number
+    const yearMap: { [key: string]: number } = {
+      'First': 1,
+      'Second': 2,
+      'Third': 3
+    };
+    
+    setIsGeneratingTemplates(true);
+    try {
+      console.log("Generating templates with params:", {
+        university: user._id,
+        year: yearMap[formState.year],
+        semester: parseInt(formState.semester),
+        division: formState.division,
+        classroomId: formState.classroom,
+        academicYear: getCurrentAcademicYear()
+      });
+      
+      const response = await axios.post(`${config.API_URL}/api/admin/timetable/generate`, 
+        {
+          university: user._id,
+          year: yearMap[formState.year],
+          semester: parseInt(formState.semester),
+          division: formState.division,
+          classroomId: formState.classroom,
+          academicYear: getCurrentAcademicYear()
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+      if (response.data.success) {
+        const convertedTemplates: TimetableTemplate[] = (response.data.data || []).map((template: any) => ({
+          year: formState.year,
+          semester: parseInt(formState.semester),
+          division: formState.division,
+          classroomId: formState.classroom,
+          days: template.days.map((day: any) => ({
+            day: day.day,
+            slots: day.slots.map((slot: any) => {
+              const [startTime, endTime] = slot.time.split(' - ');
+              return {
+                startTime: startTime?.trim() || '',
+                endTime: endTime?.trim() || '',
+                subjectCode: slot.subjectCode,
+                facultyId: slot.facultyId
+              };
+            })
+          }))
+        }));
+        
+        setTemplates(convertedTemplates);
+        
+        if (convertedTemplates.length > 0) {
+          setSelectedTemplate(convertedTemplates[0]);
+          showSnackbar('Templates generated successfully', 'success');
+        } else {
+          showSnackbar('No templates generated', 'warning');
+        }
+      } else {
+        console.error("Failed to generate templates:", response.data.message);
+        showSnackbar('Failed to generate templates: ' + response.data.message, 'error');
+      }
+    } catch (error: any) {
+      console.error("Error generating templates:", error.response?.data || error);
+      showSnackbar('Error generating templates: ' + (error.response?.data?.message || error.message), 'error');
+    } finally {
+      setIsGeneratingTemplates(false);
+    }
+  };
+
+  // Create component template
+  const createComponentTemplate = (): TimetableTemplate | null => {
+    if (!selectedTemplate) return null;
+    
+    try {
+      return {
+        year: selectedTemplate.year,
+        semester: selectedTemplate.semester,
+        division: selectedTemplate.division,
+        classroomId: selectedTemplate.classroomId,
+        days: selectedTemplate.days.map(day => ({
+          day: day.day,
+          slots: day.slots.map(slot => {
+            const [startTime, endTime] = slot.time?.split(' - ') || [slot.startTime, slot.endTime];
+            return {
+              startTime: startTime?.trim() || '',
+              endTime: endTime?.trim() || '',
+              subjectCode: slot.subjectCode,
+              facultyId: slot.facultyId
+            };
+          })
+        }))
+      };
+    } catch (error) {
+      console.error("Error creating component template:", error);
+      return null;
+    }
+  };
+
+  // Fetch timetable by ID
+  const fetchTimetableById = async (id: string): Promise<void> => {
+    if (!id || !user?._id || !token) return;
+    
+    setIsPageLoading(true);
+    try {
+      const response = await axios.get(`${config.API_URL}/api/admin/timetable/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (response.data.success) {
+        const timetable = response.data.data;
+        if (timetable.createdAt) {
+          timetable.createdAt = new Date(timetable.createdAt).toISOString();
+        }
+        setSelectedTimetable(timetable);
+      } else {
+        showSnackbar('Failed to fetch timetable', 'error');
+      }
+    } catch (error: any) {
+      console.error("Error fetching timetable:", error.response || error);
+      showSnackbar('Failed to fetch timetable: ' + (error.response?.data?.message || error.message), 'error');
+    } finally {
+      setIsPageLoading(false);
+    }
+  };
+
+  // Check conflicts
+  const checkConflicts = async (): Promise<void> => {
+    if (!selectedTimetable?._id || !user?._id || !token) return;
+    
+    setIsPageLoading(true);
+    try {
+      const response = await axios.post(`${config.API_URL}/api/admin/timetable/${selectedTimetable._id}/check-conflicts`, 
+        {
+          university: user._id
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      
+      if (response.data.success) {
+        setConflicts(response.data.conflicts || []);
+        
+        if (response.data.hasConflicts) {
+          showSnackbar('Conflicts found in timetable', 'warning');
+        } else {
+          showSnackbar('No conflicts found', 'success');
+        }
+      } else {
+        showSnackbar('Failed to check conflicts', 'error');
+      }
+    } catch (error: any) {
+      console.error("Error checking conflicts:", error.response || error);
+      showSnackbar('Failed to check conflicts: ' + (error.response?.data?.message || error.message), 'error');
+    } finally {
+      setIsPageLoading(false);
+    }
+  };
+
+  // Auto-assign faculty
+  const autoAssignFaculty = async (): Promise<void> => {
+    if (!selectedTimetable?._id || !user?._id || !token) return;
+    
+    setIsPageLoading(true);
+    try {
+      const response = await axios.post(`${config.API_URL}/api/admin/timetable/${selectedTimetable._id}/assign-faculty`, 
+        {
+          university: user._id,
+          academicYear: getCurrentAcademicYear(),
+          usePreferences: facultyPreferences.length > 0
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      
+      if (response.data.success) {
+        showSnackbar('Faculty assigned successfully', 'success');
+        setSelectedTimetable(response.data.data);
+      } else {
+        showSnackbar('Failed to assign faculty', 'error');
+      }
+    } catch (error: any) {
+      console.error("Error assigning faculty:", error.response || error);
+      showSnackbar('Failed to assign faculty: ' + (error.response?.data?.message || error.message), 'error');
+    } finally {
+      setIsPageLoading(false);
+    }
+  };
+
+  // Publish timetable
+  const publishTimetable = async (): Promise<void> => {
+    if (!selectedTimetable?._id || !user?._id || !token) return;
+    
+    setIsPageLoading(true);
+    try {
+      const response = await axios.post(`${config.API_URL}/api/admin/timetable/${selectedTimetable._id}/publish`, 
+        {
+          university: user._id
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      
+      if (response.data.success) {
+        showSnackbar('Timetable published successfully', 'success');
+        setSelectedTimetable(response.data.data);
+      } else {
+        showSnackbar('Failed to publish timetable', 'error');
+      }
+    } catch (error: any) {
+      if (error.response?.data?.conflicts) {
+        setConflicts(error.response.data.conflicts);
+        showSnackbar('Cannot publish due to conflicts', 'error');
+      } else {
+        console.error("Error publishing timetable:", error.response || error);
+        showSnackbar('Failed to publish timetable: ' + (error.response?.data?.message || error.message), 'error');
+      }
+    } finally {
+      setIsPageLoading(false);
+    }
+  };
+
+  // Define an explicit converter to map Subject types
+  const convertToTimetableSubjects = (subjects: Subject[]): TimetableSubject[] => {
+    return subjects
+      .filter(s => Boolean(s.code || s.subjectCode))
+      .map(s => {
+        return {
+          _id: s._id,
+          name: s.name || s.subjectName || '',
+          subjectCode: (s.code || s.subjectCode || '').toString(), // Ensure string type
+          type: s.type || '',
+          code: (s.code || s.subjectCode || '').toString()
+        };
+      });
+  };
+
+  // Render form section
+  const renderForm = (): ReactElement => {
+    console.log("Rendering form with values:", {
+      year: formState.year,
+      semester: formState.semester,
+      division: formState.division,
+      classroom: formState.classroom,
+      classroomsLength: classrooms.length
+    });
+    
+    return (
+    <Card className={CARD_CLASS}>
+      <CardHeader>
+        <CardTitle>Class Configuration</CardTitle>
+        <CardDescription>
+          Select the class details to create or manage timetables
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form className="space-y-6">
+          <FormSelect
+            label="Year"
+            value={formState.year}
+            onChange={(value) => handleFormChange('year', value)}
+            options={YEARS.map(year => ({ value: year, label: year }))}
+            required
+            error={formState.errors.year}
+            className="space-y-2"
+          />
+          
+          <FormSelect
+            label="Semester"
+            value={formState.semester}
+            onChange={(value) => handleFormChange('semester', value)}
+            options={availableSemesters.map(sem => ({ value: sem.toString(), label: sem.toString() }))}
+            disabled={!formState.year}
+            tooltip={!formState.year ? "Please select a year first" : undefined}
+            required
+            error={formState.errors.semester}
+            className="space-y-2"
+          />
+          
+          <FormSelect
+            label="Division"
+            value={formState.division}
+            onChange={(value) => handleFormChange('division', value)}
+            options={[
+              { value: 'A1', label: 'A1' },
+              { value: 'A2', label: 'A2' },
+              { value: 'A3', label: 'A3' },
+              { value: 'A4', label: 'A4' },
+              { value: 'A5', label: 'A5' },
+              { value: 'A6', label: 'A6' }
+            ]}
+            disabled={!formState.semester}
+            tooltip={!formState.semester ? "Please select a semester first" : undefined}
+            required
+            error={formState.errors.division}
+            className="space-y-2"
+          />
+          
+          {classroomLoading ? (
+            <div className="flex items-center space-x-2 py-4">
+              <Loading size="sm" />
+              <span>Loading classrooms...</span>
+            </div>
+          ) : (
+            <FormSelect
+              label="Classroom"
+              value={formState.classroom}
+              onChange={(value) => handleFormChange('classroom', value)}
+              options={classrooms.map(classroom => ({ 
+                value: classroom._id, 
+                label: `${classroom.name} (Capacity: ${classroom.capacity}${classroom.building ? `, ${classroom.building}` : ''})`
+              }))}
+              disabled={!formState.division || classroomLoading}
+              tooltip={!formState.division ? "Please select a division first" : classroomLoading ? "Loading classrooms..." : undefined}
+              required
+              error={formState.errors.classroom}
+              className="space-y-2"
+            />
+          )}
+        </form>
+      </CardContent>
+    </Card>
+  );
+
+  // Render create timetable section
+  const renderCreateTimetable = (): ReactElement => (
+    <Card className={CARD_CLASS}>
+      <CardHeader>
+        <CardTitle>Create New Timetable</CardTitle>
+        <CardDescription>
+          Generate timetable templates or create a custom timetable
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        {!isFormComplete() ? (
+          <Alert>
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Incomplete Configuration</AlertTitle>
+            <AlertDescription className="space-y-1">
+              <p>Please complete the class configuration above to generate timetable templates.</p>
+              {!formState.year && <div className="text-sm">• Select a Year</div>}
+              {!formState.semester && <div className="text-sm">• Select a Semester</div>}
+              {!formState.division && <div className="text-sm">• Select a Division</div>}
+              {!formState.classroom && <div className="text-sm">• Select a Classroom</div>}
+            </AlertDescription>
+          </Alert>
+        ) : (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <SearchAndFilter
+                onSearch={handleSearch}
+                searchPlaceholder="Search templates..."
+                className="w-full max-w-md"
+              />
+              <div className="flex gap-2">
+                <Button
+                  onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                    e.preventDefault();
+                    // Create a blank custom template
+                    const emptyTemplate: TimetableTemplate = {
+                      year: formState.year,
+                      semester: parseInt(formState.semester),
+                      division: formState.division,
+                      classroomId: formState.classroom,
+                      days: DAYS.map(day => ({ 
+                        day, 
+                        slots: [] 
+                      }))
+                    };
+                    setTemplates([...templates, emptyTemplate]);
+                    setSelectedTemplate(emptyTemplate);
+                  }}
+                  variant="outline"
+                  className={BUTTON_CLASS}
+                >
+                  <PlusCircle className="h-4 w-4 mr-2" />
+                  Create Custom
+                </Button>
+                <Button 
+                  onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                    e.preventDefault();
+                    generateTemplates();
+                  }} 
+                  disabled={isTemplatesLoading}
+                  variant="outline"
+                  className={BUTTON_CLASS}
+                >
+                  {isTemplatesLoading ? (
+                    <>
+                      <Loading size="sm" className="mr-2" />
+                      Generating...
+                    </>
+                  ) : (
+                    <>
+                      <RefreshCw className="h-4 w-4 mr-2" />
+                      Generate Templates
+                    </>
+                  )}
+                </Button>
+              </div>
+            </div>
+            
+            {templates.length > 0 ? (
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium">Select a template to create timetable</h3>
+                <div className="overflow-x-auto">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 min-w-[600px]">
+                    <TimetableTemplates
+                      templates={templates.map(t => ({
+                        year: formState.year,
+                        semester: parseInt(formState.semester),
+                        division: formState.division,
+                        classroomId: formState.classroom,
+                        days: t.days.map(day => ({
+                          day: day.day,
+                          slots: day.slots.map(slot => {
+                            const [startTime, endTime] = slot.time?.split(' - ') || [slot.startTime, slot.endTime];
+                            return {
+                              startTime: startTime?.trim() || '',
+                              endTime: endTime?.trim() || '',
+                              subjectCode: slot.subjectCode,
+                              facultyId: slot.facultyId
+                            };
+                          })
+                        }))
+                      }))}
+                      subjects={subjects.filter(s => s.code || s.subjectCode).map(s => ({
+                        _id: s._id,
+                        name: s.name,
+                        subjectCode: s.code || s.subjectCode || '',
+                        type: s.type || 'Regular',
+                        code: s.code || s.subjectCode || ''
+                      }))}
+                      onSelect={handleTemplateSelect}
+                      selectedTemplate={selectedTemplate ? createComponentTemplate() : null}
+                      loading={isGeneratingTemplates}
+                      editable={true}
+                    />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              isTemplatesLoading ? (
+                <LoadingOverlay message="Generating templates..." />
+              ) : (
+                <EmptyState
+                  title="No Templates Available"
+                  message="Create a custom template or generate templates automatically."
+                  action={{
+                    label: "Generate Templates",
+                    onClick: generateTemplates
+                  }}
+                  secondaryAction={{
+                    label: "Create Custom",
+                    onClick: () => {
+                      // Create a blank custom template
+                      const emptyTemplate: TimetableTemplate = {
+                        year: formState.year,
+                        semester: parseInt(formState.semester),
+                        division: formState.division,
+                        classroomId: formState.classroom,
+                        days: DAYS.map(day => ({ 
+                          day, 
+                          slots: [] 
+                        }))
+                      };
+                      setTemplates([...templates, emptyTemplate]);
+                      setSelectedTemplate(emptyTemplate);
+                    }
+                  }}
+                />
+              )
+            )}
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+
+  // Render manage timetables section
+  const renderManageTimetables = (): ReactElement => (
+    <Card className={CARD_CLASS}>
+      <CardHeader>
+        <CardTitle>Manage Timetables</CardTitle>
+        <CardDescription>
+          View, edit and publish timetables for this class
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        {!isFormComplete() ? (
+          <Alert>
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Incomplete Configuration</AlertTitle>
+            <AlertDescription>
+              Please complete the class configuration above to view timetables.
+            </AlertDescription>
+          </Alert>
+        ) : (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <SearchAndFilter
+                onSearch={handleSearch}
+                searchPlaceholder="Search timetables..."
+                className="w-full max-w-md"
+              />
+              <Button
+                onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                  e.preventDefault();
+                  handleExport();
+                }}
+                disabled={!selectedTimetable}
+                variant="outline"
+                className={`${BUTTON_CLASS} ml-4`}
+              >
+                <Download className="h-4 w-4 mr-2" />
+                Export
+              </Button>
+            </div>
+            
+            {isPageLoading ? (
+              <LoadingOverlay message="Loading timetables..." />
+            ) : timetables.length === 0 ? (
+              <EmptyState
+                title="No Timetables Found"
+                message="Go to the Create Timetable tab to create your first timetable."
+                action={{
+                  label: "Create Timetable",
+                  onClick: () => setActiveTab('create')
+                }}
+              />
+            ) : (
+              <>
+                <div className="space-y-4">
+                  <FormSelect
+                    label="Select Timetable"
+                    value={selectedTimetable?._id || ''}
+                    onChange={(value) => fetchTimetableById(value)}
+                    options={timetables.map(tt => ({
+                      value: tt._id,
+                      label: `${tt.createdAt ? new Date(tt.createdAt).toLocaleDateString() : 'Unknown Date'} - ${tt.status === 'published' ? 'Published' : 'Draft'}`
+                    }))}
+                    className="w-full max-w-md"
+                  />
+                  
+                  {selectedTimetable && (
+                    <>
+                      <div className="flex flex-wrap gap-2">
+                        <Button 
+                          variant="outline" 
+                          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                            e.preventDefault();
+                            checkConflicts();
+                          }}
+                          disabled={isPageLoading}
+                          className={BUTTON_CLASS}
+                        >
+                          Check Conflicts
+                        </Button>
+                        <Button 
+                          variant="outline" 
+                          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                            e.preventDefault();
+                            autoAssignFaculty();
+                          }}
+                          disabled={isPageLoading || selectedTimetable.status === 'published'}
+                          className={BUTTON_CLASS}
+                        >
+                          Auto-Assign Faculty
+                        </Button>
+                        <Button 
+                          variant="default" 
+                          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                            e.preventDefault();
+                            publishTimetable();
+                          }}
+                          disabled={isPageLoading || selectedTimetable.status === 'published'}
+                          className={BUTTON_CLASS}
+                        >
+                          Publish Timetable
+                        </Button>
+                      </div>
+                      
+                      {conflicts.length > 0 && (
+                        <Alert variant="destructive">
+                          <AlertCircle className="h-4 w-4" />
+                          <AlertTitle>Timetable Conflicts Detected</AlertTitle>
+                          <AlertDescription>
+                            <ul className="list-disc list-inside mt-2 space-y-1">
+                              {conflicts.map((conflict: any, index: number) => (
+                                <li key={`conflict-${index}`}>
+                                  {conflict.type} conflict: {conflict.message}
+                                  {conflict.day && ` on ${conflict.day}`}
+                                  {conflict.time && ` at ${conflict.time}`}
+                                  {conflict.subjectCode && ` for subject ${conflict.subjectCode}`}
+                                </li>
+                              ))}
+                            </ul>
+                          </AlertDescription>
+                        </Alert>
+                      )}
+                    </>
+                  )}
+                </div>
+                
+                {selectedTimetable && subjects.length > 0 && (
+                  <div className="mt-4 overflow-x-auto">
+                    <div className="min-w-[800px]">
+                      <TimetableEditor
+                        timetable={{
+                          _id: selectedTimetable._id,
+                          year: formState.year,
+                          semester: parseInt(formState.semester),
+                          division: formState.division,
+                          classroomId: selectedTimetable.classroom || '',
+                          days: selectedTimetable.days.map(day => ({
+                            day: day.day,
+                            slots: day.slots.map(slot => {
+                              const [startTime, endTime] = slot.time.split(' - ');
+                              return {
+                                startTime,
+                                endTime,
+                                subjectCode: slot.subjectCode,
+                                facultyId: slot.facultyId
+                              };
+                            })
+                          })),
+                          status: selectedTimetable.status
+                        }}
+                        subjects={subjects}
+                        facultyPreferences={facultyPreferences}
+                        onSave={handleTimetableSave}
+                        viewOnly={selectedTimetable.status === 'published'}
+                        loading={isSavingTimetable}
+                      />
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+
+  // Add main loading and error handling
+  if (isPageLoading) {
+    return <LoadingOverlay message="Loading page..." />;
+  }
+
+  if (error && !classrooms.length) {
+    return (
+      <div className="container mx-auto py-6">
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{error}</AlertDescription>
+          <Button onClick={() => fetchInitialData()} className="mt-4">
+            Retry
+          </Button>
+        </Alert>
+      </div>
+    );
+  }
+
+  return (
+    <div className="container mx-auto py-6">
+      <Tabs value={activeTab} onValueChange={(value: string) => setActiveTab(value)}>
+        <TabsList className="mb-6">
+          <TabsTrigger value="create">Create Timetable</TabsTrigger>
+          <TabsTrigger value="manage">Manage Timetables</TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="create">
+          {renderForm()}
+          {renderCreateTimetable()}
+        </TabsContent>
+        
+        <TabsContent value="manage">
+          {renderForm()}
+          {renderManageTimetables()}
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+};
+
+export default withDashboard(TimetablePage);
