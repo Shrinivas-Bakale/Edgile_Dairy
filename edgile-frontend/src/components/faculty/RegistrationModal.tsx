@@ -134,7 +134,7 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ open }) => {
 
       showSnackbar('Account activated successfully!', 'success');
       
-      // Force page reload to reflect new activation status
+      // Close the modal and reload the page
       window.location.reload();
     } catch (error: any) {
       console.error('Registration completion error:', error);

@@ -119,121 +119,58 @@ router.post("/register", adminAuthMiddleware, async (req, res) => {
 // 📌 Faculty Login
 router.post("/login", async (req, res) => {
   try {
-    const { email, password, universityCode, registrationCode } = req.body;
-    
-    // Use either universityCode or registrationCode, whichever is provided
-    const codeToUse = universityCode || registrationCode;
-    
-    logger.info(`🔍 Faculty login attempt: ${email} with code: ${codeToUse}`);
-    logger.info(`Request body: ${JSON.stringify({
-      email,
-      hasPassword: !!password,
-      universityCode,
-      registrationCode,
-      codeToUse
-    })}`);
-    
+    logger.info("[DEBUG] Faculty login request body:", req.body);
+    const { email, password, universityCode } = req.body;
+
     if (!email) {
+      logger.warn("[DEBUG] Missing email");
       return res.status(400).json({ message: "Email is required" });
     }
-    
     if (!password) {
+      logger.warn("[DEBUG] Missing password");
       return res.status(400).json({ message: "Password is required" });
     }
-    
-    if (!codeToUse) {
-      return res.status(400).json({ message: "University code or registration code is required" });
+    if (!universityCode) {
+      logger.warn("[DEBUG] Missing university code");
+      return res.status(400).json({ message: "University code is required" });
     }
 
-    // Special handling for faculty registration codes (FAC-XXXXX format)
-    let universityCodeToUse = codeToUse;
-    
-    // Log all admins in the system for debugging
-    const allAdmins = await Admin.find({});
-    logger.info(`All admins in system: ${allAdmins.length}`);
-    allAdmins.forEach(admin => {
-      logger.info(`Admin found: ${admin.universityName} with code: ${admin.universityCode}`);
-    });
-    
-    if (codeToUse.startsWith('FAC-')) {
-      logger.info(`Detected faculty code format: ${codeToUse}, using admin lookup`);
-      
-      // Try to find the faculty member directly
-    const faculty = await Faculty.findOne({ email: email.toLowerCase() });
-      
-      if (faculty) {
-        logger.info(`Found faculty by email: ${faculty.name}, university: ${faculty.university}`);
-        
-        if (faculty.universityCode) {
-          universityCodeToUse = faculty.universityCode;
-          logger.info(`Using universityCode from faculty: ${universityCodeToUse}`);
-        }
-        
-        // If faculty has university id, prefer that
-        if (faculty.university) {
-          const linkedUniversity = await Admin.findById(faculty.university);
-          if (linkedUniversity) {
-            universityCodeToUse = linkedUniversity.universityCode;
-            logger.info(`Using university from faculty's university field: ${universityCodeToUse}`);
-          }
-        }
-      } else {
-        logger.info(`No faculty found with email: ${email}, trying default admin`);
-      }
-      
-      // If we couldn't find the code via faculty, use first admin as fallback
-      if (universityCodeToUse === codeToUse && allAdmins.length > 0) {
-        universityCodeToUse = allAdmins[0].universityCode;
-        logger.info(`Using fallback university code from first admin: ${universityCodeToUse}`);
-      }
-    }
-
-    // Verify university exists
-    const university = await Admin.findOne({ universityCode: universityCodeToUse });
+    // Find university by code
+    const university = await Admin.findOne({ universityCode });
+    logger.info("[DEBUG] University lookup result:", university);
     if (!university) {
-      logger.warn(`⚠️ Invalid university/registration code: ${universityCodeToUse}`);
-      
-      // Better error message including whether it's the original code or a derived one
-      const errorMessage = universityCodeToUse === codeToUse 
-        ? `Invalid university/registration code (${codeToUse})` 
-        : `Could not find university using code ${codeToUse} or derived code ${universityCodeToUse}`;
-        
-      return res.status(400).json({ message: errorMessage });
+      logger.warn("[DEBUG] Invalid university code");
+      return res.status(401).json({ message: "Invalid university code" });
     }
-    
-    logger.info(`✅ Successfully found university: ${university.universityName} using code: ${universityCodeToUse}`)
 
-    const faculty = await Faculty.findOne({ 
-      email: email.toLowerCase(),
-      university: university._id
-    });
-    
+    // Find faculty by email and university
+    const faculty = await Faculty.findOne({ email: email.toLowerCase(), university: university._id });
+    logger.info("[DEBUG] Faculty lookup result:", faculty);
     if (!faculty) {
-      logger.warn(`⚠️ Login failed: Faculty not found - ${email}`);
+      logger.warn("[DEBUG] Faculty not found for email and university");
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
     const isMatch = await bcrypt.compare(password, faculty.password);
+    logger.info("[DEBUG] Password match:", isMatch);
     if (!isMatch) {
-      logger.warn(`⚠️ Login failed: Invalid password - ${email}`);
+      logger.warn("[DEBUG] Password mismatch");
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    // Allow login for pending accounts but indicate registration needs to be completed
-    if (faculty.status === "pending" || !faculty.registrationCompleted) {
-      logger.info(`👤 Pending faculty login: ${email} - Registration incomplete`);
+    // Check registration status
+    if ((faculty.status === "pending" || !faculty.registrationCompleted) && faculty.isFirstLogin) {
       const token = jwt.sign(
-        { 
-          id: faculty._id.toString(), 
-          role: "faculty", 
-          universityId: university._id,
-          requiresRegistration: true
+        {
+          id: faculty._id.toString(),
+          role: "faculty",
+          universityId: faculty.university,
+          requiresRegistration: true,
         },
         process.env.JWT_SECRET,
         { expiresIn: "7d" }
       );
-
-      return res.status(200).json({ 
+      return res.status(200).json({
         token,
         message: "Login successful - Registration completion required",
         user: {
@@ -242,42 +179,42 @@ router.post("/login", async (req, res) => {
           email: faculty.email,
           role: "faculty",
           department: faculty.department,
-          universityName: university.universityName,
+          universityName: faculty.universityName,
           status: faculty.status,
           employeeId: faculty.employeeId,
           registrationCompleted: false,
-          requiresRegistration: true
-        }
+          requiresRegistration: true,
+          isFirstLogin: true,
+        },
       });
     }
+    // Only block login if registration is not complete and not first login
+    if (!faculty.registrationCompleted && !faculty.isFirstLogin) {
+      return res.status(401).json({ message: "Registration not completed. Please contact administration." });
+    }
 
-    // For active accounts, proceed with normal login
     if (faculty.status !== "active") {
-      logger.warn(`⚠️ Login failed: Account is ${faculty.status} - ${email}`);
       return res.status(401).json({ message: `Your account is ${faculty.status}. Please contact administration.` });
     }
 
     // Update last login time and first login status
     const isFirstLogin = faculty.isFirstLogin;
-    
-    // Update faculty login status
     faculty.lastLoginAt = new Date();
     faculty.isFirstLogin = false;
     await faculty.save();
 
     const token = jwt.sign(
-      { 
-        id: faculty._id.toString(), 
-        role: "faculty", 
-        universityId: university._id 
+      {
+        id: faculty._id.toString(),
+        role: "faculty",
+        universityId: faculty.university,
       },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
 
-    logger.info(`✅ Faculty Logged In: ${faculty.email} (${university.universityName})`);
-    res.status(200).json({ 
-      token, 
+    res.status(200).json({
+      token,
       message: "Login successful",
       user: {
         id: faculty._id,
@@ -285,12 +222,12 @@ router.post("/login", async (req, res) => {
         email: faculty.email,
         role: "faculty",
         department: faculty.department,
-        universityName: university.universityName,
+        universityName: faculty.universityName,
         isFirstLogin: isFirstLogin,
         passwordChangeRequired: faculty.passwordChangeRequired,
         employeeId: faculty.employeeId,
-        registrationCompleted: faculty.registrationCompleted
-      }
+        registrationCompleted: faculty.registrationCompleted,
+      },
     });
   } catch (error) {
     logger.error("🔥 Faculty Login Error:", error);
@@ -594,80 +531,6 @@ router.post('/register', [
     res.status(500).json({
       success: false,
       message: 'Server error during registration'
-    });
-  }
-});
-
-// Faculty login
-router.post('/login', [
-  check('email', 'Valid email is required').isEmail(),
-  check('password', 'Password is required').not().isEmpty()
-], async (req, res) => {
-  try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ 
-        success: false,
-        errors: errors.array() 
-      });
-    }
-
-    const { email, password } = req.body;
-
-    // Find faculty
-    const faculty = await Faculty.findOne({ email });
-    if (!faculty) {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid credentials'
-      });
-    }
-
-    // Check if faculty is approved
-    if (faculty.status !== 'active') {
-      return res.status(400).json({
-        success: false,
-        message: 'Your account is pending approval'
-      });
-    }
-
-    // Verify password
-    const isMatch = await bcrypt.compare(password, faculty.password);
-    if (!isMatch) {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid credentials'
-      });
-    }
-
-    // Generate JWT token
-    const token = jwt.sign(
-      { 
-        id: faculty._id,
-        role: 'faculty',
-        email: faculty.email
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: '24h' }
-    );
-
-    res.json({
-      success: true,
-      token,
-      faculty: {
-        id: faculty._id,
-        name: faculty.name,
-        email: faculty.email,
-        department: faculty.department,
-        role: 'faculty'
-      }
-    });
-
-  } catch (error) {
-    console.error('Error in faculty login:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server error during login'
     });
   }
 });

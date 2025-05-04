@@ -71,3 +71,11 @@
 2025-04-09 06:06:39 [error]: Admin auth middleware error: jwt malformed 
 2025-04-19 22:50:17 [error]: Admin auth middleware error: jwt expired 
 2025-04-19 22:50:17 [error]: Admin auth middleware error: jwt expired 
+2025-05-04 15:13:13 [error]: Error fetching classroom: Cast to ObjectId failed for value "occupancy" (type string) at path "_id" for model "Classroom" 
+2025-05-04 15:13:13 [error]: Error fetching classroom: Cast to ObjectId failed for value "occupancy" (type string) at path "_id" for model "Classroom" 
+2025-05-04 15:13:20 [error]: Error fetching classroom: Cast to ObjectId failed for value "occupancy" (type string) at path "_id" for model "Classroom" 
+2025-05-04 15:13:20 [error]: Error fetching classroom: Cast to ObjectId failed for value "occupancy" (type string) at path "_id" for model "Classroom" 
+2025-05-04 19:45:12 [error]: Error fetching classroom: Cast to ObjectId failed for value "occupancy" (type string) at path "_id" for model "Classroom" 
+2025-05-04 19:45:12 [error]: Error fetching classroom: Cast to ObjectId failed for value "occupancy" (type string) at path "_id" for model "Classroom" 
+2025-05-04 19:46:27 [error]: Error fetching classroom: Cast to ObjectId failed for value "occupancy" (type string) at path "_id" for model "Classroom" 
+2025-05-04 19:46:27 [error]: Error fetching classroom: Cast to ObjectId failed for value "occupancy" (type string) at path "_id" for model "Classroom" 

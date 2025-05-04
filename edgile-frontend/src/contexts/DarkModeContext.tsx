@@ -6,51 +6,31 @@ interface DarkModeContextType {
 }
 
 const DarkModeContext = createContext<DarkModeContextType>({
-  isDarkMode: true,
+  isDarkMode: false,
   toggleDarkMode: () => {}
 });
 
 export const DarkModeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Initialize with dark mode as default
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  // Initialize with light mode as default
+  const [isDarkMode, setIsDarkMode] = useState(false);
   
-  // Initialize from localStorage only on client
-  useEffect(() => {
-    // This runs only in the browser after hydration
-    try {
-      // Force dark mode and save it
-      setIsDarkMode(true);
-      localStorage.setItem('darkMode', 'true');
-    } catch (e) {
-      console.error('Error initializing dark mode:', e);
-    }
-  }, []);
-
-  // Apply theme changes
+  // Remove forced dark mode
   useEffect(() => {
     if (typeof document !== 'undefined') {
       const root = document.documentElement;
-      
-      // Always add dark class
-      root.classList.add('dark');
-      
-      // Save preference
-      try {
-        localStorage.setItem('darkMode', 'true');
-      } catch (e) {
-        console.error('Error saving dark mode preference:', e);
-      }
+      root.classList.remove('dark');
+      localStorage.setItem('darkMode', 'false');
     }
-  }, [isDarkMode]);
+  }, []);
 
   // Toggle function is now a no-op (but we keep it for API compatibility)
   const toggleDarkMode = () => {
-    // Do nothing - dark mode is always on
+    // Do nothing - always light mode
     console.log('Dark mode toggle is disabled');
   };
 
   const contextValue = {
-    isDarkMode: true,
+    isDarkMode: false,
     toggleDarkMode
   };
 

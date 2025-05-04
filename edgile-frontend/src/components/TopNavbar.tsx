@@ -56,11 +56,7 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ isSidebarOpen }) => {
   };
 
   return (
-    <nav className={`fixed top-0 right-0 left-0 h-16 z-30 transition-colors duration-300 ${
-      isDarkMode 
-        ? 'bg-gray-800 border-b border-gray-700' 
-        : 'bg-white border-b border-gray-200'
-    }`}>
+    <nav className={`fixed top-0 right-0 left-0 h-16 z-30 transition-colors duration-300 bg-white border-b border-blue-200`}>
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -68,27 +64,21 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ isSidebarOpen }) => {
             onClick={handleLogoClick}
             className="flex items-center space-x-2 cursor-pointer"
           >
-            <div className="bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg p-1.5">
+            <div className="bg-blue-600 rounded-lg p-1.5">
               <IconSchool className="w-6 h-6 text-white" />
             </div>
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-500">
+            <span className="text-xl font-bold text-blue-700">
               Edgile
             </span>
           </div>
 
           {/* Search Bar */}
-          <div className={`hidden md:flex items-center flex-1 max-w-md mx-4 px-4 py-2 rounded-lg transition-colors duration-300 ${
-            isDarkMode
-              ? 'bg-gray-700 text-gray-200'
-              : 'bg-gray-100 text-gray-600'
-          }`}>
-            <IconSearch className="w-5 h-5 mr-2" />
+          <div className="hidden md:flex items-center flex-1 max-w-md mx-4 px-4 py-2 rounded-lg bg-blue-50 text-blue-700">
+            <IconSearch className="w-5 h-5 mr-2 text-blue-400" />
             <input
               type="text"
               placeholder="Search..."
-              className={`w-full bg-transparent outline-none ${
-                isDarkMode ? 'placeholder-gray-400' : 'placeholder-gray-500'
-              }`}
+              className="w-full bg-transparent outline-none placeholder-blue-300"
             />
           </div>
 

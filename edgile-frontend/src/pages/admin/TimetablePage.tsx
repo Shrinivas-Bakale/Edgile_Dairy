@@ -19,7 +19,8 @@ import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import TimetableEditor from '@/components/admin/TimetableEditor';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
+import { cn } from '@/lib/utils';
 
 // Constants
 const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] as const;
@@ -161,7 +162,32 @@ const TimetablePage = (): ReactElement => {
     slotIndex: number;
   } | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [classTeacher, setClassTeacher] = useState<Faculty | null>(null);
   
+  // Add state for timetable slots
+  const [timetable, setTimetable] = useState(() => {
+    // Initialize timetable: day -> slot[]
+    const initial: Record<string, { subject?: Subject; faculty?: Faculty }[]> = {};
+    DAYS.forEach(day => {
+      initial[day] = TIME_SLOTS.map(() => ({}));
+    });
+    return initial;
+  });
+
+  // Add state to control template generation
+  const [templateGenerated, setTemplateGenerated] = useState(false);
+  const isConfigComplete = formState.year && formState.semester && formState.division && formState.classroom;
+
+  // Add refresh handlers for faculty and subjects
+  const handleRefreshFaculty = () => {
+    setIsLoadingFaculty(true);
+    fetchFaculty().finally(() => setIsLoadingFaculty(false));
+  };
+  const handleRefreshSubjects = () => {
+    setIsLoadingSubjects(true);
+    fetchSubjects().finally(() => setIsLoadingSubjects(false));
+  };
+
   // Helper functions with typed parameters and return values
   const getCurrentAcademicYear = (): string => {
     const today = new Date();
@@ -545,8 +571,8 @@ const TimetablePage = (): ReactElement => {
         }
       });
 
-      if (response.data?.data) {
-        const normalizedSubjects = response.data.data.map((subject: any) => ({
+      if (response.data?.subjects) {
+        const normalizedSubjects = response.data.subjects.map((subject: any) => ({
           _id: subject._id,
           name: subject.name,
           subjectCode: subject.code || subject.subjectCode,
@@ -575,8 +601,8 @@ const TimetablePage = (): ReactElement => {
         }
       });
 
-      if (response.data?.data) {
-        const facultyWithStatus = response.data.data.map((faculty: any) => ({
+      if (response.data?.faculty) {
+        const facultyWithStatus = response.data.faculty.map((faculty: any) => ({
           ...faculty,
           status: 'available' as const
         }));
@@ -669,347 +695,6 @@ const TimetablePage = (): ReactElement => {
     }
   };
 
-  // Render functions
-  const renderForm = () => {
-    return (
-      <Card className={CARD_CLASS}>
-        <CardHeader>
-          <CardTitle>Class Configuration</CardTitle>
-          <CardDescription>
-            Configure the class details for timetable generation
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form className="space-y-4">
-            <FormSelect
-              label="Year"
-              value={formState.year}
-              onChange={(value) => {
-                console.log("Year changed to:", value);
-                handleFormChange('year', value);
-                updateAvailableSemesters(value);
-              }}
-              options={YEARS.map(year => ({ value: year, label: year }))}
-              required
-              error={formState.errors.year}
-              className="space-y-2"
-            />
-            
-            <FormSelect
-              label="Semester"
-              value={formState.semester}
-              onChange={(value) => {
-                console.log("Semester changed to:", value);
-                handleFormChange('semester', value);
-              }}
-              options={availableSemesters.map(sem => ({ 
-                value: sem.toString(), 
-                label: `Semester ${sem}` 
-              }))}
-              disabled={!formState.year}
-              tooltip={!formState.year ? "Please select a year first" : undefined}
-              required
-              error={formState.errors.semester}
-              className="space-y-2"
-            />
-            
-            <FormSelect
-              label="Division"
-              value={formState.division}
-              onChange={(value) => {
-                console.log("Division changed to:", value);
-                handleFormChange('division', value);
-              }}
-              options={['A1', 'A2', 'A3', 'A4', 'A5', 'A6'].map(div => ({ value: div, label: div }))}
-              disabled={!formState.semester}
-              tooltip={!formState.semester ? "Please select a semester first" : undefined}
-              required
-              error={formState.errors.division}
-              className="space-y-2"
-            />
-            
-            {isPageLoading ? (
-              <div className="flex items-center space-x-2 py-4">
-                <Loading size="sm" />
-                <span className="text-gray-600 dark:text-gray-300">Loading classrooms...</span>
-              </div>
-            ) : (
-              <div>
-                <FormSelect
-                  label="Classroom"
-                  value={formState.classroom}
-                  onChange={(value) => {
-                    console.log("Classroom changed to:", value);
-                    handleFormChange('classroom', value);
-                  }}
-                  options={classrooms.map(classroom => ({ 
-                    value: classroom._id, 
-                    label: `${classroom.name} (Capacity: ${classroom.capacity}${classroom.building ? `, ${classroom.building}` : ''})` 
-                  }))}
-                  disabled={!formState.division || isPageLoading}
-                  tooltip={!formState.division ? "Please select a division first" : isPageLoading ? "Loading classrooms..." : undefined}
-                  required
-                  error={formState.errors.classroom}
-                  className="space-y-2"
-                />
-                {classrooms.length === 0 && !isPageLoading && (
-                  <Button 
-                    onClick={(e: React.MouseEvent) => {
-                      e.preventDefault();
-                      fetchAvailableClassrooms();
-                    }}
-                    className="mt-2"
-                  >
-                    Refresh Classrooms
-                  </Button>
-                )}
-              </div>
-            )}
-            
-            {/* Add the debug component at the end */}
-            {process.env.NODE_ENV !== 'production' && (
-              <div className="mt-4 p-2 bg-gray-100 dark:bg-gray-800 rounded text-xs">
-                <div className="font-medium text-gray-800 dark:text-gray-200">Current values:</div>
-                <div className="text-gray-700 dark:text-gray-300">Year: {formState.year || 'Not selected'}</div>
-                <div className="text-gray-700 dark:text-gray-300">Semester: {formState.semester || 'Not selected'}</div>
-                <div className="text-gray-700 dark:text-gray-300">Division: {formState.division || 'Not selected'}</div>
-                <div className="text-gray-700 dark:text-gray-300">Classroom: {formState.classroom || 'Not selected'}</div>
-                <div className="text-gray-700 dark:text-gray-300">Available Classrooms: {classrooms.length}</div>
-                <div className="text-gray-700 dark:text-gray-300">Available Semesters: {availableSemesters.join(', ')}</div>
-              </div>
-            )}
-          </form>
-        </CardContent>
-      </Card>
-    );
-  };
-
-  const renderCreateTimetable = () => {
-    if (!isFormComplete()) {
-      return (
-        <Alert>
-          <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Incomplete Configuration</AlertTitle>
-          <AlertDescription>
-            Please complete the class configuration above to create timetables.
-          </AlertDescription>
-        </Alert>
-      );
-    }
-
-    return (
-      <div className="grid grid-cols-12 gap-6">
-        {/* Left Panel: Templates */}
-        <div className="col-span-3 space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Create New Timetable</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex gap-2">
-                <Button
-                  onClick={createCustomTemplate}
-                  variant="outline"
-                  className="flex-1"
-                >
-                  <PlusCircle className="h-4 w-4 mr-2" />
-                  Create Custom
-                </Button>
-                <Button
-                  onClick={generateTemplates}
-                  variant="outline"
-                  className="flex-1"
-                  disabled={isPageLoading}
-                >
-                  {isPageLoading ? (
-                    <>
-                      <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                      Generating...
-                    </>
-                  ) : (
-                    <>
-                      <RefreshCw className="h-4 w-4 mr-2" />
-                      Generate
-                    </>
-                  )}
-                </Button>
-              </div>
-
-              <ScrollArea className="h-[600px]">
-                <div className="space-y-2">
-                  {templates.map((template) => (
-                    <Card
-                      key={template._id}
-                      className={`cursor-pointer transition-all ${
-                        selectedTemplate?._id === template._id
-                          ? 'border-primary shadow-lg'
-                          : 'hover:border-gray-300'
-                      }`}
-                      onClick={() => handleTemplateSelect(template)}
-                    >
-                      <CardHeader className="p-3">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <CardTitle className="text-base">
-                              {template.name || 'Unnamed Template'}
-                            </CardTitle>
-                            <p className="text-sm text-muted-foreground">
-                              {template.year} Year - Sem {template.semester}
-                            </p>
-                          </div>
-                          <Badge variant={template.status === 'published' ? 'default' : 'secondary'}>
-                            {template.status || 'draft'}
-                          </Badge>
-                        </div>
-                      </CardHeader>
-                    </Card>
-                  ))}
-                </div>
-              </ScrollArea>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Middle and Right Panels: Editor or Subjects/Faculty */}
-        {selectedTemplate ? (
-          // When a template is selected, show the editor in the middle and right columns
-          <div className="col-span-9">
-            <TimetableEditor
-              template={selectedTemplate as any}
-              subjects={subjects}
-              faculty={faculty}
-              onSave={handleTemplateSave}
-              onBack={() => {
-                setSelectedTemplate(null);
-                setIsEditing(false);
-              }}
-              onDelete={handleTemplateDelete}
-            />
-          </div>
-        ) : (
-          // When no template is selected, show subjects and faculty panels
-          <>
-            {/* Middle Panel: Empty State */}
-            <div className="col-span-6">
-              <Card className="h-full flex items-center justify-center">
-                <CardContent className="text-center text-muted-foreground">
-                  <p>Select a template or create a new one to start editing</p>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Right Panel: Subjects and Faculty */}
-            <div className="col-span-3 space-y-4">
-              {/* Subjects */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg font-semibold">Subjects</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ScrollArea className="h-[300px]">
-                    {subjects.length > 0 ? (
-                      <div className="space-y-2">
-                        {subjects.map((subject) => (
-                          <div
-                            key={subject._id}
-                            className="p-3 bg-card border rounded-lg hover:border-primary transition-colors"
-                          >
-                            <div className="font-medium">{subject.name}</div>
-                            <div className="text-sm text-muted-foreground">
-                              {subject.subjectCode}
-                            </div>
-                            <Badge variant="outline" className="mt-1">
-                              {subject.type}
-                            </Badge>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="text-center py-4 text-muted-foreground">
-                        {isLoadingSubjects ? 'Loading subjects...' : 'No subjects available'}
-                      </div>
-                    )}
-                  </ScrollArea>
-                </CardContent>
-              </Card>
-
-              {/* Faculty */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg font-semibold">Faculty</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ScrollArea className="h-[300px]">
-                    {faculty.length > 0 ? (
-                      <div className="space-y-2">
-                        {faculty.map((member) => (
-                          <div
-                            key={member._id}
-                            className={`p-3 border rounded-lg transition-colors ${
-                              member.status === 'busy'
-                                ? 'bg-destructive/10 border-destructive'
-                                : 'bg-card hover:border-primary'
-                            }`}
-                          >
-                            <div className="font-medium">{member.name}</div>
-                            <div className="text-sm text-muted-foreground">
-                              {member.department}
-                            </div>
-                            <Badge
-                              variant={member.status === 'available' ? 'default' : 'destructive'}
-                              className="mt-1"
-                            >
-                              {member.status}
-                            </Badge>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="text-center py-4 text-muted-foreground">
-                        {isLoadingFaculty ? 'Loading faculty...' : 'No faculty available'}
-                      </div>
-                    )}
-                  </ScrollArea>
-                </CardContent>
-              </Card>
-            </div>
-          </>
-        )}
-      </div>
-    );
-  };
-
-  const renderManageTimetables = (): ReactElement => (
-    <Card className={CARD_CLASS}>
-      <CardHeader>
-        <CardTitle>Manage Timetables</CardTitle>
-        <CardDescription>
-          View, edit and publish timetables for this class
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        {!isFormComplete() ? (
-          <Alert>
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Incomplete Configuration</AlertTitle>
-            <AlertDescription>
-              Please complete the class configuration above to view timetables.
-            </AlertDescription>
-          </Alert>
-        ) : (
-          <EmptyState
-            title="No Timetables Found"
-            message="Go to the Create Timetable tab to create your first timetable."
-            action={{
-              label: "Create Timetable",
-              onClick: () => setActiveTab('create')
-            }}
-          />
-        )}
-      </CardContent>
-    </Card>
-  );
-
   // Load initial data
   useEffect(() => {
     if (user?._id && token) {
@@ -1031,29 +716,345 @@ const TimetablePage = (): ReactElement => {
     }
   }, [formState.year, formState.semester]);
 
+  // Drag-and-drop handler
+  const onDragEnd = (result: DropResult) => {
+    const { source, destination, draggableId } = result;
+    if (!destination) return;
+
+    // Drag to class teacher column
+    if (destination.droppableId === 'class-teacher') {
+      if (draggableId.startsWith('faculty-')) {
+        const facultyId = draggableId.replace('faculty-', '');
+        const facultyMember = faculty.find(f => f._id === facultyId);
+        if (facultyMember) setClassTeacher(facultyMember);
+      }
+      return;
+    }
+
+    // Only allow drop into timetable slots
+    if (destination.droppableId.startsWith('slot-')) {
+      const [_, day, slotIdx] = destination.droppableId.split('-');
+      const slotIndex = parseInt(slotIdx);
+      setTimetable(prev => {
+        const updated = { ...prev };
+        const slot = { ...updated[day][slotIndex] };
+        if (draggableId.startsWith('subject-')) {
+          const subjectId = draggableId.replace('subject-', '');
+          const subject = subjects.find(s => s._id === subjectId);
+          if (subject) slot.subject = subject;
+        } else if (draggableId.startsWith('faculty-')) {
+          const facultyId = draggableId.replace('faculty-', '');
+          const facultyMember = faculty.find(f => f._id === facultyId);
+          if (facultyMember) slot.faculty = facultyMember;
+        }
+        updated[day][slotIndex] = slot;
+        return { ...updated };
+      });
+    }
+  };
+
   // Main render
   if (isPageLoading) {
     return <LoadingOverlay message="Loading page..." />;
   }
 
   return (
-    <div className="container mx-auto py-6">
-      <Tabs value={activeTab} onValueChange={(value: string) => setActiveTab(value)}>
-        <TabsList className="mb-6">
-          <TabsTrigger value="create">Create Timetable</TabsTrigger>
-          <TabsTrigger value="manage">Manage Timetables</TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="create">
-          {renderForm()}
-          {renderCreateTimetable()}
-        </TabsContent>
-        
-        <TabsContent value="manage">
-          {renderForm()}
-          {renderManageTimetables()}
-        </TabsContent>
-      </Tabs>
+    <div className="min-h-screen bg-white text-gray-900 flex flex-col">
+      <div className="flex flex-1 px-8 py-8 gap-8 bg-gradient-to-br from-blue-50 to-white justify-center items-start">
+        <div className="w-full max-w-6xl bg-white rounded-2xl shadow-2xl p-8 border flex flex-col gap-8">
+          {/* Top Bar with Dropdowns and Buttons */}
+          <div className="flex flex-col gap-4 mb-6">
+            <div className="flex items-center justify-between">
+              <div className="flex gap-4">
+                <FormSelect
+                  label="Year"
+                  value={formState.year}
+                  onChange={value => { handleFormChange('year', value); updateAvailableSemesters(value); }}
+                  options={YEARS.map(year => ({ value: year, label: year }))}
+                  className="min-w-[120px]"
+                />
+                <FormSelect
+                  label="Sem"
+                  value={formState.semester}
+                  onChange={value => handleFormChange('semester', value)}
+                  options={availableSemesters.map(sem => ({ value: sem.toString(), label: `Sem ${sem}` }))}
+                  className="min-w-[120px]"
+                  disabled={!formState.year}
+                />
+                <FormSelect
+                  label="Div"
+                  value={formState.division}
+                  onChange={value => handleFormChange('division', value)}
+                  options={['A1', 'A2', 'A3', 'A4', 'A5', 'A6'].map(div => ({ value: div, label: div }))}
+                  className="min-w-[120px]"
+                  disabled={!formState.semester}
+                />
+                <div className="flex gap-4 items-end">
+                  <FormSelect
+                    label="Classroom"
+                    value={formState.classroom}
+                    onChange={value => handleFormChange('classroom', value)}
+                    options={classrooms.map(classroom => ({ value: classroom._id, label: classroom.name }))}
+                    className="min-w-[160px]"
+                    disabled={!formState.division}
+                  />
+                  <Button
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 ml-2"
+                    onClick={e => {
+                      e.preventDefault();
+                      fetchAvailableClassrooms();
+                    }}
+                    disabled={isPageLoading}
+                  >
+                    {isPageLoading ? 'Refreshing...' : 'Refresh Classrooms'}
+                  </Button>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6">Create</Button>
+                <Button className="bg-blue-100 hover:bg-blue-200 text-blue-700 px-6 border border-blue-600">Manage</Button>
+              </div>
+            </div>
+            {/* Configuration summary and CTA */}
+            {isConfigComplete && (
+              <div className="flex items-center justify-between bg-blue-50 border border-blue-200 rounded-lg px-4 py-2 mt-2">
+                <div className="text-blue-800 font-medium">
+                  {`${formState.year} Year, Sem ${formState.semester}, Div ${formState.division}, Room ${classrooms.find(c => c._id === formState.classroom)?.name || ''}`}
+                </div>
+                <Button
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 ml-4"
+                  disabled={!isConfigComplete || templateGenerated}
+                  onClick={() => setTemplateGenerated(true)}
+                >
+                  Generate Template
+                </Button>
+              </div>
+            )}
+          </div>
+          {/* Only show timetable UI after template is generated */}
+          {templateGenerated && (
+            <DragDropContext onDragEnd={onDragEnd}>
+              <div className="flex gap-8 min-h-[60vh]">
+                {/* Days Sidebar */}
+                <div className="flex flex-col gap-4 items-center pt-2">
+                  {DAYS.map(day => (
+                    <Button
+                      key={day}
+                      variant={activeSlot?.day === day ? 'default' : 'outline'}
+                      className={cn(
+                        'w-32 py-2 rounded-lg font-semibold border-2',
+                        activeSlot?.day === day ? 'bg-blue-600 text-white border-blue-600 shadow-lg' : 'bg-white text-blue-700 border-blue-300 hover:bg-blue-50'
+                      )}
+                      onClick={() => setActiveSlot({ day, slotIndex: 0 })}
+                    >
+                      {day}
+                    </Button>
+                  ))}
+                </div>
+                {/* Timetable Grid */}
+                <div className="flex-1 flex flex-col items-center min-w-[350px]">
+                  <div className="w-full max-w-2xl bg-white rounded-2xl shadow-xl p-6 border border-blue-100 mb-4 flex items-center justify-between">
+                    <div className="text-lg font-bold text-blue-700">{activeSlot?.day || 'Select a day'}</div>
+                    {classTeacher && (
+                      <div className="text-blue-600 font-semibold">Class Teacher: {classTeacher.name}</div>
+                    )}
+                  </div>
+                  <div className="w-full max-w-2xl bg-white rounded-2xl shadow-xl p-6 border border-blue-100">
+                    <Droppable droppableId={`day-${activeSlot?.day || 'none'}`} isDropDisabled>
+                      {(provided) => (
+                        <div ref={provided.innerRef} {...provided.droppableProps} className="flex flex-col gap-2">
+                          {TIME_SLOTS.map((slot, idx) => (
+                            <Droppable droppableId={`slot-${activeSlot?.day}-${idx}`} key={slot} direction="horizontal">
+                              {(slotProvided, slotSnapshot) => {
+                                const slotData = activeSlot?.day ? timetable[activeSlot.day][idx] : {};
+                                return (
+                                  <div
+                                    ref={slotProvided.innerRef}
+                                    {...slotProvided.droppableProps}
+                                    className={cn(
+                                      'flex items-center justify-between border-b last:border-b-0 py-3 px-4 rounded-lg transition-all duration-200',
+                                      slotSnapshot.isDraggingOver ? 'bg-blue-100 border-blue-400 shadow-md' : 'bg-white border-blue-100',
+                                      'min-h-[56px]'
+                                    )}
+                                  >
+                                    <span className="text-gray-700 font-medium w-32">{slot}</span>
+                                    <div className="flex gap-2 flex-1 justify-end items-center">
+                                      {slotData.subject && (
+                                        <div className="px-2 py-1 bg-blue-50 text-blue-700 rounded shadow text-xs font-semibold border border-blue-200">
+                                          {slotData.subject.name || slotData.subject.subjectCode || 'Unnamed Subject'}
+                                        </div>
+                                      )}
+                                      {slotData.faculty && (
+                                        <div className="px-2 py-1 bg-blue-100 text-blue-900 rounded shadow text-xs font-semibold border border-blue-300">
+                                          {slotData.faculty.name}
+                                        </div>
+                                      )}
+                                      {!slotData.subject && !slotData.faculty && (
+                                        <span className="text-gray-300 text-xs">-</span>
+                                      )}
+                                    </div>
+                                    {slotProvided.placeholder}
+                                  </div>
+                                );
+                              }}
+                            </Droppable>
+                          ))}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                  </div>
+                </div>
+                {/* Right Panels: Faculty and Subjects as draggable lists */}
+                <div className="flex flex-row gap-8 w-full">
+                  {/* Class Teacher Column */}
+                  <div className="bg-white rounded-2xl shadow-xl border p-4 flex flex-col items-center min-w-[180px] max-w-[200px]">
+                    <div className="font-bold text-blue-700 text-lg mb-2 text-center">Class Teacher</div>
+                    <Droppable droppableId="class-teacher">
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                          className={cn(
+                            'flex-1 flex flex-col items-center justify-center min-h-[80px] border-2 rounded-lg transition-all',
+                            snapshot.isDraggingOver ? 'border-blue-400 bg-blue-50' : 'border-blue-200 bg-white'
+                          )}
+                        >
+                          {classTeacher ? (
+                            <div className="p-2 bg-blue-100 text-blue-900 rounded shadow font-semibold border border-blue-300 w-full text-center">
+                              {classTeacher.name}
+                            </div>
+                          ) : (
+                            <span className="text-gray-400">Drag a faculty here</span>
+                          )}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                  </div>
+                  {/* Faculty Panel */}
+                  <div className="bg-white rounded-2xl shadow-xl border p-4 flex-1 flex flex-col">
+                    <div className="font-bold text-blue-700 text-lg mb-2 text-center flex items-center justify-between">
+                      <span>Faculty</span>
+                      <Button size="sm" variant="outline" className="ml-2 border-blue-300 text-blue-700 hover:bg-blue-50" onClick={handleRefreshFaculty} disabled={isLoadingFaculty}>
+                        {isLoadingFaculty ? 'Refreshing...' : 'Refresh'}
+                      </Button>
+                    </div>
+                    <Droppable droppableId="faculty-list" isDropDisabled>
+                      {(provided) => (
+                        <div ref={provided.innerRef} {...provided.droppableProps} className="flex-1 overflow-y-auto min-h-[120px] space-y-2">
+                          {faculty.length > 0 ? faculty.map((f, idx) => (
+                            <Draggable draggableId={`faculty-${f._id}`} index={idx} key={f._id}>
+                              {(dragProvided, dragSnapshot) => (
+                                <div
+                                  ref={dragProvided.innerRef}
+                                  {...dragProvided.draggableProps}
+                                  {...dragProvided.dragHandleProps}
+                                  className={cn(
+                                    'p-2 border rounded-lg bg-blue-50 text-blue-900 font-medium shadow-sm cursor-pointer transition-all',
+                                    dragSnapshot.isDragging ? 'bg-blue-200 shadow-lg scale-105' : 'hover:bg-blue-100'
+                                  )}
+                                >
+                                  {f.name}
+                                </div>
+                              )}
+                            </Draggable>
+                          )) : <div className="text-gray-400 text-center">No faculty</div>}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                  </div>
+                  {/* Subjects Panel */}
+                  <div className="bg-white rounded-2xl shadow-xl border p-4 flex-1 flex flex-col">
+                    <div className="font-bold text-blue-700 text-lg mb-2 text-center flex items-center justify-between">
+                      <span>Subjects</span>
+                      <Button size="sm" variant="outline" className="ml-2 border-blue-300 text-blue-700 hover:bg-blue-50" onClick={handleRefreshSubjects} disabled={isLoadingSubjects}>
+                        {isLoadingSubjects ? 'Refreshing...' : 'Refresh'}
+                      </Button>
+                    </div>
+                    <Droppable droppableId="subjects-list" isDropDisabled>
+                      {(provided) => (
+                        <div ref={provided.innerRef} {...provided.droppableProps} className="flex-1 overflow-y-auto min-h-[120px] space-y-2">
+                          {subjects.length > 0 ? subjects.map((s, idx) => (
+                            <Draggable draggableId={`subject-${s._id}`} index={idx} key={s._id}>
+                              {(dragProvided, dragSnapshot) => (
+                                <div
+                                  ref={dragProvided.innerRef}
+                                  {...dragProvided.draggableProps}
+                                  {...dragProvided.dragHandleProps}
+                                  className={cn(
+                                    'p-2 border rounded-lg bg-blue-50 text-blue-700 font-medium shadow-sm cursor-pointer transition-all',
+                                    dragSnapshot.isDragging ? 'bg-blue-200 shadow-lg scale-105' : 'hover:bg-blue-100'
+                                  )}
+                                >
+                                  {s.name || s.subjectCode || 'Unnamed Subject'}
+                                </div>
+                              )}
+                            </Draggable>
+                          )) : <div className="text-gray-400 text-center">No subjects</div>}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                  </div>
+                </div>
+              </div>
+            </DragDropContext>
+          )}
+          {/* Save Timetable CTA */}
+          {templateGenerated && (
+            <div className="flex justify-end mt-6">
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg shadow-lg text-lg font-bold border border-blue-700">
+                Save Timetable
+              </Button>
+            </div>
+          )}
+          {/* Manage Timetable Card */}
+          {activeTab === 'manage' && (
+            <div className="w-full max-w-4xl mx-auto mt-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {templates.map((t) => (
+                  <Card key={t._id} className="border-blue-300 hover:shadow-xl cursor-pointer transition-all" onClick={() => setSelectedTemplate(t)}>
+                    <CardHeader>
+                      <CardTitle>{t.year} Year, Div {t.division}</CardTitle>
+                      <CardDescription>Class Teacher: {classTeacher?.name || 'Not assigned'}</CardDescription>
+                    </CardHeader>
+                  </Card>
+                ))}
+              </div>
+              {/* Show timetable in table/excel format when a card is selected */}
+              {selectedTemplate && (
+                <div className="mt-8 bg-white rounded-2xl shadow-xl border p-6">
+                  <div className="text-xl font-bold text-blue-700 mb-4">Timetable for {selectedTemplate.year} Year, Div {selectedTemplate.division}</div>
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr>
+                        <th className="border-b-2 border-blue-200 p-2 text-left">Day</th>
+                        {TIME_SLOTS.map(slot => (
+                          <th key={slot} className="border-b-2 border-blue-200 p-2 text-center">{slot}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {selectedTemplate.days.map(day => (
+                        <tr key={day.day}>
+                          <td className="border-b border-blue-100 p-2 font-semibold text-blue-700">{day.day}</td>
+                          {day.slots.map((slot, idx) => (
+                            <td key={idx} className="border-b border-blue-100 p-2 text-center">
+                              {slot.subjectCode || '-'}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

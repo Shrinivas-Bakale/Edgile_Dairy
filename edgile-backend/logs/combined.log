@@ -1789,3 +1789,2735 @@
 2025-04-20 10:13:09 [info]: Retrieved 57 students for university: KLE BCA Hubli 
 2025-04-20 10:13:09 [info]: Retrieved latest registrations for university: KLE BCA Hubli 
 2025-04-20 10:13:09 [info]: Retrieved latest registrations for university: KLE BCA Hubli 
+2025-05-04 14:04:27 [info]: POST /api/admin/auth/verify-access-code {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 14:04:57 [info]: POST /api/admin/auth/login {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 14:04:58 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 14:04:58 [info]: Fetching faculty members: university=undefined 
+2025-05-04 14:04:58 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 14:04:58 [info]: Found 16 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 14:04:58 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 14:04:58 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 14:04:58 [info]: Fetching faculty members: university=undefined 
+2025-05-04 14:04:58 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 14:04:58 [info]: Found 16 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 14:04:58 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-04 14:04:58 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 14:04:58 [info]: GET /api/admin/latest-registrations {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 14:04:58 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-04 14:04:58 [info]: Retrieved latest registrations for university: KLE BCA Hubli 
+2025-05-04 14:04:58 [info]: GET /api/admin/latest-registrations {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 14:04:58 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 14:04:59 [info]: Retrieved latest registrations for university: KLE BCA Hubli 
+2025-05-04 14:04:59 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 14:05:13 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 14:05:13 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 14:05:13 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 14:05:13 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 14:05:27 [info]: GET /api/admin/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 14:05:27 [info]: Fetching all classrooms: university=undefined 
+2025-05-04 14:05:27 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 14:05:27 [info]: Found 2 classrooms for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 15:11:31 [info]: DELETE /api/admin/timetable/custom-1746347735277 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:11:32 [info]: DELETE /api/admin/timetable/custom-1746347735277 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:11:51 [info]: DELETE /api/admin/timetable/custom-1746347735277 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:11:51 [info]: DELETE /api/admin/timetable/custom-1746347735277 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:11:51 [info]: DELETE /api/admin/timetable/custom-1746347735277 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:11:51 [info]: DELETE /api/admin/timetable/custom-1746347735277 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:11:52 [info]: DELETE /api/admin/timetable/custom-1746347735277 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:12:04 [info]: PUT /api/admin/timetable/custom-1746347735277 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:12:48 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:12:48 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:12:53 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:12:53 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 15:12:53 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:12:53 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:12:53 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 15:12:53 [info]: Fetching faculty members: university=undefined 
+2025-05-04 15:12:53 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 15:12:53 [info]: Found 16 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 15:12:53 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:12:53 [info]: Fetching faculty members: university=undefined 
+2025-05-04 15:12:53 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 15:12:54 [info]: Found 16 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 15:12:59 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:12:59 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-04 15:12:59 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:12:59 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-04 15:13:12 [info]: GET /api/admin/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:13:13 [info]: Fetching all classrooms: university=undefined 
+2025-05-04 15:13:13 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 15:13:13 [info]: Found 2 classrooms for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 15:13:13 [info]: GET /api/admin/classrooms/occupancy {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:13:13 [info]: Fetching classroom by ID: occupancy 
+2025-05-04 15:13:13 [error]: Error fetching classroom: Cast to ObjectId failed for value "occupancy" (type string) at path "_id" for model "Classroom" 
+2025-05-04 15:13:13 [info]: GET /api/admin/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:13:13 [info]: GET /api/admin/classrooms/occupancy {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:13:13 [info]: Fetching all classrooms: university=undefined 
+2025-05-04 15:13:13 [info]: Fetching classroom by ID: occupancy 
+2025-05-04 15:13:13 [error]: Error fetching classroom: Cast to ObjectId failed for value "occupancy" (type string) at path "_id" for model "Classroom" 
+2025-05-04 15:13:13 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 15:13:13 [info]: Found 2 classrooms for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 15:13:20 [info]: GET /api/admin/classrooms/67f2a150613f0111e2bcceec {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:13:20 [info]: Fetching classroom by ID: 67f2a150613f0111e2bcceec 
+2025-05-04 15:13:20 [info]: GET /api/admin/classrooms/67f2a150613f0111e2bcceec {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:13:20 [info]: GET /api/admin/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:13:20 [info]: GET /api/admin/classrooms/occupancy {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:13:20 [info]: Fetching classroom by ID: 67f2a150613f0111e2bcceec 
+2025-05-04 15:13:20 [info]: Fetching all classrooms: university=undefined 
+2025-05-04 15:13:20 [info]: Fetching classroom by ID: occupancy 
+2025-05-04 15:13:20 [error]: Error fetching classroom: Cast to ObjectId failed for value "occupancy" (type string) at path "_id" for model "Classroom" 
+2025-05-04 15:13:20 [info]: GET /api/admin/classrooms/occupancy {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:13:20 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 15:13:20 [info]: Found 2 classrooms for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 15:13:20 [info]: GET /api/admin/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:13:20 [info]: Fetching classroom by ID: occupancy 
+2025-05-04 15:13:20 [error]: Error fetching classroom: Cast to ObjectId failed for value "occupancy" (type string) at path "_id" for model "Classroom" 
+2025-05-04 15:13:20 [info]: Fetching all classrooms: university=undefined 
+2025-05-04 15:13:20 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 15:13:20 [info]: Found 2 classrooms for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 15:57:51 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:57:51 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 15:57:51 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 15:57:51 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 16:00:28 [info]: GET /api/admin/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 16:00:28 [info]: Fetching all classrooms: university=undefined 
+2025-05-04 16:00:28 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 16:00:28 [info]: Found 2 classrooms for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 16:06:19 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 16:06:19 [info]: Fetching faculty members: university=undefined 
+2025-05-04 16:06:19 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 16:06:19 [info]: Found 16 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 16:06:19 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 16:06:19 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 16:06:19 [info]: Fetching faculty members: university=undefined 
+2025-05-04 16:06:19 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 16:06:19 [info]: Found 16 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 16:06:19 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-04 16:06:19 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 16:06:19 [info]: GET /api/admin/latest-registrations {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 16:06:19 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-04 16:06:19 [info]: Retrieved latest registrations for university: KLE BCA Hubli 
+2025-05-04 16:06:19 [info]: GET /api/admin/latest-registrations {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 16:06:19 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 16:06:20 [info]: Retrieved latest registrations for university: KLE BCA Hubli 
+2025-05-04 16:06:20 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 16:06:42 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 16:06:42 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 16:06:42 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 16:06:42 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 16:06:56 [info]: GET /api/admin/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 16:06:56 [info]: Fetching all classrooms: university=undefined 
+2025-05-04 16:06:56 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 16:06:56 [info]: Found 2 classrooms for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:31:57 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:31:57 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:31:57 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:31:57 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:32:10 [info]: GET /api/admin/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:32:10 [info]: Fetching all classrooms: university=undefined 
+2025-05-04 19:32:10 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:32:10 [info]: Found 2 classrooms for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:40:45 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:40:45 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:40:45 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:40:45 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:43:09 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:43:09 [info]: Fetching faculty members: university=undefined 
+2025-05-04 19:43:10 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:43:10 [info]: Found 16 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:43:10 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:43:10 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:43:10 [info]: Fetching faculty members: university=undefined 
+2025-05-04 19:43:10 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:43:10 [info]: Found 16 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:43:10 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-04 19:43:10 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:43:10 [info]: GET /api/admin/latest-registrations {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:43:10 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-04 19:43:10 [info]: Retrieved latest registrations for university: KLE BCA Hubli 
+2025-05-04 19:43:10 [info]: GET /api/admin/latest-registrations {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:43:10 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:43:10 [info]: Retrieved latest registrations for university: KLE BCA Hubli 
+2025-05-04 19:43:10 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:43:11 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:43:11 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:43:11 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:43:11 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:43:19 [info]: GET /api/admin/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:43:19 [info]: Fetching all classrooms: university=undefined 
+2025-05-04 19:43:19 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:43:19 [info]: Found 2 classrooms for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:44:54 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:44:54 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:44:54 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:44:54 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:01 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:01 [info]: Fetching faculty members: university=undefined 
+2025-05-04 19:45:01 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:01 [info]: Found 16 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:01 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:01 [info]: Fetching faculty members: university=undefined 
+2025-05-04 19:45:01 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:01 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:01 [info]: Found 16 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:01 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-04 19:45:01 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:01 [info]: GET /api/admin/latest-registrations {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:01 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-04 19:45:01 [info]: Retrieved latest registrations for university: KLE BCA Hubli 
+2025-05-04 19:45:01 [info]: GET /api/admin/latest-registrations {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:01 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:01 [info]: Retrieved latest registrations for university: KLE BCA Hubli 
+2025-05-04 19:45:01 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:05 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:05 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:05 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:05 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:05 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:05 [info]: Fetching faculty members: university=undefined 
+2025-05-04 19:45:05 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:05 [info]: Found 16 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:05 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:05 [info]: Fetching faculty members: university=undefined 
+2025-05-04 19:45:05 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:05 [info]: Found 16 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:09 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:09 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-04 19:45:09 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:09 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-04 19:45:12 [info]: GET /api/admin/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:12 [info]: GET /api/admin/classrooms/occupancy {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:12 [info]: Fetching all classrooms: university=undefined 
+2025-05-04 19:45:12 [info]: Fetching classroom by ID: occupancy 
+2025-05-04 19:45:12 [error]: Error fetching classroom: Cast to ObjectId failed for value "occupancy" (type string) at path "_id" for model "Classroom" 
+2025-05-04 19:45:12 [info]: GET /api/admin/classrooms/occupancy {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:12 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:12 [info]: Found 2 classrooms for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:12 [info]: GET /api/admin/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:12 [info]: Fetching classroom by ID: occupancy 
+2025-05-04 19:45:12 [error]: Error fetching classroom: Cast to ObjectId failed for value "occupancy" (type string) at path "_id" for model "Classroom" 
+2025-05-04 19:45:12 [info]: Fetching all classrooms: university=undefined 
+2025-05-04 19:45:12 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:12 [info]: Found 2 classrooms for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:25 [info]: GET /api/admin/subjects {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:25 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:25 [info]: GET /api/admin/subjects/academic-years {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:25 [info]: GET /api/admin/subjects {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:25 [info]: GET /api/admin/subjects/academic-years {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:25 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:37 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:37 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:37 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:37 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:37 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:37 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:37 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:37 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:44 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:44 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:44 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:44 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:47 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:47 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:49 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:49 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:49 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:49 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:51 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:51 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:51 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:51 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:52 [info]: GET /api/admin/subjects {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:52 [info]: GET /api/admin/subjects/academic-years {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:53 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:45:53 [info]: GET /api/admin/subjects {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:53 [info]: GET /api/admin/subjects/academic-years {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:45:53 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:46:23 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:46:24 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-04 19:46:24 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:46:24 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-04 19:46:25 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:46:25 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:46:25 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:46:25 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:46:25 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:46:25 [info]: Fetching faculty members: university=undefined 
+2025-05-04 19:46:25 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:46:25 [info]: Found 16 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:46:25 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:46:25 [info]: Fetching faculty members: university=undefined 
+2025-05-04 19:46:25 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:46:25 [info]: Found 16 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:46:27 [info]: GET /api/admin/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:46:27 [info]: GET /api/admin/classrooms/occupancy {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:46:27 [info]: Fetching all classrooms: university=undefined 
+2025-05-04 19:46:27 [info]: Fetching classroom by ID: occupancy 
+2025-05-04 19:46:27 [error]: Error fetching classroom: Cast to ObjectId failed for value "occupancy" (type string) at path "_id" for model "Classroom" 
+2025-05-04 19:46:27 [info]: GET /api/admin/classrooms/occupancy {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:46:27 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:46:27 [info]: Found 2 classrooms for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:46:27 [info]: GET /api/admin/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:46:27 [info]: Fetching classroom by ID: occupancy 
+2025-05-04 19:46:27 [error]: Error fetching classroom: Cast to ObjectId failed for value "occupancy" (type string) at path "_id" for model "Classroom" 
+2025-05-04 19:46:27 [info]: Fetching all classrooms: university=undefined 
+2025-05-04 19:46:27 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:46:27 [info]: Found 2 classrooms for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:46:38 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:46:38 [info]: Fetching faculty members: university=undefined 
+2025-05-04 19:46:38 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:46:38 [info]: Found 16 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:46:38 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:46:38 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:46:38 [info]: Fetching faculty members: university=undefined 
+2025-05-04 19:46:38 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:46:38 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-04 19:46:38 [info]: Found 16 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:46:38 [info]: GET /api/admin/latest-registrations {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:46:38 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:46:38 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-04 19:46:38 [info]: Retrieved latest registrations for university: KLE BCA Hubli 
+2025-05-04 19:46:38 [info]: GET /api/admin/latest-registrations {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:46:38 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:46:38 [info]: Retrieved latest registrations for university: KLE BCA Hubli 
+2025-05-04 19:46:38 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:46:59 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:46:59 [info]: Fetching faculty members: university=undefined 
+2025-05-04 19:46:59 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:46:59 [info]: Found 16 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:46:59 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:46:59 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:46:59 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:46:59 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:46:59 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:46:59 [info]: Fetching faculty members: university=undefined 
+2025-05-04 19:46:59 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:46:59 [info]: Found 16 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:47:01 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:47:01 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-04 19:47:01 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:47:02 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-04 19:47:10 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:47:10 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:47:10 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:47:10 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:47:37 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:47:37 [info]: Fetching faculty members: university=undefined 
+2025-05-04 19:47:37 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:47:37 [info]: Found 16 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:47:37 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:47:37 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:47:37 [info]: Fetching faculty members: university=undefined 
+2025-05-04 19:47:38 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:47:38 [info]: Found 16 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:47:38 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-04 19:47:38 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:47:38 [info]: GET /api/admin/latest-registrations {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:47:38 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-04 19:47:38 [info]: Retrieved latest registrations for university: KLE BCA Hubli 
+2025-05-04 19:47:38 [info]: GET /api/admin/latest-registrations {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:47:38 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:47:38 [info]: Retrieved latest registrations for university: KLE BCA Hubli 
+2025-05-04 19:47:38 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:47:40 [info]: GET /api/admin/subjects {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:47:40 [info]: GET /api/admin/subjects/academic-years {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:47:40 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:47:40 [info]: GET /api/admin/subjects {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:47:40 [info]: GET /api/admin/subjects/academic-years {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:47:40 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:47:48 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:47:48 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:47:48 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:47:48 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:48:49 [info]: GET /api/admin/subjects {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:48:49 [info]: GET /api/admin/subjects/academic-years {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:48:49 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:48:49 [info]: GET /api/admin/subjects {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:48:49 [info]: GET /api/admin/subjects/academic-years {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:48:49 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:48:51 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:48:51 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:48:51 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:48:51 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:53:10 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:53:10 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:55:09 [info]: GET /api/admin/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 19:55:09 [info]: Fetching all classrooms: university=undefined 
+2025-05-04 19:55:09 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 19:55:09 [info]: Found 2 classrooms for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:03:29 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:03:29 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:04:35 [info]: GET /api/admin/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:04:35 [info]: Fetching all classrooms: university=undefined 
+2025-05-04 20:04:35 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:04:35 [info]: Found 2 classrooms for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:04:44 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:04:44 [info]: Fetching faculty members: university=undefined 
+2025-05-04 20:04:44 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:04:44 [info]: Found 16 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:04:45 [info]: GET /api/admin/subjects?year=First&semester=1 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:04:45 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:04:50 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:04:50 [info]: Fetching faculty members: university=undefined 
+2025-05-04 20:04:50 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:04:50 [info]: Found 16 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:04:51 [info]: GET /api/admin/subjects?year=First&semester=1 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:04:51 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:09:40 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:09:40 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:09:40 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:09:40 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:09:40 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:09:41 [info]: Fetching faculty members: university=undefined 
+2025-05-04 20:09:41 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:09:41 [info]: Found 16 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:09:41 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:09:41 [info]: Fetching faculty members: university=undefined 
+2025-05-04 20:09:41 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:09:41 [info]: Found 16 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:10:48 [info]: POST /api/admin/auth/faculty/register {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:10:48 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:10:48 [info]: POST /api/admin/auth/faculty/welcome-email {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:10:48 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:10:52 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:10:52 [info]: Fetching faculty members: university=undefined 
+2025-05-04 20:10:52 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:10:52 [info]: Found 17 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:10:52 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:10:52 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:11:44 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:11:44 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:16:31 [info]: POST /api/admin/auth/verify-access-code {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:16:43 [info]: POST /api/admin/auth/login {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:16:43 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:16:44 [info]: Fetching faculty members: university=undefined 
+2025-05-04 20:16:44 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:16:44 [info]: Found 17 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:16:44 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:16:44 [info]: Fetching faculty members: university=undefined 
+2025-05-04 20:16:44 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:16:44 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:16:44 [info]: Found 17 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:16:44 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-04 20:16:44 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:16:44 [info]: GET /api/admin/latest-registrations {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:16:44 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-04 20:16:44 [info]: Retrieved latest registrations for university: KLE BCA Hubli 
+2025-05-04 20:16:44 [info]: GET /api/admin/latest-registrations {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:16:44 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:16:44 [info]: Retrieved latest registrations for university: KLE BCA Hubli 
+2025-05-04 20:16:44 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:16:46 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:16:46 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:16:46 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:16:46 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:16:46 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:16:46 [info]: Fetching faculty members: university=undefined 
+2025-05-04 20:16:46 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:16:46 [info]: Found 17 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:16:46 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:16:46 [info]: Fetching faculty members: university=undefined 
+2025-05-04 20:16:46 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:16:47 [info]: Found 17 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:16:55 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:16:55 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:16:55 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:16:55 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:17:12 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:17:12 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:17:12 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:17:12 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 20:17:13 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:17:13 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:17:57 [info]: GET /api/admin/auth/verify-registration-code/FAC-EEOP5O {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:17:58 [info]: GET /api/admin/auth/verify-registration-code/FAC-EEOP5O {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:18:01 [info]: GET /api/admin/auth/verify-registration-code/FAC-EEOP5 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:18:03 [info]: GET /api/admin/auth/verify-registration-code/FAC-EEOP50 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:19:24 [info]: GET /api/admin/auth/verify-registration-code/E {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:19:35 [info]: GET /api/admin/auth/verify-registration-code/FAC- {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:19:36 [info]: GET /api/admin/auth/verify-registration-code/FAC-EE {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:19:37 [info]: GET /api/admin/auth/verify-registration-code/FAC-EE0 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:19:37 [info]: GET /api/admin/auth/verify-registration-code/FAC-EE0P {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:19:38 [info]: GET /api/admin/auth/verify-registration-code/FAC-EE0P50 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:20:39 [info]: GET /api/admin/auth/verify-registration-code/KLE {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:20:40 [info]: GET /api/admin/auth/verify-registration-code/KLE- {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:20:46 [info]: GET /api/admin/auth/verify-registration-code/KLE-F {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:20:47 [info]: GET /api/admin/auth/verify-registration-code/KLE-F10 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:20:48 [info]: GET /api/admin/auth/verify-registration-code/KLE-F104 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:20:49 [info]: GET /api/admin/auth/verify-registration-code/KLE-F104ED {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:21:19 [info]: GET /api/admin/auth/verify-registration-code/FAC-EEOP5O {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:36:43 [info]: POST /api/faculty/auth/login {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:37:52 [info]: POST /api/faculty/auth/login {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:39:36 [info]: POST /api/faculty/auth/login {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:44:21 [info]: POST /api/faculty/auth/login {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 20:51:13 [info]: POST /api/faculty/auth/login {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 21:07:22 [info]: POST /api/faculty/auth/login {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 21:13:26 [info]: POST /api/faculty/auth/login {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 21:15:19 [info]: POST /api/faculty/auth/login {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 21:19:18 [info]: POST /api/faculty/auth/login {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 21:19:18 [info]: [DEBUG] Faculty login request body: {
+  "email": "suyogkumar787@gmail.com",
+  "password": "Na##tHXXxmIG",
+  "universityCode": "KLE"
+}
+2025-05-04 21:19:18 [info]: [DEBUG] University lookup result: 
+2025-05-04 21:19:18 [warn]: [DEBUG] Invalid university code 
+2025-05-04 21:20:24 [info]: POST /api/faculty/auth/login {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 21:20:24 [info]: [DEBUG] Faculty login request body: {
+  "email": "suyogkumar787@gmail.com",
+  "password": "Na##tHXXxmIG",
+  "universityCode": "KLE-F104ED"
+}
+2025-05-04 21:20:24 [info]: [DEBUG] University lookup result: {
+  "$__": {
+    "activePaths": {
+      "paths": {
+        "universityCode": "init",
+        "universityName": "init",
+        "password": "init",
+        "email": "init",
+        "name": "init",
+        "status": "init",
+        "role": "init",
+        "_id": "init",
+        "createdAt": "init",
+        "updatedAt": "init",
+        "__v": "init"
+      },
+      "states": {
+        "require": {},
+        "default": {},
+        "init": {
+          "_id": true,
+          "name": true,
+          "email": true,
+          "password": true,
+          "universityName": true,
+          "universityCode": true,
+          "status": true,
+          "role": true,
+          "createdAt": true,
+          "updatedAt": true,
+          "__v": true
+        }
+      }
+    },
+    "skipId": true
+  },
+  "$isNew": false,
+  "_doc": {
+    "_id": "67ebf8fd6d67fe911abf8c42",
+    "name": "Suyog Nadiger",
+    "email": "suyogkumar212@gmail.com",
+    "password": "$2a$10$2.P/dE1bRAILF2M74axRh.bUqK0Eb0K1n8blwc7xOjTa6nmLteBVm",
+    "universityName": "KLE BCA Hubli",
+    "universityCode": "KLE-F104ED",
+    "status": "active",
+    "role": "admin",
+    "createdAt": "2025-04-01T14:32:29.205Z",
+    "updatedAt": "2025-04-01T14:32:29.205Z",
+    "__v": 0
+  }
+}
+2025-05-04 21:20:24 [info]: [DEBUG] Faculty lookup result: {
+  "$__": {
+    "activePaths": {
+      "paths": {
+        "employeeId": "init",
+        "department": "init",
+        "university": "init",
+        "universityName": "init",
+        "universityCode": "init",
+        "password": "init",
+        "email": "init",
+        "name": "init",
+        "role": "init",
+        "status": "init",
+        "subjects": "init",
+        "isAdmin": "init",
+        "isVerified": "init",
+        "classesAssigned": "init",
+        "researchInterests": "init",
+        "profileImage": "init",
+        "registrationCompleted": "init",
+        "isFirstLogin": "init",
+        "passwordChangeRequired": "init",
+        "_id": "init",
+        "passwordLastChanged": "init",
+        "createdAt": "init",
+        "updatedAt": "init",
+        "__v": "init",
+        "registrationCompletionExpires": "init",
+        "registrationCompletionToken": "init"
+      },
+      "states": {
+        "require": {},
+        "default": {},
+        "init": {
+          "_id": true,
+          "name": true,
+          "email": true,
+          "password": true,
+          "universityCode": true,
+          "universityName": true,
+          "university": true,
+          "department": true,
+          "employeeId": true,
+          "role": true,
+          "status": true,
+          "subjects": true,
+          "isAdmin": true,
+          "isVerified": true,
+          "classesAssigned": true,
+          "researchInterests": true,
+          "profileImage": true,
+          "registrationCompleted": true,
+          "isFirstLogin": true,
+          "passwordChangeRequired": true,
+          "passwordLastChanged": true,
+          "createdAt": true,
+          "updatedAt": true,
+          "__v": true,
+          "registrationCompletionExpires": true,
+          "registrationCompletionToken": true
+        }
+      }
+    },
+    "skipId": true
+  },
+  "$isNew": false,
+  "_doc": {
+    "_id": "68177c70405a0e9675a355b4",
+    "name": "new",
+    "email": "suyogkumar787@gmail.com",
+    "password": "$2a$10$qxbghxDhvg6/e9Ip.dPy6Ou0Yigc2R6YcrrMOtqEJdzaCPsMA0JM2",
+    "universityCode": "KLE-F104ED",
+    "universityName": "KLE BCA Hubli",
+    "university": "67ebf8fd6d67fe911abf8c42",
+    "department": "Technical",
+    "employeeId": "TEC001",
+    "role": "faculty",
+    "status": "pending",
+    "subjects": [],
+    "isAdmin": false,
+    "isVerified": true,
+    "classesAssigned": [],
+    "researchInterests": [],
+    "profileImage": "",
+    "registrationCompleted": false,
+    "isFirstLogin": true,
+    "passwordChangeRequired": true,
+    "passwordLastChanged": "2025-05-04T14:40:48.851Z",
+    "createdAt": "2025-05-04T14:40:48.851Z",
+    "updatedAt": "2025-05-04T14:40:48.975Z",
+    "__v": 0,
+    "registrationCompletionExpires": "2025-05-07T14:40:48.974Z",
+    "registrationCompletionToken": "62b9a5574c151cb15a15bf2b46807bfae0cd53ef7265fcddba00830ba0cad902"
+  }
+}
+2025-05-04 21:20:24 [info]: [DEBUG] Password match: 
+2025-05-04 21:20:24 [warn]: [DEBUG] Password mismatch 
+2025-05-04 22:01:08 [info]: POST /api/admin/auth/verify-access-code {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:01:27 [info]: POST /api/admin/auth/login {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:01:27 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:01:27 [info]: Fetching faculty members: university=undefined 
+2025-05-04 22:01:27 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 22:01:27 [info]: Found 17 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 22:01:27 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:01:28 [info]: Fetching faculty members: university=undefined 
+2025-05-04 22:01:28 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:01:28 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 22:01:28 [info]: Found 17 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 22:01:28 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-04 22:01:28 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:01:28 [info]: GET /api/admin/latest-registrations {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:01:28 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-04 22:01:28 [info]: Retrieved latest registrations for university: KLE BCA Hubli 
+2025-05-04 22:01:28 [info]: GET /api/admin/latest-registrations {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:01:28 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:01:28 [info]: Retrieved latest registrations for university: KLE BCA Hubli 
+2025-05-04 22:01:28 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:01:31 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:01:31 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:01:31 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 22:01:31 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:01:31 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 22:01:31 [info]: Fetching faculty members: university=undefined 
+2025-05-04 22:01:31 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 22:01:31 [info]: Found 17 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 22:01:31 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:01:31 [info]: Fetching faculty members: university=undefined 
+2025-05-04 22:01:31 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 22:01:31 [info]: Found 17 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 22:02:14 [info]: POST /api/admin/auth/faculty/register {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:02:14 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 22:02:53 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:02:53 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:02:53 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 22:02:53 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:02:53 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 22:02:53 [info]: Fetching faculty members: university=undefined 
+2025-05-04 22:02:53 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 22:02:53 [info]: Found 17 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 22:02:53 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:02:53 [info]: Fetching faculty members: university=undefined 
+2025-05-04 22:02:53 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 22:02:53 [info]: Found 17 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 22:05:24 [info]: POST /api/admin/auth/faculty/register {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:05:24 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 22:05:25 [info]: POST /api/admin/auth/faculty/welcome-email {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:05:25 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 22:05:28 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:05:29 [info]: Fetching faculty members: university=undefined 
+2025-05-04 22:05:29 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 22:05:29 [info]: Found 18 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-04 22:05:29 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:05:29 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-04 22:05:53 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:05:53 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:07:09 [info]: POST /api/faculty/auth/login {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:07:09 [info]: [DEBUG] Faculty login request body: {
+  "email": "randomstorage383@gmail.com",
+  "password": "6Bkd#t*TQ@hC",
+  "universityCode": "KLE-F104ED"
+}
+2025-05-04 22:07:09 [info]: [DEBUG] University lookup result: {
+  "$__": {
+    "activePaths": {
+      "paths": {
+        "universityCode": "init",
+        "universityName": "init",
+        "password": "init",
+        "email": "init",
+        "name": "init",
+        "status": "init",
+        "role": "init",
+        "_id": "init",
+        "createdAt": "init",
+        "updatedAt": "init",
+        "__v": "init"
+      },
+      "states": {
+        "require": {},
+        "default": {},
+        "init": {
+          "_id": true,
+          "name": true,
+          "email": true,
+          "password": true,
+          "universityName": true,
+          "universityCode": true,
+          "status": true,
+          "role": true,
+          "createdAt": true,
+          "updatedAt": true,
+          "__v": true
+        }
+      }
+    },
+    "skipId": true
+  },
+  "$isNew": false,
+  "_doc": {
+    "_id": "67ebf8fd6d67fe911abf8c42",
+    "name": "Suyog Nadiger",
+    "email": "suyogkumar212@gmail.com",
+    "password": "$2a$10$2.P/dE1bRAILF2M74axRh.bUqK0Eb0K1n8blwc7xOjTa6nmLteBVm",
+    "universityName": "KLE BCA Hubli",
+    "universityCode": "KLE-F104ED",
+    "status": "active",
+    "role": "admin",
+    "createdAt": "2025-04-01T14:32:29.205Z",
+    "updatedAt": "2025-04-01T14:32:29.205Z",
+    "__v": 0
+  }
+}
+2025-05-04 22:07:09 [info]: [DEBUG] Faculty lookup result: {
+  "$__": {
+    "activePaths": {
+      "paths": {
+        "employeeId": "init",
+        "department": "init",
+        "university": "init",
+        "universityName": "init",
+        "universityCode": "init",
+        "password": "init",
+        "email": "init",
+        "name": "init",
+        "role": "init",
+        "status": "init",
+        "subjects": "init",
+        "isAdmin": "init",
+        "isVerified": "init",
+        "classesAssigned": "init",
+        "researchInterests": "init",
+        "profileImage": "init",
+        "registrationCompleted": "init",
+        "isFirstLogin": "init",
+        "passwordChangeRequired": "init",
+        "_id": "init",
+        "passwordLastChanged": "init",
+        "createdAt": "init",
+        "updatedAt": "init",
+        "__v": "init",
+        "registrationCompletionExpires": "init",
+        "registrationCompletionToken": "init"
+      },
+      "states": {
+        "require": {},
+        "default": {},
+        "init": {
+          "_id": true,
+          "name": true,
+          "email": true,
+          "password": true,
+          "universityCode": true,
+          "universityName": true,
+          "university": true,
+          "department": true,
+          "employeeId": true,
+          "role": true,
+          "status": true,
+          "subjects": true,
+          "isAdmin": true,
+          "isVerified": true,
+          "classesAssigned": true,
+          "researchInterests": true,
+          "profileImage": true,
+          "registrationCompleted": true,
+          "isFirstLogin": true,
+          "passwordChangeRequired": true,
+          "passwordLastChanged": true,
+          "createdAt": true,
+          "updatedAt": true,
+          "__v": true,
+          "registrationCompletionExpires": true,
+          "registrationCompletionToken": true
+        }
+      }
+    },
+    "skipId": true
+  },
+  "$isNew": false,
+  "_doc": {
+    "_id": "6817974d2f6c0f53ff6c7596",
+    "name": "faculty",
+    "email": "randomstorage383@gmail.com",
+    "password": "$2a$10$prFAcNqROPHXn0MNQCP/AOaIZ4xrdFkgfIhX9OyTMa4jWXII6gF2i",
+    "universityCode": "KLE-F104ED",
+    "universityName": "KLE BCA Hubli",
+    "university": "67ebf8fd6d67fe911abf8c42",
+    "department": "Technical",
+    "employeeId": "TEC002",
+    "role": "faculty",
+    "status": "pending",
+    "subjects": [],
+    "isAdmin": false,
+    "isVerified": true,
+    "classesAssigned": [],
+    "researchInterests": [],
+    "profileImage": "",
+    "registrationCompleted": false,
+    "isFirstLogin": true,
+    "passwordChangeRequired": true,
+    "passwordLastChanged": "2025-05-04T16:35:25.037Z",
+    "createdAt": "2025-05-04T16:35:25.037Z",
+    "updatedAt": "2025-05-04T16:35:25.141Z",
+    "__v": 0,
+    "registrationCompletionExpires": "2025-05-07T16:35:25.140Z",
+    "registrationCompletionToken": "1cc9daba107cb1fca90b380c429e1efd7a7b802be1137c9c356fdcbea330d08f"
+  }
+}
+2025-05-04 22:07:09 [info]: [DEBUG] Password match: 
+2025-05-04 22:07:09 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:07:09 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:07:09 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:07:09 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:07:09 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:07:09 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:07:09 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:07:09 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:09:06 [info]: POST /api/faculty/auth/change-password {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:09:06 [info]: 🔍 Headers Received: {
+  "host": "localhost:5000",
+  "connection": "keep-alive",
+  "content-length": "61",
+  "sec-ch-ua-platform": "\"Windows\"",
+  "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MTc5NzRkMmY2YzBmNTNmZjZjNzU5NiIsInJvbGUiOiJmYWN1bHR5IiwidW5pdmVyc2l0eUlkIjoiNjdlYmY4ZmQ2ZDY3ZmU5MTFhYmY4YzQyIiwicmVxdWlyZXNSZWdpc3RyYXRpb24iOnRydWUsImlhdCI6MTc0NjM3NjYyOSwiZXhwIjoxNzQ2OTgxNDI5fQ.8hsXIIg2uSMozIG7pA6phVshCnZxQuc8IJElE-26rTE",
+  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "accept": "application/json, text/plain, */*",
+  "sec-ch-ua": "\"Chromium\";v=\"136\", \"Microsoft Edge\";v=\"136\", \"Not.A/Brand\";v=\"99\"",
+  "content-type": "application/json",
+  "sec-ch-ua-mobile": "?0",
+  "origin": "http://localhost:3000",
+  "sec-fetch-site": "same-site",
+  "sec-fetch-mode": "cors",
+  "sec-fetch-dest": "empty",
+  "referer": "http://localhost:3000/",
+  "accept-encoding": "gzip, deflate, br, zstd",
+  "accept-language": "en-US,en;q=0.9,en-IN;q=0.8"
+}
+2025-05-04 22:09:06 [info]: 🔍 Authorization Header: 
+2025-05-04 22:09:06 [info]: 🔍 Extracted Token: 
+2025-05-04 22:09:06 [info]: 🔍 Decoded Token: {
+  "id": "6817974d2f6c0f53ff6c7596",
+  "role": "faculty",
+  "universityId": "67ebf8fd6d67fe911abf8c42",
+  "requiresRegistration": true,
+  "iat": 1746376629,
+  "exp": 1746981429
+}
+2025-05-04 22:09:06 [info]: ✅ Faculty Authenticated: randomstorage383@gmail.com 
+2025-05-04 22:09:06 [info]: ✅ Password changed for faculty: randomstorage383@gmail.com 
+2025-05-04 22:09:06 [info]: POST /api/faculty/complete-profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:12:05 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:12:05 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:12:05 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:12:05 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:12:05 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:12:05 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:12:05 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:12:05 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:14:21 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:14:21 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:14:21 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:14:21 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:14:21 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:14:21 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:14:21 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:14:21 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:15:05 [info]: POST /api/faculty/auth/change-password {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:15:05 [info]: 🔍 Headers Received: {
+  "host": "localhost:5000",
+  "connection": "keep-alive",
+  "content-length": "61",
+  "sec-ch-ua-platform": "\"Windows\"",
+  "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MTc5NzRkMmY2YzBmNTNmZjZjNzU5NiIsInJvbGUiOiJmYWN1bHR5IiwidW5pdmVyc2l0eUlkIjoiNjdlYmY4ZmQ2ZDY3ZmU5MTFhYmY4YzQyIiwicmVxdWlyZXNSZWdpc3RyYXRpb24iOnRydWUsImlhdCI6MTc0NjM3NjYyOSwiZXhwIjoxNzQ2OTgxNDI5fQ.8hsXIIg2uSMozIG7pA6phVshCnZxQuc8IJElE-26rTE",
+  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "accept": "application/json, text/plain, */*",
+  "sec-ch-ua": "\"Chromium\";v=\"136\", \"Microsoft Edge\";v=\"136\", \"Not.A/Brand\";v=\"99\"",
+  "content-type": "application/json",
+  "sec-ch-ua-mobile": "?0",
+  "origin": "http://localhost:3000",
+  "sec-fetch-site": "same-site",
+  "sec-fetch-mode": "cors",
+  "sec-fetch-dest": "empty",
+  "referer": "http://localhost:3000/",
+  "accept-encoding": "gzip, deflate, br, zstd",
+  "accept-language": "en-US,en;q=0.9,en-IN;q=0.8"
+}
+2025-05-04 22:15:05 [info]: 🔍 Authorization Header: 
+2025-05-04 22:15:05 [info]: 🔍 Extracted Token: 
+2025-05-04 22:15:05 [info]: 🔍 Decoded Token: {
+  "id": "6817974d2f6c0f53ff6c7596",
+  "role": "faculty",
+  "universityId": "67ebf8fd6d67fe911abf8c42",
+  "requiresRegistration": true,
+  "iat": 1746376629,
+  "exp": 1746981429
+}
+2025-05-04 22:15:05 [info]: ✅ Faculty Authenticated: randomstorage383@gmail.com 
+2025-05-04 22:15:05 [warn]: ⚠️ Password change failed: Incorrect current password - randomstorage383@gmail.com 
+2025-05-04 22:16:36 [info]: POST /api/faculty/auth/login {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:16:36 [info]: [DEBUG] Faculty login request body: {
+  "email": "randomstorage383@gmail.com",
+  "password": "Random@123",
+  "universityCode": "KLE-F104ED"
+}
+2025-05-04 22:16:36 [info]: [DEBUG] University lookup result: {
+  "$__": {
+    "activePaths": {
+      "paths": {
+        "universityCode": "init",
+        "universityName": "init",
+        "password": "init",
+        "email": "init",
+        "name": "init",
+        "status": "init",
+        "role": "init",
+        "_id": "init",
+        "createdAt": "init",
+        "updatedAt": "init",
+        "__v": "init"
+      },
+      "states": {
+        "require": {},
+        "default": {},
+        "init": {
+          "_id": true,
+          "name": true,
+          "email": true,
+          "password": true,
+          "universityName": true,
+          "universityCode": true,
+          "status": true,
+          "role": true,
+          "createdAt": true,
+          "updatedAt": true,
+          "__v": true
+        }
+      }
+    },
+    "skipId": true
+  },
+  "$isNew": false,
+  "_doc": {
+    "_id": "67ebf8fd6d67fe911abf8c42",
+    "name": "Suyog Nadiger",
+    "email": "suyogkumar212@gmail.com",
+    "password": "$2a$10$2.P/dE1bRAILF2M74axRh.bUqK0Eb0K1n8blwc7xOjTa6nmLteBVm",
+    "universityName": "KLE BCA Hubli",
+    "universityCode": "KLE-F104ED",
+    "status": "active",
+    "role": "admin",
+    "createdAt": "2025-04-01T14:32:29.205Z",
+    "updatedAt": "2025-04-01T14:32:29.205Z",
+    "__v": 0
+  }
+}
+2025-05-04 22:16:36 [info]: [DEBUG] Faculty lookup result: {
+  "$__": {
+    "activePaths": {
+      "paths": {
+        "employeeId": "init",
+        "department": "init",
+        "university": "init",
+        "universityName": "init",
+        "universityCode": "init",
+        "password": "init",
+        "email": "init",
+        "name": "init",
+        "role": "init",
+        "status": "init",
+        "subjects": "init",
+        "isAdmin": "init",
+        "isVerified": "init",
+        "classesAssigned": "init",
+        "researchInterests": "init",
+        "profileImage": "init",
+        "registrationCompleted": "init",
+        "isFirstLogin": "init",
+        "passwordChangeRequired": "init",
+        "_id": "init",
+        "passwordLastChanged": "init",
+        "createdAt": "init",
+        "updatedAt": "init",
+        "__v": "init",
+        "registrationCompletionExpires": "init",
+        "registrationCompletionToken": "init"
+      },
+      "states": {
+        "require": {},
+        "default": {},
+        "init": {
+          "_id": true,
+          "name": true,
+          "email": true,
+          "password": true,
+          "universityCode": true,
+          "universityName": true,
+          "university": true,
+          "department": true,
+          "employeeId": true,
+          "role": true,
+          "status": true,
+          "subjects": true,
+          "isAdmin": true,
+          "isVerified": true,
+          "classesAssigned": true,
+          "researchInterests": true,
+          "profileImage": true,
+          "registrationCompleted": true,
+          "isFirstLogin": true,
+          "passwordChangeRequired": true,
+          "passwordLastChanged": true,
+          "createdAt": true,
+          "updatedAt": true,
+          "__v": true,
+          "registrationCompletionExpires": true,
+          "registrationCompletionToken": true
+        }
+      }
+    },
+    "skipId": true
+  },
+  "$isNew": false,
+  "_doc": {
+    "_id": "6817974d2f6c0f53ff6c7596",
+    "name": "faculty",
+    "email": "randomstorage383@gmail.com",
+    "password": "$2a$10$6ecdfuubcrLM9OUfiFCKcuqUDK2lDA3tW3uWb13xZ/eMe2N3VgOSO",
+    "universityCode": "KLE-F104ED",
+    "universityName": "KLE BCA Hubli",
+    "university": "67ebf8fd6d67fe911abf8c42",
+    "department": "Technical",
+    "employeeId": "TEC002",
+    "role": "faculty",
+    "status": "pending",
+    "subjects": [],
+    "isAdmin": false,
+    "isVerified": true,
+    "classesAssigned": [],
+    "researchInterests": [],
+    "profileImage": "",
+    "registrationCompleted": false,
+    "isFirstLogin": true,
+    "passwordChangeRequired": false,
+    "passwordLastChanged": "2025-05-04T16:39:06.838Z",
+    "createdAt": "2025-05-04T16:35:25.037Z",
+    "updatedAt": "2025-05-04T16:39:06.839Z",
+    "__v": 0,
+    "registrationCompletionExpires": "2025-05-07T16:35:25.140Z",
+    "registrationCompletionToken": "1cc9daba107cb1fca90b380c429e1efd7a7b802be1137c9c356fdcbea330d08f"
+  }
+}
+2025-05-04 22:16:36 [info]: [DEBUG] Password match: 
+2025-05-04 22:16:36 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:16:36 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:16:36 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:16:36 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:16:36 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:16:36 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:16:36 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:16:36 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:17:46 [info]: POST /api/faculty/auth/change-password {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:17:46 [info]: 🔍 Headers Received: {
+  "host": "localhost:5000",
+  "connection": "keep-alive",
+  "content-length": "59",
+  "sec-ch-ua-platform": "\"Windows\"",
+  "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MTc5NzRkMmY2YzBmNTNmZjZjNzU5NiIsInJvbGUiOiJmYWN1bHR5IiwidW5pdmVyc2l0eUlkIjoiNjdlYmY4ZmQ2ZDY3ZmU5MTFhYmY4YzQyIiwicmVxdWlyZXNSZWdpc3RyYXRpb24iOnRydWUsImlhdCI6MTc0NjM3NzE5NiwiZXhwIjoxNzQ2OTgxOTk2fQ.YbqBGnYvD6SFKDT5URjxps8z3IKkW3fpx8foaHTyijM",
+  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "accept": "application/json, text/plain, */*",
+  "sec-ch-ua": "\"Chromium\";v=\"136\", \"Microsoft Edge\";v=\"136\", \"Not.A/Brand\";v=\"99\"",
+  "content-type": "application/json",
+  "sec-ch-ua-mobile": "?0",
+  "origin": "http://localhost:3000",
+  "sec-fetch-site": "same-site",
+  "sec-fetch-mode": "cors",
+  "sec-fetch-dest": "empty",
+  "referer": "http://localhost:3000/",
+  "accept-encoding": "gzip, deflate, br, zstd",
+  "accept-language": "en-US,en;q=0.9,en-IN;q=0.8"
+}
+2025-05-04 22:17:46 [info]: 🔍 Authorization Header: 
+2025-05-04 22:17:46 [info]: 🔍 Extracted Token: 
+2025-05-04 22:17:46 [info]: 🔍 Decoded Token: {
+  "id": "6817974d2f6c0f53ff6c7596",
+  "role": "faculty",
+  "universityId": "67ebf8fd6d67fe911abf8c42",
+  "requiresRegistration": true,
+  "iat": 1746377196,
+  "exp": 1746981996
+}
+2025-05-04 22:17:46 [info]: ✅ Faculty Authenticated: randomstorage383@gmail.com 
+2025-05-04 22:19:54 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:19:54 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:19:54 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:19:54 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:19:54 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:19:54 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:19:54 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:19:54 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:24:36 [info]: POST /api/faculty/auth/change-password {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:24:36 [info]: 🔍 Headers Received: {
+  "host": "localhost:5000",
+  "connection": "keep-alive",
+  "content-length": "59",
+  "sec-ch-ua-platform": "\"Windows\"",
+  "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MTc5NzRkMmY2YzBmNTNmZjZjNzU5NiIsInJvbGUiOiJmYWN1bHR5IiwidW5pdmVyc2l0eUlkIjoiNjdlYmY4ZmQ2ZDY3ZmU5MTFhYmY4YzQyIiwicmVxdWlyZXNSZWdpc3RyYXRpb24iOnRydWUsImlhdCI6MTc0NjM3NzE5NiwiZXhwIjoxNzQ2OTgxOTk2fQ.YbqBGnYvD6SFKDT5URjxps8z3IKkW3fpx8foaHTyijM",
+  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "accept": "application/json, text/plain, */*",
+  "sec-ch-ua": "\"Chromium\";v=\"136\", \"Microsoft Edge\";v=\"136\", \"Not.A/Brand\";v=\"99\"",
+  "content-type": "application/json",
+  "sec-ch-ua-mobile": "?0",
+  "origin": "http://localhost:3000",
+  "sec-fetch-site": "same-site",
+  "sec-fetch-mode": "cors",
+  "sec-fetch-dest": "empty",
+  "referer": "http://localhost:3000/",
+  "accept-encoding": "gzip, deflate, br, zstd",
+  "accept-language": "en-US,en;q=0.9,en-IN;q=0.8"
+}
+2025-05-04 22:24:36 [info]: 🔍 Authorization Header: 
+2025-05-04 22:24:36 [info]: 🔍 Extracted Token: 
+2025-05-04 22:24:36 [info]: 🔍 Decoded Token: {
+  "id": "6817974d2f6c0f53ff6c7596",
+  "role": "faculty",
+  "universityId": "67ebf8fd6d67fe911abf8c42",
+  "requiresRegistration": true,
+  "iat": 1746377196,
+  "exp": 1746981996
+}
+2025-05-04 22:24:36 [info]: ✅ Faculty Authenticated: randomstorage383@gmail.com 
+2025-05-04 22:25:36 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:25:36 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:25:36 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:25:36 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:25:36 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:25:36 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:25:36 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:25:36 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:26:17 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:26:17 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:26:17 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:26:17 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:26:17 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:26:17 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:26:17 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:26:17 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:29:31 [info]: POST /api/faculty/auth/change-password {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:29:31 [info]: 🔍 Headers Received: {
+  "host": "localhost:5000",
+  "connection": "keep-alive",
+  "content-length": "60",
+  "sec-ch-ua-platform": "\"Windows\"",
+  "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MTc5NzRkMmY2YzBmNTNmZjZjNzU5NiIsInJvbGUiOiJmYWN1bHR5IiwidW5pdmVyc2l0eUlkIjoiNjdlYmY4ZmQ2ZDY3ZmU5MTFhYmY4YzQyIiwicmVxdWlyZXNSZWdpc3RyYXRpb24iOnRydWUsImlhdCI6MTc0NjM3NzE5NiwiZXhwIjoxNzQ2OTgxOTk2fQ.YbqBGnYvD6SFKDT5URjxps8z3IKkW3fpx8foaHTyijM",
+  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "accept": "application/json, text/plain, */*",
+  "sec-ch-ua": "\"Chromium\";v=\"136\", \"Microsoft Edge\";v=\"136\", \"Not.A/Brand\";v=\"99\"",
+  "content-type": "application/json",
+  "sec-ch-ua-mobile": "?0",
+  "origin": "http://localhost:3000",
+  "sec-fetch-site": "same-site",
+  "sec-fetch-mode": "cors",
+  "sec-fetch-dest": "empty",
+  "referer": "http://localhost:3000/",
+  "accept-encoding": "gzip, deflate, br, zstd",
+  "accept-language": "en-US,en;q=0.9,en-IN;q=0.8"
+}
+2025-05-04 22:29:31 [info]: 🔍 Authorization Header: 
+2025-05-04 22:29:31 [info]: 🔍 Extracted Token: 
+2025-05-04 22:29:31 [info]: 🔍 Decoded Token: {
+  "id": "6817974d2f6c0f53ff6c7596",
+  "role": "faculty",
+  "universityId": "67ebf8fd6d67fe911abf8c42",
+  "requiresRegistration": true,
+  "iat": 1746377196,
+  "exp": 1746981996
+}
+2025-05-04 22:29:31 [info]: ✅ Faculty Authenticated: randomstorage383@gmail.com 
+2025-05-04 22:29:31 [info]: ✅ Password changed for faculty: randomstorage383@gmail.com 
+2025-05-04 22:29:31 [info]: POST /api/faculty/profile/complete {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:29:31 [info]: 🔍 Headers Received: {
+  "host": "localhost:5000",
+  "connection": "keep-alive",
+  "content-length": "158",
+  "sec-ch-ua-platform": "\"Windows\"",
+  "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MTc5NzRkMmY2YzBmNTNmZjZjNzU5NiIsInJvbGUiOiJmYWN1bHR5IiwidW5pdmVyc2l0eUlkIjoiNjdlYmY4ZmQ2ZDY3ZmU5MTFhYmY4YzQyIiwicmVxdWlyZXNSZWdpc3RyYXRpb24iOnRydWUsImlhdCI6MTc0NjM3NzE5NiwiZXhwIjoxNzQ2OTgxOTk2fQ.YbqBGnYvD6SFKDT5URjxps8z3IKkW3fpx8foaHTyijM",
+  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "accept": "application/json, text/plain, */*",
+  "sec-ch-ua": "\"Chromium\";v=\"136\", \"Microsoft Edge\";v=\"136\", \"Not.A/Brand\";v=\"99\"",
+  "content-type": "application/json",
+  "sec-ch-ua-mobile": "?0",
+  "origin": "http://localhost:3000",
+  "sec-fetch-site": "same-site",
+  "sec-fetch-mode": "cors",
+  "sec-fetch-dest": "empty",
+  "referer": "http://localhost:3000/",
+  "accept-encoding": "gzip, deflate, br, zstd",
+  "accept-language": "en-US,en;q=0.9,en-IN;q=0.8"
+}
+2025-05-04 22:29:31 [info]: 🔍 Authorization Header: 
+2025-05-04 22:29:31 [info]: 🔍 Extracted Token: 
+2025-05-04 22:29:31 [info]: 🔍 Decoded Token: {
+  "id": "6817974d2f6c0f53ff6c7596",
+  "role": "faculty",
+  "universityId": "67ebf8fd6d67fe911abf8c42",
+  "requiresRegistration": true,
+  "iat": 1746377196,
+  "exp": 1746981996
+}
+2025-05-04 22:29:31 [info]: ✅ Faculty Authenticated: randomstorage383@gmail.com 
+2025-05-04 22:29:42 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:29:42 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:29:42 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:29:42 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:29:42 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:29:42 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:29:42 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:29:42 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:30:05 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:30:05 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:30:06 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:30:06 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:30:06 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:30:06 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:30:06 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:30:06 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:32:45 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:32:45 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:32:46 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:32:46 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:32:46 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:32:46 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:32:46 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:32:46 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:34:00 [info]: POST /api/faculty/auth/change-password {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:34:00 [info]: 🔍 Headers Received: {
+  "host": "localhost:5000",
+  "connection": "keep-alive",
+  "content-length": "60",
+  "sec-ch-ua-platform": "\"Windows\"",
+  "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MTc5NzRkMmY2YzBmNTNmZjZjNzU5NiIsInJvbGUiOiJmYWN1bHR5IiwidW5pdmVyc2l0eUlkIjoiNjdlYmY4ZmQ2ZDY3ZmU5MTFhYmY4YzQyIiwicmVxdWlyZXNSZWdpc3RyYXRpb24iOnRydWUsImlhdCI6MTc0NjM3NzE5NiwiZXhwIjoxNzQ2OTgxOTk2fQ.YbqBGnYvD6SFKDT5URjxps8z3IKkW3fpx8foaHTyijM",
+  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "accept": "application/json, text/plain, */*",
+  "sec-ch-ua": "\"Chromium\";v=\"136\", \"Microsoft Edge\";v=\"136\", \"Not.A/Brand\";v=\"99\"",
+  "content-type": "application/json",
+  "sec-ch-ua-mobile": "?0",
+  "origin": "http://localhost:3000",
+  "sec-fetch-site": "same-site",
+  "sec-fetch-mode": "cors",
+  "sec-fetch-dest": "empty",
+  "referer": "http://localhost:3000/",
+  "accept-encoding": "gzip, deflate, br, zstd",
+  "accept-language": "en-US,en;q=0.9,en-IN;q=0.8"
+}
+2025-05-04 22:34:00 [info]: 🔍 Authorization Header: 
+2025-05-04 22:34:00 [info]: 🔍 Extracted Token: 
+2025-05-04 22:34:00 [info]: 🔍 Decoded Token: {
+  "id": "6817974d2f6c0f53ff6c7596",
+  "role": "faculty",
+  "universityId": "67ebf8fd6d67fe911abf8c42",
+  "requiresRegistration": true,
+  "iat": 1746377196,
+  "exp": 1746981996
+}
+2025-05-04 22:34:00 [info]: ✅ Faculty Authenticated: randomstorage383@gmail.com 
+2025-05-04 22:34:00 [info]: ✅ Password changed for faculty: randomstorage383@gmail.com 
+2025-05-04 22:34:00 [info]: POST /api/faculty/profile/complete {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:34:00 [info]: 🔍 Headers Received: {
+  "host": "localhost:5000",
+  "connection": "keep-alive",
+  "content-length": "158",
+  "sec-ch-ua-platform": "\"Windows\"",
+  "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MTc5NzRkMmY2YzBmNTNmZjZjNzU5NiIsInJvbGUiOiJmYWN1bHR5IiwidW5pdmVyc2l0eUlkIjoiNjdlYmY4ZmQ2ZDY3ZmU5MTFhYmY4YzQyIiwicmVxdWlyZXNSZWdpc3RyYXRpb24iOnRydWUsImlhdCI6MTc0NjM3NzE5NiwiZXhwIjoxNzQ2OTgxOTk2fQ.YbqBGnYvD6SFKDT5URjxps8z3IKkW3fpx8foaHTyijM",
+  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "accept": "application/json, text/plain, */*",
+  "sec-ch-ua": "\"Chromium\";v=\"136\", \"Microsoft Edge\";v=\"136\", \"Not.A/Brand\";v=\"99\"",
+  "content-type": "application/json",
+  "sec-ch-ua-mobile": "?0",
+  "origin": "http://localhost:3000",
+  "sec-fetch-site": "same-site",
+  "sec-fetch-mode": "cors",
+  "sec-fetch-dest": "empty",
+  "referer": "http://localhost:3000/",
+  "accept-encoding": "gzip, deflate, br, zstd",
+  "accept-language": "en-US,en;q=0.9,en-IN;q=0.8"
+}
+2025-05-04 22:34:00 [info]: 🔍 Authorization Header: 
+2025-05-04 22:34:00 [info]: 🔍 Extracted Token: 
+2025-05-04 22:34:00 [info]: 🔍 Decoded Token: {
+  "id": "6817974d2f6c0f53ff6c7596",
+  "role": "faculty",
+  "universityId": "67ebf8fd6d67fe911abf8c42",
+  "requiresRegistration": true,
+  "iat": 1746377196,
+  "exp": 1746981996
+}
+2025-05-04 22:34:00 [info]: ✅ Faculty Authenticated: randomstorage383@gmail.com 
+2025-05-04 22:34:11 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:34:11 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:34:11 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:34:11 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:34:11 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:34:11 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:34:11 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:34:11 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:34:29 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:34:29 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:34:29 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:34:29 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:34:29 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:34:29 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:34:29 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:34:29 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:34:38 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:34:38 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:34:39 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:34:39 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:34:39 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:34:39 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:34:39 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:34:39 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:34:41 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:34:41 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:34:41 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:34:41 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:34:41 [info]: Faculty faculty retrieved 2 courses 
+2025-05-04 22:34:41 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-04 22:34:41 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-04 22:34:41 [info]: Faculty faculty retrieved 2 courses 
+2025-05-05 00:51:55 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:51:55 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:51:55 [info]: Faculty faculty retrieved 2 courses 
+2025-05-05 00:51:55 [info]: GET /api/faculty/courses {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:51:55 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-05 00:51:55 [info]: GET /api/faculty/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:51:55 [info]: Faculty faculty retrieved 2 courses 
+2025-05-05 00:51:55 [info]: Faculty faculty retrieved 2 classrooms 
+2025-05-05 00:52:14 [info]: POST /api/admin/auth/verify-access-code {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:52:26 [info]: POST /api/admin/auth/login {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:52:27 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:52:27 [info]: Fetching faculty members: university=undefined 
+2025-05-05 00:52:27 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:52:27 [info]: Found 18 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:52:27 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:52:27 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:52:27 [info]: Fetching faculty members: university=undefined 
+2025-05-05 00:52:27 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:52:27 [info]: Found 18 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:52:27 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-05 00:52:27 [info]: GET /api/admin/students {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:52:27 [info]: GET /api/admin/latest-registrations {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:52:27 [info]: Retrieved 57 students for university: KLE BCA Hubli 
+2025-05-05 00:52:27 [info]: Retrieved latest registrations for university: KLE BCA Hubli 
+2025-05-05 00:52:27 [info]: GET /api/admin/latest-registrations {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:52:27 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:52:27 [info]: Retrieved latest registrations for university: KLE BCA Hubli 
+2025-05-05 00:52:27 [info]: GET /api/admin/auth/profile {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:52:31 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:52:31 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:52:31 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:52:31 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:52:39 [info]: GET /api/admin/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:52:39 [info]: Fetching all classrooms: university=undefined 
+2025-05-05 00:52:39 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:52:39 [info]: Found 2 classrooms for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:52:50 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:52:51 [info]: Fetching faculty members: university=undefined 
+2025-05-05 00:52:51 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:52:51 [info]: Found 18 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:52:52 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:52:52 [info]: Fetching faculty members: university=undefined 
+2025-05-05 00:52:52 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:52:52 [info]: Found 18 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:52:53 [info]: GET /api/admin/subjects?year=First&semester=1 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:52:53 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:53:07 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:53:07 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:53:07 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:53:07 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:53:25 [info]: GET /api/admin/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:53:25 [info]: Fetching all classrooms: university=undefined 
+2025-05-05 00:53:25 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:53:25 [info]: Found 2 classrooms for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:53:32 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:53:32 [info]: Fetching faculty members: university=undefined 
+2025-05-05 00:53:32 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:53:32 [info]: Found 18 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:53:33 [info]: GET /api/admin/subjects?year=First&semester=1 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:53:33 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:53:38 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:53:38 [info]: Fetching faculty members: university=undefined 
+2025-05-05 00:53:38 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:53:38 [info]: Found 18 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:53:40 [info]: GET /api/admin/subjects?year=First&semester=1 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:53:40 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:54:24 [info]: GET /api/admin/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:54:24 [info]: Fetching all classrooms: university=undefined 
+2025-05-05 00:54:24 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:54:24 [info]: Found 2 classrooms for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:56:55 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:56:55 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 00:56:55 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 00:56:55 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:01:31 [info]: GET /api/admin/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:01:32 [info]: Fetching all classrooms: university=undefined 
+2025-05-05 01:01:32 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:01:32 [info]: Found 2 classrooms for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:01:38 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:01:38 [info]: Fetching faculty members: university=undefined 
+2025-05-05 01:01:38 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:01:38 [info]: Found 18 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:01:51 [info]: GET /api/admin/subjects?year=First&semester=1 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:01:52 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:02:09 [info]: GET /api/admin/subjects?year=First&semester=1 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:02:10 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:02:24 [info]: GET /api/admin/subjects {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:02:24 [info]: GET /api/admin/subjects/academic-years {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:02:24 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:02:24 [info]: GET /api/admin/subjects {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:02:25 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:02:25 [info]: GET /api/admin/subjects/academic-years {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:02:29 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:02:29 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:02:29 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:02:29 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:02:55 [info]: GET /api/admin/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:02:55 [info]: Fetching all classrooms: university=undefined 
+2025-05-05 01:02:55 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:02:55 [info]: Found 2 classrooms for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:03:02 [info]: GET /api/admin/subjects?year=Second&semester=3 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:03:03 [info]: Retrieved 0 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:03:04 [info]: GET /api/admin/subjects?year=Second&semester=3 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:03:04 [info]: Retrieved 0 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:03:15 [info]: GET /api/admin/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:03:15 [info]: Fetching all classrooms: university=undefined 
+2025-05-05 01:03:15 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:03:15 [info]: Found 2 classrooms for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:03:23 [info]: GET /api/admin/subjects?year=First&semester=1 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:03:23 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:03:24 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:03:25 [info]: Fetching faculty members: university=undefined 
+2025-05-05 01:03:25 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:03:25 [info]: Found 18 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:06:55 [info]: GET /api/admin/subjects?year=First&semester=1 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:06:55 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:06:59 [info]: GET /api/admin/subjects {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:06:59 [info]: GET /api/admin/subjects/academic-years {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:06:59 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:06:59 [info]: GET /api/admin/subjects {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:06:59 [info]: GET /api/admin/subjects/academic-years {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:06:59 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:07:08 [info]: GET /api/admin/subjects/67f2c3780f3f31c74a6c020c {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:07:08 [info]: GET /api/admin/subjects/67f2c3780f3f31c74a6c020c {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:07:14 [info]: GET /api/admin/subjects {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:07:14 [info]: GET /api/admin/subjects/academic-years {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:07:14 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:07:14 [info]: GET /api/admin/subjects {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:07:14 [info]: GET /api/admin/subjects/academic-years {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:07:15 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:07:18 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:07:18 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:07:18 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:07:18 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:07:28 [info]: GET /api/admin/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:07:28 [info]: Fetching all classrooms: university=undefined 
+2025-05-05 01:07:28 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:07:28 [info]: Found 2 classrooms for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:07:34 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:07:34 [info]: Fetching faculty members: university=undefined 
+2025-05-05 01:07:34 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:07:34 [info]: Found 18 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:07:35 [info]: GET /api/admin/subjects?year=First&semester=1 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:07:35 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:08:04 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:08:04 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:08:04 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:08:04 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:08:14 [info]: GET /api/admin/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:08:14 [info]: Fetching all classrooms: university=undefined 
+2025-05-05 01:08:14 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:08:14 [info]: Found 2 classrooms for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:08:18 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:08:18 [info]: Fetching faculty members: university=undefined 
+2025-05-05 01:08:18 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:08:18 [info]: Found 18 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:08:19 [info]: GET /api/admin/subjects?year=First&semester=1 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:08:20 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:09:19 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:09:19 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:09:19 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:09:19 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:10:06 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:10:06 [info]: Fetching faculty members: university=undefined 
+2025-05-05 01:10:06 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:10:06 [info]: Found 18 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:10:06 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:10:06 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:10:07 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:10:07 [info]: GET /api/admin/auth/registration-codes {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:10:07 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:10:07 [info]: Fetching faculty members: university=undefined 
+2025-05-05 01:10:07 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:10:07 [info]: Found 18 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:11:40 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:11:40 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:11:41 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:11:41 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:16:46 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:16:46 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:17:32 [info]: GET /api/admin/classrooms {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:17:32 [info]: Fetching all classrooms: university=undefined 
+2025-05-05 01:17:32 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:17:32 [info]: Found 2 classrooms for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:17:48 [info]: GET /api/admin/faculty {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:17:48 [info]: Fetching faculty members: university=undefined 
+2025-05-05 01:17:48 [info]: Using admin's university ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:17:48 [info]: Found 18 faculty members for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:17:49 [info]: GET /api/admin/subjects?year=First&semester=1 {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:17:50 [info]: Retrieved 2 subjects for university 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:18:10 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:18:10 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 
+2025-05-05 01:18:10 [info]: GET /api/auth/me {
+  "ip": "127.0.0.1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+}
+2025-05-05 01:18:10 [info]: ✅ User Authenticated: admin - ID: 67ebf8fd6d67fe911abf8c42 

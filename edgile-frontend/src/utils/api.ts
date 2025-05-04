@@ -397,16 +397,13 @@ const authAPI = {
     }
   },
 
-  facultyLogin: async (email: string, password: string, code: string) => {
+  facultyLogin: async (email: string, password: string, universityCode: string) => {
     try {
-      // Pass both params to ensure compatibility with backend 
       const response = await api.post("/api/faculty/auth/login", {
         email,
         password,
-        universityCode: code,
-        registrationCode: code // Send both parameters to ensure at least one matches what backend expects
+        universityCode,
       });
-      
       return response.data;
     } catch (error: any) {
       throw error;
@@ -1200,6 +1197,12 @@ const facultyAPI = {
 
   changePassword: async (currentPassword: string, newPassword: string) => {
     try {
+      // Validate new password meets requirements
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      if (!passwordRegex.test(newPassword)) {
+        throw new Error("Password must be at least 8 characters and include an uppercase letter, a lowercase letter, a number, and a special character (@$!%*?&)");
+      }
+
       const response = await api.post("/api/faculty/auth/change-password", {
         currentPassword,
         newPassword
@@ -1221,7 +1224,7 @@ const facultyAPI = {
     profileImage?: string;
   }) => {
     try {
-      const response = await api.post("/api/faculty/complete-profile", profileData);
+      const response = await api.post("/api/faculty/profile/complete", profileData);
       return response.data;
     } catch (error) {
       throw error;

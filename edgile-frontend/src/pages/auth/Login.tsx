@@ -45,13 +45,11 @@ const Login: React.FC = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [registrationCode, setRegistrationCode] = useState("");
   const [universityCode, setUniversityCode] = useState("");
   const [role, setRole] = useState<UserRole>("student");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [registrationCodeValid, setRegistrationCodeValid] = useState<boolean | null>(null);
   const [validatingCode, setValidatingCode] = useState(false);
 
   // Clear any existing tokens on component mount to ensure fresh login
@@ -81,43 +79,6 @@ const Login: React.FC = () => {
     };
   }, [location.state]);
 
-  // Validate registration code for faculty
-  const validateRegistrationCode = async (code: string) => {
-    if (!code || role !== 'faculty') return;
-    
-    setValidatingCode(true);
-    try {
-      console.log("Validating faculty registration code:", code);
-      const response = await codesAPI.verifyCode(code);
-      if (response.success) {
-        setRegistrationCodeValid(true);
-        setError("");
-        console.log("Registration code is valid:", response);
-      } else {
-        setRegistrationCodeValid(false);
-        setError("Invalid registration code - This code is required for faculty login");
-        console.warn("Registration code validation failed:", response);
-      }
-    } catch (err: any) {
-      console.error("Registration code validation error:", err);
-      setRegistrationCodeValid(false);
-      setError(err.response?.data?.message || "Invalid registration code - Please contact an administrator");
-    } finally {
-      setValidatingCode(false);
-    }
-  };
-
-  // Validate registration code when it changes
-  useEffect(() => {
-    if (role === 'faculty' && registrationCode) {
-      const debounceTimeout = setTimeout(() => {
-        validateRegistrationCode(registrationCode);
-      }, 500);
-      
-      return () => clearTimeout(debounceTimeout);
-    }
-  }, [registrationCode, role]);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -132,14 +93,14 @@ const Login: React.FC = () => {
 
       switch (role) {
         case "faculty":
-          if (!registrationCode) {
-            throw new Error("Registration code is required");
+          if (!universityCode) {
+            throw new Error("University code is required");
           }
           
           try {
-            console.log("Making faculty login API call with registration code as university code...");
-            // Faculty login - returns token, user, etc. - pass registrationCode as universityCode
-            const facultyResponse = await facultyLogin(email, password, registrationCode);
+            console.log("Making faculty login API call with university code...");
+            // Faculty login - returns token, user, etc. - pass universityCode
+            const facultyResponse = await facultyLogin(email, password, universityCode);
             console.log('Faculty login response received:', facultyResponse);
             
             // Clear password from memory after successful login
@@ -196,8 +157,7 @@ const Login: React.FC = () => {
       // Check if it's a critical error that requires page refresh
       const errorMessage = err.message || "Login failed";
       const requiresRefresh = errorMessage.includes("university code") || 
-                              errorMessage.includes("registration code") || 
-                              errorMessage.includes("university/registration");
+                              errorMessage.includes("university/employee");
       
       setError(errorMessage);
       showSnackbar(errorMessage, "error");
@@ -432,7 +392,6 @@ const Login: React.FC = () => {
                   onChange={(_, newRole) => {
                     if (newRole) {
                       setRole(newRole);
-                      setRegistrationCodeValid(null); // Reset validation when role changes
                       setError(""); // Clear any previous errors
                     }
                   }}
@@ -604,66 +563,20 @@ const Login: React.FC = () => {
                 ) : (
                   <TextField
                     fullWidth
-                    label="Registration Code"
+                    label="University Code"
                     variant="outlined"
-                    value={registrationCode}
-                    onChange={(e) => setRegistrationCode(e.target.value)}
-                    error={registrationCodeValid === false}
-                    helperText={registrationCodeValid === false ? "Invalid registration code" : ""}
+                    value={universityCode}
+                    onChange={(e) => setUniversityCode(e.target.value)}
+                    required={true}
                     type="text"
-                    name="registrationCode"
+                    name="universityCode"
                     autoComplete="one-time-code"
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <IconTicket size={18} color="rgba(255, 255, 255, 0.7)" />
+                          <IconSchool size={18} color="rgba(255, 255, 255, 0.7)" />
                         </InputAdornment>
                       ),
-                      endAdornment: validatingCode ? (
-                        <InputAdornment position="end">
-                          <CircularProgress size={20} color="inherit" />
-                        </InputAdornment>
-                      ) : registrationCodeValid === true ? (
-                        <InputAdornment position="end">
-                          <Box sx={{ color: 'green', fontWeight: 'bold' }}>✓</Box>
-                        </InputAdornment>
-                      ) : null
-                    }}
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                        color: "rgba(255, 255, 255, 0.9)",
-                        transition: "all 0.2s ease",
-                        "&:hover .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "rgba(124, 58, 237, 0.5)",
-                        },
-                        "& .MuiOutlinedInput-notchedOutline": {
-                          borderColor: registrationCodeValid === false 
-                            ? "rgba(255, 87, 87, 0.5)" 
-                            : registrationCodeValid === true
-                              ? "rgba(87, 255, 87, 0.5)"
-                              : "rgba(255, 255, 255, 0.2)",
-                        },
-                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                          borderColor: registrationCodeValid === false 
-                            ? "rgba(255, 87, 87, 0.8)" 
-                            : registrationCodeValid === true
-                              ? "rgba(87, 255, 87, 0.8)"
-                              : "#7c3aed",
-                        },
-                      },
-                      "& .MuiInputLabel-root": {
-                        color: registrationCodeValid === false 
-                          ? "rgba(255, 87, 87, 0.8)" 
-                          : "rgba(255, 255, 255, 0.7)",
-                        "&.Mui-focused": {
-                          color: registrationCodeValid === false 
-                            ? "rgba(255, 87, 87, 0.8)" 
-                            : "#7c3aed",
-                        },
-                      },
-                      "& .MuiFormHelperText-root": {
-                        color: "rgba(255, 87, 87, 0.8)",
-                      }
                     }}
                   />
                 )}
@@ -684,7 +597,7 @@ const Login: React.FC = () => {
                     variant="contained"
                     fullWidth
                     size="large"
-                    disabled={isLoading || (role === 'faculty' && registrationCodeValid === false)}
+                    disabled={isLoading || (role === 'faculty' && !universityCode)}
                     sx={{
                       mt: 2,
                       py: { xs: 1.25, sm: 1.5 },

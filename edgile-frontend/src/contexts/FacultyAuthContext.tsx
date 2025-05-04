@@ -92,15 +92,16 @@ export const FacultyAuthProvider: React.FC<{ children: React.ReactNode }> = ({ c
       // Update local state
       const updatedFaculty = {
         ...faculty,
-        status: status ? 'active' : 'pending',
-        registrationCompleted: status
+        status: 'active',
+        registrationCompleted: true,
+        isFirstLogin: false
       };
       setFaculty(updatedFaculty);
       
       // Update localStorage
       localStorage.setItem('user', JSON.stringify(updatedFaculty));
       
-      console.log('Faculty activation status updated:', status ? 'active' : 'pending');
+      console.log('Faculty activation status updated:', updatedFaculty);
     }
   };
 

@@ -230,11 +230,7 @@ const DashboardContent: React.FC<{ children: React.ReactNode }> = ({ children })
         <div className="flex-1">
           <TopNavbar isSidebarOpen={open} />
           <motion.div 
-            className={`flex-1 min-h-screen transition-colors duration-300 ${
-              isDarkMode 
-                ? 'bg-gray-900 text-gray-100' 
-                : 'bg-white text-gray-900'
-            }`}
+            className="flex-1 min-h-screen transition-colors duration-300 bg-white text-gray-900"
             animate={{
               marginLeft: open ? "260px" : "70px",
               marginTop: "64px",
