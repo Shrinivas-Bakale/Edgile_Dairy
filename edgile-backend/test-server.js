@@ -5,7 +5,7 @@ app.get('/', (req, res) => {
   res.json({ message: 'Test server is running!' });
 });
 
-const PORT = 3000;
+const PORT = 5173;
 
 console.log('Starting test server...');
 try {
