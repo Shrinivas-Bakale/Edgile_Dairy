@@ -1,9 +1,16 @@
 import React from 'react';
 
-const LoadingSpinner: React.FC = () => {
+interface LoadingSpinnerProps {
+  size?: number;
+}
+
+const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ size = 12 }) => {
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+    <div className="flex items-center justify-center">
+      <div 
+        className="animate-spin rounded-full border-b-2 border-indigo-600"
+        style={{ width: `${size}px`, height: `${size}px` }}
+      ></div>
     </div>
   );
 };

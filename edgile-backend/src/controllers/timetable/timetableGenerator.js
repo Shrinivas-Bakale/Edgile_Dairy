@@ -235,6 +235,7 @@ const createTimetable = async (params) => {
     // Create the timetable
     const timetable = new Timetable({
       ...template,
+      university,
       status: 'draft',
       createdBy,
       history: [{

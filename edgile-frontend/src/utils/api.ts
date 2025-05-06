@@ -1023,6 +1023,7 @@ const adminAPI = {
     year: string;
     semester: number;
     academicYear: string;
+    description?: string;
   }) => {
     try {
       const response = await api.post('/api/admin/subjects', subjectData);
@@ -1054,6 +1055,7 @@ const adminAPI = {
     totalDuration?: number;
     year?: string;
     semester?: number;
+    description?: string;
     archived?: boolean;
   }) => {
     try {
@@ -1236,20 +1238,20 @@ const facultyAPI = {
     try {
       const response = await api.get('/api/faculty/courses');
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       const err = handleApiError(error);
-      return { success: false, courses: [], message: err.message };
+      return { success: false, message: err.message };
     }
   },
   
   // Get a specific course by ID
-  getCourseById: async (courseId: string) => {
+  getCourseById: async (id: string) => {
     try {
-      const response = await api.get(`/api/faculty/courses/${courseId}`);
+      const response = await api.get(`/api/faculty/courses/${id}`);
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       const err = handleApiError(error);
-      return { success: false, course: null, message: err.message };
+      return { success: false, message: err.message };
     }
   },
   

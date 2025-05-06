@@ -41,7 +41,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowedRoles 
       const token = localStorage.getItem('token');
       const userStr = localStorage.getItem('user');
       
-      // If no token or user data, force logout and redirect
+      // If no token or user data, show message and redirect to login
       if (!token || !userStr) {
         showSnackbar('Please log in to access this page', 'warning');
         navigate('/login', { replace: true, state: { from: location } });
@@ -60,9 +60,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowedRoles 
             throw new Error('Invalid user data structure');
           }
         } catch (parseError) {
-          // Handle JSON parse error or invalid structure
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
+          // Handle JSON parse error or invalid structure - don't clear storage automatically,
+          // just redirect to login with warning
           showSnackbar('Invalid session data. Please log in again', 'error');
           navigate('/login', { replace: true, state: { from: location } });
           setIsLoading(false);
@@ -83,24 +82,23 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowedRoles 
         // If we're here, user is authorized
         setIsAuthorized(true);
         setIsLoading(false);
-      } catch (e) {
-        // Handle other errors during authentication check
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        showSnackbar('Authentication error. Please log in again', 'error');
-        navigate('/login', { replace: true, state: { from: location } });
+      } catch (error) {
+        // General error handling - don't clear storage automatically
+        console.error('Error checking authentication:', error);
+        showSnackbar('Authentication error. Please try refreshing the page.', 'error');
         setIsLoading(false);
       }
     };
     
     checkAuth();
-  }, [location.pathname, allowedRoles, navigate, showSnackbar, location]);
+  }, [allowedRoles, location, navigate, showSnackbar]);
 
-  // Show loading state
   if (isLoading) {
-    return <div className="flex justify-center items-center h-screen">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
-    </div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div>
+      </div>
+    );
   }
 
   // Special handling for faculty routes - ensure either context auth or localStorage auth

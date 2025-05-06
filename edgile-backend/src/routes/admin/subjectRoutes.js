@@ -221,7 +221,8 @@ router.post('/subjects',
       totalDuration, 
       year, 
       semester,
-      academicYear
+      academicYear,
+      description
     } = req.body;
     
     // Get admin details
@@ -259,6 +260,7 @@ router.post('/subjects',
       year,
       semester,
       academicYear,
+      description: description || '',
       university: admin._id,
       universityCode: admin.universityCode,
       createdBy: admin._id

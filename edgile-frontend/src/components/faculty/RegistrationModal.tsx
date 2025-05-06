@@ -19,9 +19,10 @@ import { useFacultyAuth } from '../../contexts/FacultyAuthContext';
 
 interface RegistrationModalProps {
   open: boolean;
+  onClose?: () => void;
 }
 
-const RegistrationModal: React.FC<RegistrationModalProps> = ({ open }) => {
+const RegistrationModal: React.FC<RegistrationModalProps> = ({ open, onClose }) => {
   const { showSnackbar } = useSnackbar();
   const { updateActivationStatus } = useFacultyAuth();
   const [isLoading, setIsLoading] = useState(false);
@@ -150,7 +151,7 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ open }) => {
       open={open} 
       maxWidth="md"
       fullWidth
-      // No onClose prop - prevent closing until completed
+      onClose={onClose}
       sx={{
         '& .MuiDialog-paper': {
           borderRadius: 2,

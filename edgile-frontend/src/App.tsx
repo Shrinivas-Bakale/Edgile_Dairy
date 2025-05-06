@@ -34,8 +34,12 @@ import FacultyPage from './pages/FacultyPage';
 import StudentsPage from './pages/admin/StudentsPage';
 import RegistrationCodes from './pages/admin/RegistrationCodes';
 import FacultyDashboard from './pages/faculty/FacultyDashboard';
+import FacultyCourses from './pages/faculty/Courses';
+import FacultyCourseDetail from './pages/faculty/CourseDetail';
 import TokenRegistration from './pages/faculty/TokenRegistration';
 import StudentDashboard from './pages/student/Dashboard';
+import StudentCourses from './pages/student/Courses';
+import StudentCourseDetail from './pages/student/CourseDetail';
 import StudentProfile from './pages/student/Profile';
 import LoginLogs from './pages/admin/LoginLogs';
 import RegistrationLogs from './pages/admin/RegistrationLogs';
@@ -241,10 +245,42 @@ const AppRoutes = () => {
             } 
           />
           <Route 
+            path="/faculty/courses" 
+            element={
+              <ProtectedRoute allowedRoles={['faculty']}>
+                <FacultyCourses />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/faculty/courses/:id" 
+            element={
+              <ProtectedRoute allowedRoles={['faculty']}>
+                <FacultyCourseDetail />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
             path="/student/dashboard" 
             element={
               <ProtectedRoute allowedRoles={['student']}>
                 <StudentDashboard />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/student/courses" 
+            element={
+              <ProtectedRoute allowedRoles={['student']}>
+                <StudentCourses />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/student/courses/:id" 
+            element={
+              <ProtectedRoute allowedRoles={['student']}>
+                <StudentCourseDetail />
               </ProtectedRoute>
             } 
           />

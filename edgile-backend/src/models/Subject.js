@@ -12,6 +12,11 @@ const SubjectSchema = new Schema({
     required: [true, 'Subject code is required'],
     trim: true
   },
+  description: {
+    type: String,
+    default: '',
+    trim: true
+  },
   type: {
     type: String,
     enum: ['core', 'lab', 'elective'],

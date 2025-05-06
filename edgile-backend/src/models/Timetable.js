@@ -49,6 +49,11 @@ const historyEntrySchema = new mongoose.Schema({
 });
 
 const timetableSchema = new mongoose.Schema({
+  university: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Admin',
+    required: [true, 'University is required']
+  },
   year: {
     type: String,
     enum: ['First', 'Second', 'Third'],
@@ -67,7 +72,7 @@ const timetableSchema = new mongoose.Schema({
   classroomId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Classroom',
-    required: [true, 'Classroom ID is required']
+    required: false
   },
   days: [daySchema],
   status: {
@@ -79,7 +84,7 @@ const timetableSchema = new mongoose.Schema({
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Admin',
-    required: [true, 'Creator ID is required']
+    required: false
   },
   createdAt: {
     type: Date,

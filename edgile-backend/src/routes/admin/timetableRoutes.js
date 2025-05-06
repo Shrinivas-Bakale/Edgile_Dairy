@@ -53,13 +53,38 @@ router.get('/list', async (req, res) => {
   try {
     const { university, year, semester, division, academicYear } = req.query;
     
-    const timetables = await Timetable.find({
-      university,
-      year,
-      semester,
-      division,
-      academicYear
-    }).sort({ createdAt: -1 });
+    if (!university) {
+      logger.warn('Missing required university parameter');
+      return res.status(400).json({
+        success: false,
+        message: 'University parameter is required'
+      });
+    }
+    
+    // Build query based on provided parameters
+    const query = { university };
+    
+    if (year) {
+      query.year = year;
+    }
+    
+    if (semester) {
+      query.semester = parseInt(semester);
+    }
+    
+    if (division) {
+      query.division = division;
+    }
+    
+    if (academicYear) {
+      query.academicYear = academicYear;
+    }
+    
+    logger.info(`Fetching timetables with query: ${JSON.stringify(query)}`);
+    
+    const timetables = await Timetable.find(query).sort({ createdAt: -1 });
+    
+    logger.info(`Found ${timetables.length} timetables for university=${university}`);
 
     return res.status(200).json({
       success: true,
@@ -236,40 +261,40 @@ router.post('/create', async (req, res) => {
       logger.info(`Using calculated academicYear: ${academicYear}`);
     }
 
-    // Create the timetable
-    const timetable = new Timetable({
+    // Create the timetable with all fields, making createdBy and classroomId optional
+    const timetableData = {
       university,
       year: template.year,
       semester: template.semester,
       division: template.division,
-      classroom: template.classroomId,
       academicYear,
       days: template.days,
       status: 'draft'
-    });
+    };
+    
+    // Only add optional fields if they are provided
+    if (template.classroomId) {
+      timetableData.classroomId = template.classroomId;
+    }
+    
+    if (template.createdBy) {
+      timetableData.createdBy = template.createdBy;
+    } else if (req.admin?._id) {
+      timetableData.createdBy = req.admin._id;
+    }
+    
+    // Create and save the timetable
+    const timetable = new Timetable(timetableData);
 
     await timetable.save();
     logger.info(`Timetable created with ID: ${timetable._id}`);
-
-    if (assignFaculty) {
-      // Get faculty preferences
-      const preferences = await FacultyPreference.find({
-        university,
-        year: template.year,
-        semester: template.semester,
-        academicYear
-      }).populate('faculty');
-      logger.info(`Found ${preferences.length} faculty preferences for assignment`);
-
-      // Assign faculty based on preferences
-      await timetableGenerator.assignFaculty(timetable, preferences);
-      logger.info(`Faculty assigned to timetable ID: ${timetable._id}`);
-    }
-
+    
     return res.status(201).json({
       success: true,
+      message: 'Timetable created successfully',
       data: timetable
     });
+    
   } catch (error) {
     logger.error(`Error creating timetable: ${error.message}`);
     return res.status(500).json({

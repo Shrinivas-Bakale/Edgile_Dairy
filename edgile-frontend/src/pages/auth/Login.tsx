@@ -154,15 +154,18 @@ const Login: React.FC = () => {
     } catch (err: any) {
       console.error('Login error:', err);
       
-      // Check if it's a critical error that requires page refresh
+      // Get the error message
       const errorMessage = err.message || "Login failed";
-      const requiresRefresh = errorMessage.includes("university code") || 
-                              errorMessage.includes("university/employee");
+      
+      // Don't refresh page for credential errors, only for university code issues that need refresh
+      const requiresRefresh = errorMessage.includes("university code") && 
+                             !errorMessage.includes("Invalid credentials") &&
+                             !errorMessage.includes("invalid");
       
       setError(errorMessage);
       showSnackbar(errorMessage, "error");
       
-      // Automatically refresh the page after 3 seconds for specific errors
+      // Only refresh for specific university code errors that require it
       if (requiresRefresh) {
         showSnackbar("Page will refresh in 3 seconds to resolve the issue...", "info");
         setTimeout(() => {

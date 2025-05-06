@@ -13,6 +13,7 @@ interface Subject {
   subjectCode: string;
   type: 'core' | 'lab' | 'elective';
   totalDuration: number;
+  description: string;
 }
 
 interface AddSubjectModalProps {
@@ -44,7 +45,8 @@ const AddSubjectModal: React.FC<AddSubjectModalProps> = ({
     subjectName: '',
     subjectCode: '',
     type: 'core',
-    totalDuration: 48
+    totalDuration: 48,
+    description: ''
   }]);
   
   const [errors, setErrors] = useState<{ 
@@ -126,7 +128,7 @@ const AddSubjectModal: React.FC<AddSubjectModalProps> = ({
   };
   
   // Handle subject data changes
-  const handleSubjectChange = (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleSubjectChange = (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
     const updatedSubjects = [...subjects];
     
@@ -161,7 +163,8 @@ const AddSubjectModal: React.FC<AddSubjectModalProps> = ({
         subjectName: '',
         subjectCode: '',
         type: 'core',
-        totalDuration: 48
+        totalDuration: 48,
+        description: ''
       }
     ]);
     
@@ -183,7 +186,8 @@ const AddSubjectModal: React.FC<AddSubjectModalProps> = ({
         subjectName: '',
         subjectCode: '',
         type: 'core',
-        totalDuration: 48
+        totalDuration: 48,
+        description: ''
       }]);
       
       setErrors({
@@ -337,7 +341,8 @@ const AddSubjectModal: React.FC<AddSubjectModalProps> = ({
       subjectName: '',
       subjectCode: '',
       type: 'core',
-      totalDuration: 48
+      totalDuration: 48,
+      description: ''
     }]);
     
     setErrors({
@@ -595,6 +600,20 @@ const AddSubjectModal: React.FC<AddSubjectModalProps> = ({
                       </p>
                     )}
                   </div>
+                </div>
+                
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Description
+                  </label>
+                  <textarea
+                    name="description"
+                    value={subject.description}
+                    onChange={(e) => handleSubjectChange(index, e)}
+                    rows={3}
+                    className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white`}
+                    placeholder="Enter a course description..."
+                  />
                 </div>
               </div>
             ))}

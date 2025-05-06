@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import DashboardWrapper from '../../components/DashboardWrapper';
 import { useAuth } from '../../contexts/AuthContext';
+import { useSnackbar } from '../../contexts/SnackbarContext';
 import { adminAPI } from '../../utils/api';
 import { 
   IconBook, 
@@ -28,6 +29,7 @@ interface Subject {
   createdAt: string;
   updatedAt: string;
   archived: boolean;
+  description?: string;
 }
 
 interface FacultyPreference {
@@ -46,6 +48,7 @@ const SubjectEditPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { showSnackbar } = useSnackbar();
   
   // State for subject data
   const [subject, setSubject] = useState<Subject | null>(null);
@@ -58,7 +61,8 @@ const SubjectEditPage: React.FC = () => {
     type: 'core' as 'core' | 'lab' | 'elective',
     totalDuration: 48,
     year: 'First',
-    semester: 1
+    semester: 1,
+    description: ''
   });
   
   // UI state
@@ -89,7 +93,8 @@ const SubjectEditPage: React.FC = () => {
             type: response.subject.type,
             totalDuration: response.subject.totalDuration,
             year: response.subject.year,
-            semester: response.subject.semester
+            semester: response.subject.semester,
+            description: response.subject.description || ''
           });
         } else {
           setError('Failed to load subject details');
@@ -212,14 +217,44 @@ const SubjectEditPage: React.FC = () => {
             Edit Subject
           </h1>
           
-          {!loading && subject && !subject.archived && (
-            <button
-              onClick={handleArchive}
-              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md flex items-center"
-            >
-              <IconTrash size={20} className="mr-1" />
-              Archive Subject
-            </button>
+          {!loading && subject && (
+            <div className="flex items-center space-x-4">
+              {subject.archived ? (
+                <button
+                  onClick={async () => {
+                    if (window.confirm('Are you sure you want to restore this subject?')) {
+                      try {
+                        setLoading(true);
+                        const response = await adminAPI.updateSubject(id!, { archived: false });
+                        if (response.success) {
+                          setLoading(false);
+                          setSubject({ ...subject, archived: false });
+                          showSnackbar('Subject restored successfully', 'success');
+                        } else {
+                          setLoading(false);
+                          showSnackbar(response.message || 'Failed to restore subject', 'error');
+                        }
+                      } catch (error) {
+                        setLoading(false);
+                        showSnackbar('An error occurred while restoring the subject', 'error');
+                      }
+                    }
+                  }}
+                  className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md flex items-center"
+                >
+                  <IconCheck size={20} className="mr-1" />
+                  Restore Subject
+                </button>
+              ) : (
+                <button
+                  onClick={handleArchive}
+                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md flex items-center"
+                >
+                  <IconTrash size={20} className="mr-1" />
+                  Archive Subject
+                </button>
+              )}
+            </div>
           )}
         </div>
         
@@ -258,35 +293,52 @@ const SubjectEditPage: React.FC = () => {
                 <form onSubmit={handleSubmit}>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      <label htmlFor="subjectName" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                         Subject Name
                       </label>
                       <input
-                        type="text"
+                        id="subjectName"
                         name="subjectName"
+                        type="text"
                         value={formData.subjectName}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                        className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-gray-700 dark:text-white"
                         required
                       />
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      <label htmlFor="subjectCode" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                         Subject Code
                       </label>
                       <input
-                        type="text"
+                        id="subjectCode"
                         name="subjectCode"
+                        type="text"
                         value={formData.subjectCode}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                        className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-gray-700 dark:text-white"
                         required
                       />
                     </div>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Course Description
+                      </label>
+                      <textarea
+                        id="description"
+                        name="description"
+                        value={formData.description}
+                        onChange={handleChange}
+                        rows={4}
+                        className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-gray-700 dark:text-white"
+                        placeholder="Enter a detailed course description..."
+                      />
+                    </div>
+                    
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Type
@@ -302,7 +354,9 @@ const SubjectEditPage: React.FC = () => {
                         <option value="elective">Elective</option>
                       </select>
                     </div>
-                    
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Total Duration (hours)
@@ -467,6 +521,17 @@ const SubjectEditPage: React.FC = () => {
                   </div>
                 )}
               </div>
+            </div>
+          </div>
+        )}
+        
+        {/* Archived status warning if the subject is archived */}
+        {!loading && subject && subject.archived && (
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-md flex items-start">
+            <IconAlertCircle size={24} className="mt-0.5 mr-3 flex-shrink-0" />
+            <div>
+              <p className="font-medium">Archived Subject</p>
+              <p>This subject is currently archived and will not appear in default subject lists.</p>
             </div>
           </div>
         )}

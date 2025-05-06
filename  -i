@@ -1,8 +1,0 @@
-MONGODB_URI=mongodb://localhost:27017/edgile
-JWT_SECRET=your-secret-key
-NODE_ENV=development
-EMAIL_SERVICE=gmail
-EMAIL_USER=your-email@gmail.com
-EMAIL_PASS=your-app-specific-password
-PORT=5001
-CORS_ORIGIN=http://localhost:5173
