@@ -34,6 +34,26 @@ const attendanceRecordSchema = new Schema({
     ref: "University",
     required: true
   },
+  class: {
+    type: Schema.Types.ObjectId,
+    ref: "Class"
+  },
+  subject: {
+    type: Schema.Types.ObjectId,
+    ref: "Subject"
+  },
+  student: {
+    type: Schema.Types.ObjectId,
+    ref: "Student"
+  },
+  faculty: {
+    type: Schema.Types.ObjectId,
+    ref: "Faculty"
+  },
+  university: {
+    type: Schema.Types.ObjectId,
+    ref: "University"
+  },
   date: {
     type: Date,
     required: true

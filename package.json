@@ -4,6 +4,9 @@
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.0",
-    "date-fns": "^4.1.0"
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "motion": "^12.11.3",
+    "tailwind-merge": "^3.3.0"
   }
 }

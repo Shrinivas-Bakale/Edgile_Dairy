@@ -43,6 +43,10 @@ const SubjectSchema = new Schema({
     enum: [1, 2, 3, 4, 5, 6],
     required: [true, 'Semester is required']
   },
+  class: {
+    type: Schema.Types.ObjectId,
+    ref: 'Class'
+  },
   university: {
     type: Schema.Types.ObjectId,
     ref: 'Admin',

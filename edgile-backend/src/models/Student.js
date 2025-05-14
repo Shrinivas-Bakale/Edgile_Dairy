@@ -42,6 +42,11 @@ const studentSchema = new mongoose.Schema(
         return this.isVerified; // Only required after verification
       },
     },
+    // Reference to class
+    class: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Class'
+    },
     // Reference to the university admin
     university: {
       type: mongoose.Schema.Types.ObjectId,

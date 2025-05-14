@@ -32,21 +32,35 @@ exports.getMyAttendance = async (req, res) => {
       });
     }
 
-    // Build query
+    // Build query with both field naming patterns
     const query = {
-      student: studentId,
-      date: { $gte: start, $lte: end }
+      $or: [
+        { student: studentId, date: { $gte: start, $lte: end } },
+        { studentId: studentId, date: { $gte: start, $lte: end } }
+      ]
     };
 
     // Add subject filter if provided
     if (subjectId) {
-      query.subject = subjectId;
+      query.$or = query.$or.map(q => ({
+        ...q,
+        $or: [
+          { subject: subjectId },
+          { subjectId: subjectId }
+        ]
+      }));
     }
 
     // Get attendance records
     const records = await AttendanceRecord.find(query)
-      .populate('subject', 'name code')
-      .populate('faculty', 'name')
+      .populate({
+        path: 'subject subjectId',
+        select: 'subjectName subjectCode'
+      })
+      .populate({
+        path: 'faculty facultyId',
+        select: 'name'
+      })
       .sort({ date: -1 });
 
     return res.status(200).json({
@@ -82,8 +96,12 @@ exports.getMyAttendanceStats = async (req, res) => {
     const settings = await AttendanceSettings.findOne({ university });
     const minAttendanceRequired = settings ? settings.minAttendancePercentage : 75;
     
-    // Get student details
-    const student = await Student.findById(studentId).populate('class');
+    // Get student details - use strictPopulate: false to avoid errors
+    const student = await Student.findById(studentId).populate({
+      path: 'class',
+      strictPopulate: false
+    });
+
     if (!student) {
       return res.status(404).json({
         success: false,
@@ -91,8 +109,21 @@ exports.getMyAttendanceStats = async (req, res) => {
       });
     }
     
-    // Get subjects for student's class
-    const subjects = await Subject.find({ class: student.class });
+    // Get subjects for student
+    let subjects = [];
+    if (student.class) {
+      // If class reference exists, find subjects for that class
+      subjects = await Subject.find({ class: student.class });
+    } else {
+      // Otherwise, try to find subjects based on the student's year and semester
+      subjects = await Subject.find({
+        university: student.university,
+        year: student.classYear ? 
+          (student.classYear === 1 ? 'First' : 
+           student.classYear === 2 ? 'Second' : 'Third') : 'First',
+        semester: student.semester || 1
+      });
+    }
     
     // Calculate overall statistics
     const overallStats = {
@@ -107,8 +138,10 @@ exports.getMyAttendanceStats = async (req, res) => {
     for (const subject of subjects) {
       // Get attendance records for this subject
       const records = await AttendanceRecord.find({
-        student: studentId,
-        subject: subject._id
+        $or: [
+          { studentId: studentId, subjectId: subject._id },
+          { student: studentId, subject: subject._id }
+        ]
       });
       
       if (records.length === 0) continue;
@@ -147,8 +180,8 @@ exports.getMyAttendanceStats = async (req, res) => {
       subjectStats.push({
         subject: {
           id: subject._id,
-          name: subject.name,
-          code: subject.code
+          name: subject.subjectName,
+          code: subject.subjectCode
         },
         totalClasses,
         present,
@@ -200,13 +233,21 @@ exports.getTodayAttendance = async (req, res) => {
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
     
-    // Get attendance records for today
+    // Get attendance records for today with both field naming patterns
     const records = await AttendanceRecord.find({
-      student: studentId,
-      date: { $gte: today, $lt: tomorrow }
+      $or: [
+        { student: studentId, date: { $gte: today, $lt: tomorrow } },
+        { studentId: studentId, date: { $gte: today, $lt: tomorrow } }
+      ]
     })
-    .populate('subject', 'name code')
-    .populate('faculty', 'name')
+    .populate({
+      path: 'subject subjectId',
+      select: 'subjectName subjectCode'
+    })
+    .populate({
+      path: 'faculty facultyId',
+      select: 'name'
+    })
     .sort({ slotNumber: 1 });
     
     return res.status(200).json({
