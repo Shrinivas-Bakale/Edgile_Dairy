@@ -12,7 +12,17 @@ const slotSchema = new mongoose.Schema({
   },
   subjectCode: {
     type: String,
-    required: [true, 'Subject code is required']
+    required: false,
+    default: ''
+  },
+  subjectName: {
+    type: String,
+    required: false,
+  },
+  type: {
+    type: String,
+    enum: ['Core', 'Lab', 'Elective', ''],
+    default: ''
   },
   facultyId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -69,9 +79,26 @@ const timetableSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Division is required']
   },
+  academicYear: {
+    type: String,
+    required: [true, 'Academic year is required'],
+    default: function() {
+      const now = new Date();
+      const year = now.getFullYear();
+      if (now.getMonth() >= 6) { // July and after
+        return `${year}-${year + 1}`;
+      } else {
+        return `${year - 1}-${year}`;
+      }
+    }
+  },
   classroomId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Classroom',
+    required: false
+  },
+  classroomName: {
+    type: String,
     required: false
   },
   days: [daySchema],
@@ -79,6 +106,10 @@ const timetableSchema = new mongoose.Schema({
     type: String,
     enum: ['draft', 'published'],
     default: 'draft'
+  },
+  publishedAt: {
+    type: Date,
+    default: null
   },
   history: [historyEntrySchema],
   createdBy: {
@@ -99,6 +130,12 @@ const timetableSchema = new mongoose.Schema({
 // Pre-save middleware to update the updatedAt field
 timetableSchema.pre('save', function(next) {
   this.updatedAt = Date.now();
+  
+  // Set publishedAt date when status changes to published
+  if (this.isModified('status') && this.status === 'published' && !this.publishedAt) {
+    this.publishedAt = Date.now();
+  }
+  
   next();
 });
 

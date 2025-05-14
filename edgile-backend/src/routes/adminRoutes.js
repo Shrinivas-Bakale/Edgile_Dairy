@@ -8,6 +8,7 @@ const { toggleFacultyStatus } = require("../controllers/adminController");
 const { protect, adminOnly } = require("../middleware/authMiddleware");
 const logger = require("../utils/logger"); // ✅ Winston Logger
 const crypto = require("crypto");
+const adminController = require('../controllers/adminController');
 
 const router = express.Router();
 
@@ -237,5 +238,7 @@ router.get("/auth/profile", protect, adminOnly, async (req, res) => {
     });
   }
 });
+
+router.post('/students/promote', protect, adminController.promoteStudents);
 
 module.exports = router;

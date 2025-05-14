@@ -3,7 +3,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import api from "../../utils/api";
 import DashboardWrapper from "../../components/DashboardWrapper";
 import { authAPI } from "../../utils/api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { adminAPI } from "../../utils/api";
 
 interface AdminProfile {
@@ -99,10 +99,10 @@ const AdminDashboard: React.FC = () => {
 
         // If token is valid, proceed to fetch profile from API
         try {
-          const response = await api.get("/api/admin/auth/profile");
+          const response = await adminAPI.getProfile();
 
-          if (response.data?.success && response.data?.user) {
-            const userData = response.data.user;
+          if (response?.success && response?.user) {
+            const userData = response.user;
             
             // Validate profile data structure before setting state
             if (userData && userData.email) {
@@ -205,7 +205,8 @@ const AdminDashboard: React.FC = () => {
 
   return (
     <DashboardWrapper>
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 overflow-container">
+        
         {/* <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Admin Profile</h2>
           {profile && (
@@ -272,6 +273,12 @@ const AdminDashboard: React.FC = () => {
                 onClick={() => handleNavigation("/admin/timetable")}
               >
                 Timetable Management
+              </button>
+              <button
+                className="w-full bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors"
+                onClick={() => handleNavigation("/admin/calendar-of-events")}
+              >
+                Calendar of Events
               </button>
               <button
                 className="w-full bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors"

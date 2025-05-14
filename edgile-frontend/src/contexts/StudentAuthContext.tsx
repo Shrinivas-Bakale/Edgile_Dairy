@@ -1,25 +1,79 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { studentLogin } from '../utils/api';
+import api from '../utils/api';
+
+interface StudentUser {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  universityName: string;
+  registerNumber?: string;
+  class?: {
+    id: string;
+    name: string;
+    year: string;
+    department: string;
+  };
+}
+
+interface StudentLoginResponse {
+  token: string;
+  message: string;
+  student: StudentUser;
+}
 
 interface StudentAuthContextType {
-  student: any | null;
-  login: (email: string, password: string, universityCode: string) => Promise<void>;
+  student: StudentUser | null;
+  token: string | null;
+  login: (email: string, password: string, universityCode: string) => Promise<StudentLoginResponse>;
   logout: () => void;
 }
 
 const StudentAuthContext = createContext<StudentAuthContextType | undefined>(undefined);
 
 export const StudentAuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [student, setStudent] = useState<any | null>(null);
+  const [student, setStudent] = useState<StudentUser | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
-  const login = async (email: string, password: string, universityCode: string) => {
+  // Initialize state from localStorage
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    const storedUser = localStorage.getItem('user');
+    
+    if (storedToken) {
+      setToken(storedToken);
+      
+      // Set the token in the API client
+      api.setToken(storedToken);
+    }
+    
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        if (parsedUser.role === 'student') {
+          setStudent(parsedUser);
+        }
+      } catch (error) {
+        console.error('Error parsing stored user data:', error);
+        // If there's an error parsing, clear the invalid data
+        localStorage.removeItem('user');
+      }
+    }
+  }, []);
+
+  const login = async (email: string, password: string, universityCode: string): Promise<StudentLoginResponse> => {
     try {
-      const response = await studentLogin(email, password, universityCode);
+      const response = await studentLogin(email, password, universityCode) as StudentLoginResponse;
       
       // Store the token in localStorage
       if (response.token) {
         localStorage.setItem('token', response.token);
         localStorage.setItem('user', JSON.stringify(response.student));
+        setToken(response.token);
+        
+        // Set the token in the API client
+        api.setToken(response.token);
       }
       
       setStudent(response.student);
@@ -29,7 +83,11 @@ export const StudentAuthProvider: React.FC<{ children: React.ReactNode }> = ({ c
       
       return response;
     } catch (error: any) {
-      throw new Error(error.message || 'Login failed');
+      // Ensure we don't redirect on login failures
+      const errorMessage = error.message || error.response?.data?.message || 'Login failed';
+      
+      // Prevent modifications to localStorage on login failure
+      throw new Error(errorMessage);
     }
   };
 
@@ -37,10 +95,14 @@ export const StudentAuthProvider: React.FC<{ children: React.ReactNode }> = ({ c
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setStudent(null);
+    setToken(null);
+    
+    // Clear the token from the API client
+    api.setToken(null);
   };
 
   return (
-    <StudentAuthContext.Provider value={{ student, login, logout }}>
+    <StudentAuthContext.Provider value={{ student, token, login, logout }}>
       {children}
     </StudentAuthContext.Provider>
   );

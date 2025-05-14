@@ -12,7 +12,6 @@ import {
   IconInfoCircle,
   IconArrowRight
 } from '@tabler/icons-react';
-import { useDarkMode } from '../../contexts/DarkModeContext';
 
 interface Classroom {
   _id: string;
@@ -39,7 +38,6 @@ const ClassroomUnavailabilityPage: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const { isDarkMode } = useDarkMode();
   
   // State variables
   const [classroom, setClassroom] = useState<Classroom | null>(null);

@@ -1,5 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { authAPI } from '../utils/api';
+import api from '../utils/api';
+import { adminAPI } from '../utils/api';
+import { facultyAPI } from '../utils/api';
+import { studentAPI } from '../utils/api';
 
 // Define user roles as a union type for TypeScript
 export type UserRole = 'student' | 'faculty' | 'admin';
@@ -144,6 +148,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setToken(storedToken);
             setRole(parsedUser.role);
             
+            // Set the token in the API client
+            api.setToken(storedToken);
+            
             // Set permissions based on stored user or defaults
             const userPermissions = parsedUser.permissions || getDefaultPermissions(parsedUser.role);
             setPermissions(userPermissions);
@@ -212,6 +219,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         permissions: userPermissions
       }));
       
+      // Set the token in the API client
+      api.setToken(data.token);
+      
       return data;
     } catch (err: any) {
       setError(err.response?.data?.message || 'Registration failed. Please try again.');
@@ -258,6 +268,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         permissions: userPermissions
       }));
       
+      // Set the token in the API client
+      api.setToken(data.token);
+      
     } catch (err: any) {
       setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
       throw err;
@@ -293,7 +306,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser(user);
       setToken(token);
       setRole('admin');
-      setPermissions(user.permissions || []);
+      setPermissions(user.permissions || getDefaultPermissions('admin'));
       
       // Store in localStorage
       localStorage.setItem('token', token);
@@ -302,6 +315,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Store admin verification in sessionStorage
       sessionStorage.setItem('adminAccessVerified', 'true');
       sessionStorage.setItem('adminEmail', user.email);
+      
+      // Set the token in the API client
+      api.setToken(token);
       
       return {
         success: true,
@@ -319,36 +335,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Logout function
   const logout = () => {
-    // Clear all auth-related data from localStorage
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    
-    // Clear all session data
-    sessionStorage.removeItem('credentials');
-    sessionStorage.removeItem('password');
     sessionStorage.removeItem('adminAccessVerified');
     sessionStorage.removeItem('adminEmail');
     
-    // Clear state
-    setIsAuthenticated(false);
     setUser(null);
     setToken(null);
     setRole(null);
     setPermissions([]);
-    setError(null);
+    setIsAuthenticated(false);
     
-    // Double check all sensitive data is cleared
-    setTimeout(() => {
-      // Verify localStorage is cleared
-      if (localStorage.getItem('token') || localStorage.getItem('user')) {
-        localStorage.clear();
-      }
-      
-      // Verify sessionStorage is cleared
-      if (sessionStorage.length > 0) {
-        sessionStorage.clear();
-      }
-    }, 0);
+    // Clear the token from the API client
+    api.setToken(null);
   };
   
   // Check if user has a specific permission
@@ -409,6 +408,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           ...data.user,
           permissions: userPermissions
         }));
+        
+        // Set the token in the API client
+        api.setToken(data.token);
       }
     } catch (err: any) {
       setError(err.response?.data?.msg || 'OTP verification failed. Please try again.');
@@ -418,6 +420,86 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setLoading(false);
     }
   };
+
+  // Add a helper function for debouncing profile fetch calls
+  const debounce = <F extends (...args: any[]) => any>(func: F, wait: number) => {
+    let timeout: ReturnType<typeof setTimeout> | null = null;
+    let pendingPromise: Promise<ReturnType<F>> | null = null;
+
+    return (...args: Parameters<F>): Promise<ReturnType<F>> => {
+      // If we already have a pending promise for this call, return it
+      if (pendingPromise) {
+        return pendingPromise;
+      }
+
+      // Create a new promise that resolves when the function is called
+      const promise = new Promise<ReturnType<F>>((resolve, reject) => {
+        if (timeout) {
+          clearTimeout(timeout);
+        }
+
+        timeout = setTimeout(() => {
+          timeout = null;
+          pendingPromise = null;
+          try {
+            resolve(func(...args));
+          } catch (err) {
+            reject(err);
+          }
+        }, wait);
+      });
+
+      pendingPromise = promise;
+      return promise;
+    };
+  };
+
+  // Create debounced version of profile fetch
+  const debouncedFetchProfile = React.useCallback(
+    debounce(async () => {
+      try {
+        if (role === 'admin') {
+          const response = await adminAPI.getProfile();
+          if (response?.user) {
+            setUser({
+              ...user, 
+              ...response.user
+            });
+            return true;
+          }
+        } else if (role === 'faculty') {
+          const response = await facultyAPI.getProfile();
+          if (response?.faculty) {
+            setUser({
+              ...user,
+              ...response.faculty
+            });
+            return true;
+          }
+        } else if (role === 'student') {
+          const response = await studentAPI.getProfile();
+          if (response?.student) {
+            setUser({
+              ...user,
+              ...response.student
+            });
+            return true;
+          }
+        }
+        return false;
+      } catch (error) {
+        console.error('Error fetching profile:', error);
+        return false;
+      }
+    }, 500), // 500ms debounce time
+    [role, user]
+  );
+
+  // Refresh user data from the server
+  const refreshUserData = React.useCallback(async () => {
+    if (!token) return false;
+    return debouncedFetchProfile();
+  }, [token, debouncedFetchProfile]);
 
   // Context value
   const contextValue: AuthContextType = {

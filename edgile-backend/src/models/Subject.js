@@ -68,10 +68,6 @@ const SubjectSchema = new Schema({
   updatedAt: {
     type: Date,
     default: Date.now
-  },
-  academicYear: {
-    type: String,
-    required: [true, 'Academic year is required']
   }
 });
 
@@ -79,7 +75,7 @@ const SubjectSchema = new Schema({
 SubjectSchema.index({ university: 1, year: 1, semester: 1, archived: 1 });
 
 // Create a compound index to ensure uniqueness of subject code per semester and year
-SubjectSchema.index({ university: 1, subjectCode: 1, year: 1, semester: 1, academicYear: 1 }, { unique: true });
+SubjectSchema.index({ university: 1, subjectCode: 1, year: 1, semester: 1 }, { unique: true });
 
 // Pre-save middleware to update the weeklyHours based on totalDuration
 SubjectSchema.pre('save', function(next) {

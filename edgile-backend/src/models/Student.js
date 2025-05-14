@@ -68,6 +68,11 @@ const studentSchema = new mongoose.Schema(
       default: "pending",
     },
     backlogs: [{ type: String }],
+    // For tracking promotion history (for undo functionality)
+    previousClassYear: { type: Number },
+    previousSemester: { type: Number },
+    previousStatus: { type: String },
+    lastPromotedAt: { type: Date },
     // For login OTP
     otp: { type: String },
     otpExpires: { type: Date },

@@ -10,8 +10,7 @@ import {
   Paper,
   Stack,
   Divider,
-  Chip,
-  Alert
+  Chip
 } from '@mui/material';
 import { useSnackbar } from '../../contexts/SnackbarContext';
 import { adminAPI } from '../../utils/api';
@@ -204,7 +203,7 @@ const TokenRegistration: React.FC = () => {
           Complete Your Faculty Registration
         </Typography>
         
-        {error && <Alert severity="error" sx={{ mb: 3 }}>{error}</Alert>}
+        {error && <Typography variant="body1" paragraph color="error">{error}</Typography>}
         
         <form onSubmit={handleSubmit}>
           <Stack spacing={3}>

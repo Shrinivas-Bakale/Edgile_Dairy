@@ -11,13 +11,28 @@ import {
   IconAlertCircle,
   IconTrash
 } from '@tabler/icons-react';
-import { useDarkMode } from '../../contexts/DarkModeContext';
 
 interface ClassroomFormData {
   name: string;
   floor: number | string;
   capacity: number | string;
   status: 'available' | 'unavailable' | 'maintenance';
+}
+
+interface ClassroomResponse {
+  _id: string;
+  name: string;
+  floor: number;
+  capacity: number;
+  status: 'available' | 'unavailable' | 'maintenance';
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+interface ApiResponse {
+  success: boolean;
+  message?: string;
+  classroom?: ClassroomResponse;
 }
 
 interface FormErrors {
@@ -31,7 +46,6 @@ const ClassroomFormPage: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const { isDarkMode } = useDarkMode();
   const isEditMode = !!id;
   
   // State variables
@@ -42,7 +56,7 @@ const ClassroomFormPage: React.FC = () => {
     status: 'available'
   });
   const [errors, setErrors] = useState<FormErrors>({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(isEditMode); // Set loading to true if in edit mode
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
@@ -51,27 +65,75 @@ const ClassroomFormPage: React.FC = () => {
   // Load classroom data if in edit mode
   useEffect(() => {
     const fetchClassroom = async () => {
-      if (!isEditMode) return;
+      if (!isEditMode || !id) return;
       
       try {
         setLoading(true);
-        const classroom = await adminAPI.getClassroomById(id);
+        console.log("Fetching classroom data for ID:", id);
+        
+        // Add a retry mechanism for fetching the classroom
+        let classroom = null;
+        let retryCount = 0;
+        const maxRetries = 2;
+        
+        while (retryCount <= maxRetries && !classroom) {
+          try {
+            const response = await adminAPI.getClassroomById(id);
+            
+            // For debugging - log the response
+            console.log(`Attempt ${retryCount + 1}: API response for classroom:`, response);
+            
+            // Ensure we have a valid response
+            if (response && typeof response === 'object') {
+              // Check if we have the necessary fields
+              const responseObj = response as any;
+              if (responseObj.name && (typeof responseObj.floor !== 'undefined') && 
+                  (typeof responseObj.capacity !== 'undefined') && responseObj.status) {
+                classroom = responseObj;
+                break;
+              }
+            }
+            
+            // If we reach here, the response didn't have the expected structure
+            console.warn(`Attempt ${retryCount + 1}: Response structure not as expected:`, response);
+            retryCount++;
+            
+            if (retryCount <= maxRetries) {
+              // Wait before retrying (increasing delay for each retry)
+              await new Promise(resolve => setTimeout(resolve, retryCount * 500));
+            }
+          } catch (error) {
+            console.error(`Attempt ${retryCount + 1}: Error fetching classroom:`, error);
+            retryCount++;
+            
+            if (retryCount <= maxRetries) {
+              // Wait before retrying
+              await new Promise(resolve => setTimeout(resolve, retryCount * 500));
+            } else {
+              throw error; // Rethrow the error after all retries failed
+            }
+          }
+        }
         
         if (!classroom) {
-          navigate('/admin/classrooms');
+          console.error("No classroom found with ID:", id);
+          setSubmitError("Could not load classroom data. The classroom may have been deleted or you may not have permission to view it.");
+          // Don't navigate away immediately, let the user see the error
           return;
         }
         
+        console.log("Classroom data successfully loaded:", classroom);
         setFormData({
-          name: classroom.name,
-          floor: classroom.floor,
-          capacity: classroom.capacity,
-          status: classroom.status
+          name: (classroom as any).name || '',
+          floor: (classroom as any).floor || '',
+          capacity: (classroom as any).capacity || '',
+          status: (classroom as any).status || 'available'
         });
-        setLoading(false);
       } catch (error) {
         console.error('Error loading classroom:', error);
-        navigate('/admin/classrooms');
+        setSubmitError('Failed to load classroom data. Please try again or contact support if the problem persists.');
+      } finally {
+        setLoading(false);
       }
     };
     
@@ -93,15 +155,15 @@ const ClassroomFormPage: React.FC = () => {
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
     
-    // Validate name
-    if (!formData.name.trim()) {
+    // Validate name - safely check for undefined
+    if (!formData.name || !formData.name.trim()) {
       newErrors.name = 'Classroom name is required';
     } else if (formData.name.length > 50) {
       newErrors.name = 'Name cannot exceed 50 characters';
     }
     
     // Validate floor
-    if (!formData.floor) {
+    if (formData.floor === '' || formData.floor === undefined) {
       newErrors.floor = 'Floor number is required';
     } else {
       const floorNum = Number(formData.floor);
@@ -111,7 +173,7 @@ const ClassroomFormPage: React.FC = () => {
     }
     
     // Validate capacity
-    if (!formData.capacity) {
+    if (formData.capacity === '' || formData.capacity === undefined) {
       newErrors.capacity = 'Capacity is required';
     } else {
       const capacityNum = Number(formData.capacity);
@@ -145,18 +207,22 @@ const ClassroomFormPage: React.FC = () => {
         name: formData.name.trim(),
         floor: Number(formData.floor),
         capacity: Number(formData.capacity),
-        ...(isEditMode && { status: formData.status })
+        status: formData.status
       };
       
+      console.log(`${isEditMode ? 'Updating' : 'Creating'} classroom with data:`, classroomData);
+      
       // Create or update classroom
-      let response;
-      if (isEditMode) {
-        response = await adminAPI.updateClassroom(id, classroomData);
+      let response: ApiResponse;
+      if (isEditMode && id) {
+        response = await adminAPI.updateClassroom(id, classroomData) as ApiResponse;
       } else {
-        response = await adminAPI.createClassroom(classroomData);
+        response = await adminAPI.createClassroom(classroomData) as ApiResponse;
       }
       
-      if (response.success) {
+      console.log("API response:", response);
+      
+      if (response && response.success) {
         setSubmitSuccess(response.message || `Classroom ${isEditMode ? 'updated' : 'created'} successfully`);
         
         // Navigate back to classrooms list after a short delay
@@ -164,11 +230,11 @@ const ClassroomFormPage: React.FC = () => {
           navigate('/admin/classrooms');
         }, 1500);
       } else {
-        setSubmitError(response.message || 'An error occurred');
+        setSubmitError((response && response.message) || 'An error occurred while saving the classroom');
       }
     } catch (error: any) {
       console.error('Error saving classroom:', error);
-      setSubmitError(error.message || 'An unexpected error occurred');
+      setSubmitError(error.message || 'An unexpected error occurred. Please try again.');
     } finally {
       setSubmitting(false);
     }
@@ -180,9 +246,12 @@ const ClassroomFormPage: React.FC = () => {
     
     try {
       setSubmitting(true);
-      const response = await adminAPI.deleteClassroom(id);
+      console.log("Deleting classroom with ID:", id);
       
-      if (response.success) {
+      const response = await adminAPI.deleteClassroom(id) as ApiResponse;
+      console.log("Delete API response:", response);
+      
+      if (response && response.success) {
         setSubmitSuccess(response.message || 'Classroom deleted successfully');
         
         // Navigate back to classrooms list after a short delay
@@ -190,16 +259,25 @@ const ClassroomFormPage: React.FC = () => {
           navigate('/admin/classrooms');
         }, 1500);
       } else {
-        setSubmitError(response.message || 'Failed to delete classroom');
+        setSubmitError((response && response.message) || 'Failed to delete classroom');
         setDeleteConfirm(false);
       }
     } catch (error: any) {
       console.error('Error deleting classroom:', error);
-      setSubmitError(error.message || 'An unexpected error occurred');
+      setSubmitError(error.message || 'An unexpected error occurred while deleting the classroom');
       setDeleteConfirm(false);
     } finally {
       setSubmitting(false);
     }
+  };
+  
+  // Handle retry loading
+  const handleRetryLoading = () => {
+    setSubmitError(null);
+    setLoading(true);
+    
+    // Refresh the page to retry loading
+    window.location.reload();
   };
   
   return (
@@ -208,16 +286,16 @@ const ClassroomFormPage: React.FC = () => {
         <div className="mb-6">
           <button
             onClick={() => navigate('/admin/classrooms')}
-            className="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+            className="flex items-center text-gray-600 hover:text-gray-900"
           >
             <IconArrowLeft size={20} className="mr-1" />
             Back to Classrooms
           </button>
         </div>
         
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-          <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="p-6 border-b border-gray-200">
+            <h1 className="text-2xl font-bold text-gray-900">
               {isEditMode ? 'Edit Classroom' : 'Add New Classroom'}
             </h1>
           </div>
@@ -229,27 +307,53 @@ const ClassroomFormPage: React.FC = () => {
             </div>
           )}
           
-          {/* Error or Success Messages */}
-          {submitError && (
-            <div className="mx-6 mt-6 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 p-4 rounded-md flex items-center">
+          {/* Error Message with Retry Button */}
+          {submitError && isEditMode && !loading && (
+            <div className="mx-6 mt-6 bg-red-100 text-red-800 p-4 rounded-md">
+              <div className="flex items-center mb-2">
+                <IconAlertCircle size={24} className="mr-2" />
+                <span className="font-medium">Error</span>
+              </div>
+              <p className="mb-4">{submitError}</p>
+              <div className="flex space-x-3">
+                <button 
+                  onClick={handleRetryLoading}
+                  className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md transition-colors"
+                >
+                  Retry Loading
+                </button>
+                <button
+                  onClick={() => navigate('/admin/classrooms')}
+                  className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-md transition-colors"
+                >
+                  Back to Classrooms
+                </button>
+              </div>
+            </div>
+          )}
+          
+          {/* Regular Error Message */}
+          {submitError && (!isEditMode || loading) && (
+            <div className="mx-6 mt-6 bg-red-100 text-red-800 p-4 rounded-md flex items-center">
               <IconAlertCircle size={24} className="mr-2" />
               <span>{submitError}</span>
             </div>
           )}
           
+          {/* Success Message */}
           {submitSuccess && (
-            <div className="mx-6 mt-6 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 p-4 rounded-md flex items-center">
+            <div className="mx-6 mt-6 bg-green-100 text-green-800 p-4 rounded-md flex items-center">
               <IconCheck size={24} className="mr-2" />
               <span>{submitSuccess}</span>
             </div>
           )}
           
           {/* Form */}
-          {!loading && (
+          {!loading && !submitError && (
             <form onSubmit={handleSubmit} className="p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     Classroom Name *
                   </label>
                   <input
@@ -258,21 +362,21 @@ const ClassroomFormPage: React.FC = () => {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="e.g., Room 302, Lab A"
-                    className={`w-full p-2 border rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600 ${
-                      errors.name ? 'border-red-500 dark:border-red-500' : ''
-                    }`}
+                    className={`w-full p-2 border rounded-md ${
+                      errors.name ? 'border-red-500' : 'border-gray-300'
+                    } focus:ring-indigo-500 focus:border-indigo-500`}
                     disabled={submitting}
                   />
                   {errors.name && (
-                    <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.name}</p>
+                    <p className="mt-1 text-sm text-red-600">{errors.name}</p>
                   )}
-                  <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                  <p className="mt-1 text-xs text-gray-500">
                     Choose a unique, descriptive name for this classroom
                   </p>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     Floor Number *
                   </label>
                   <input
@@ -282,22 +386,22 @@ const ClassroomFormPage: React.FC = () => {
                     onChange={handleChange}
                     placeholder="e.g., 3"
                     min="1"
-                    className={`w-full p-2 border rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600 ${
-                      errors.floor ? 'border-red-500 dark:border-red-500' : ''
-                    }`}
+                    className={`w-full p-2 border rounded-md ${
+                      errors.floor ? 'border-red-500' : 'border-gray-300'
+                    } focus:ring-indigo-500 focus:border-indigo-500`}
                     disabled={submitting}
                   />
                   {errors.floor && (
-                    <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.floor}</p>
+                    <p className="mt-1 text-sm text-red-600">{errors.floor}</p>
                   )}
-                  <div className="flex items-center mt-1 text-xs text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center mt-1 text-xs text-gray-500">
                     <IconBuildingSkyscraper size={14} className="mr-1" />
                     <span>Floor number must be a positive integer</span>
                   </div>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     Capacity *
                   </label>
                   <input
@@ -307,15 +411,15 @@ const ClassroomFormPage: React.FC = () => {
                     onChange={handleChange}
                     placeholder="e.g., 40"
                     min="1"
-                    className={`w-full p-2 border rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600 ${
-                      errors.capacity ? 'border-red-500 dark:border-red-500' : ''
-                    }`}
+                    className={`w-full p-2 border rounded-md ${
+                      errors.capacity ? 'border-red-500' : 'border-gray-300'
+                    } focus:ring-indigo-500 focus:border-indigo-500`}
                     disabled={submitting}
                   />
                   {errors.capacity && (
-                    <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.capacity}</p>
+                    <p className="mt-1 text-sm text-red-600">{errors.capacity}</p>
                   )}
-                  <div className="flex items-center mt-1 text-xs text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center mt-1 text-xs text-gray-500">
                     <IconUser size={14} className="mr-1" />
                     <span>Maximum number of students this room can accommodate</span>
                   </div>
@@ -323,14 +427,14 @@ const ClassroomFormPage: React.FC = () => {
                 
                 {isEditMode && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
                       Status
                     </label>
                     <select
                       name="status"
                       value={formData.status}
                       onChange={handleChange}
-                      className="w-full p-2 border rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                      className="w-full p-2 border rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500"
                       disabled={submitting}
                     >
                       <option value="available">Available</option>
@@ -341,7 +445,7 @@ const ClassroomFormPage: React.FC = () => {
                 )}
               </div>
               
-              <div className="mt-8 flex justify-between">
+              <div className="mt-8 flex flex-wrap gap-4 justify-between">
                 <div>
                   {isEditMode && (
                     <div>
@@ -356,12 +460,12 @@ const ClassroomFormPage: React.FC = () => {
                           Delete Classroom
                         </button>
                       ) : (
-                        <div className="flex items-center">
-                          <span className="mr-2 text-red-600 dark:text-red-400">Confirm deletion?</span>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="text-red-600">Confirm deletion?</span>
                           <button
                             type="button"
                             onClick={handleDelete}
-                            className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-md font-medium text-sm transition-colors duration-200 mr-2"
+                            className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-md font-medium text-sm transition-colors duration-200"
                             disabled={submitting}
                           >
                             Yes, Delete
@@ -369,7 +473,7 @@ const ClassroomFormPage: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => setDeleteConfirm(false)}
-                            className="bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500 text-gray-800 dark:text-white px-3 py-1 rounded-md font-medium text-sm transition-colors duration-200"
+                            className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-3 py-1 rounded-md font-medium text-sm transition-colors duration-200"
                             disabled={submitting}
                           >
                             Cancel
@@ -380,11 +484,11 @@ const ClassroomFormPage: React.FC = () => {
                   )}
                 </div>
                 
-                <div className="flex space-x-4">
+                <div className="flex flex-wrap gap-3">
                   <button
                     type="button"
                     onClick={() => navigate('/admin/classrooms')}
-                    className="bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500 text-gray-800 dark:text-white px-4 py-2 rounded-md font-medium transition-colors duration-200"
+                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md font-medium transition-colors duration-200"
                     disabled={submitting}
                   >
                     Cancel

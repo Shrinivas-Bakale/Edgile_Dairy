@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { facultyLogin, facultyAPI } from '../utils/api';
+import api from '../utils/api';
 
 interface FacultyUser {
   id: string;
@@ -13,6 +14,7 @@ interface FacultyUser {
   registrationCompleted: boolean;
   requiresRegistration?: boolean;
   isFirstLogin?: boolean;
+  permissions?: string[];
 }
 
 interface LoginResponse {
@@ -24,10 +26,13 @@ interface LoginResponse {
 
 interface FacultyAuthContextType {
   faculty: FacultyUser | null;
+  user: FacultyUser | null;
+  token: string | null;
   login: (email: string, password: string, universityCode: string) => Promise<LoginResponse>;
   logout: () => void;
   isAuthenticated: boolean;
   updateActivationStatus: (status: boolean) => void;
+  hasPermission: (permission: string) => boolean;
 }
 
 const FacultyAuthContext = createContext<FacultyAuthContextType | undefined>(undefined);
@@ -35,6 +40,7 @@ const FacultyAuthContext = createContext<FacultyAuthContextType | undefined>(und
 export const FacultyAuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [faculty, setFaculty] = useState<FacultyUser | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [token, setToken] = useState<string | null>(null);
 
   // Initialize auth state from localStorage on component mount
   useEffect(() => {
@@ -46,7 +52,12 @@ export const FacultyAuthProvider: React.FC<{ children: React.ReactNode }> = ({ c
         const user = JSON.parse(storedUser);
         if (user.role === 'faculty') {
           setFaculty(user);
+          setToken(storedToken);
           setIsAuthenticated(true);
+          
+          // Set the token in the API client for authenticated requests
+          api.setToken(storedToken);
+          
           console.log('Faculty user initialized from localStorage:', user.name);
         }
       } catch (error) {
@@ -57,16 +68,20 @@ export const FacultyAuthProvider: React.FC<{ children: React.ReactNode }> = ({ c
     }
   }, []);
 
-  const login = async (email: string, password: string, universityCode: string) => {
+  const login = async (email: string, password: string, universityCode: string): Promise<LoginResponse> => {
     try {
       console.log('Faculty login attempt with:', { email, universityCode });
-      const response = await facultyLogin(email, password, universityCode);
+      const response = await facultyLogin(email, password, universityCode) as LoginResponse;
       console.log('Faculty login response:', response);
       
       // Store the token in localStorage
       if (response.token) {
         localStorage.setItem('token', response.token);
         localStorage.setItem('user', JSON.stringify(response.user));
+        setToken(response.token);
+        
+        // Set the token in the API client for authenticated requests
+        api.setToken(response.token);
       }
       
       // Parse the token to check for requiresRegistration
@@ -80,10 +95,18 @@ export const FacultyAuthProvider: React.FC<{ children: React.ReactNode }> = ({ c
       // Don't store sensitive data like passwords
       password = "";
       
-      return { ...response, requiresRegistration };
+      return { 
+        ...response, 
+        requiresRegistration 
+      };
     } catch (error: any) {
       console.error('Faculty login error:', error);
-      throw new Error(error.message || 'Login failed');
+      
+      // Ensure we don't redirect on login failures
+      const errorMessage = error.message || error.response?.data?.message || 'Login failed';
+      
+      // Don't modify localStorage on login failure
+      throw new Error(errorMessage);
     }
   };
 
@@ -110,12 +133,21 @@ export const FacultyAuthProvider: React.FC<{ children: React.ReactNode }> = ({ c
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setFaculty(null);
+    setToken(null);
     setIsAuthenticated(false);
+    
+    // Clear the token from the API client
+    api.setToken(null);
+    
     console.log('Faculty logged out successfully');
   };
 
+  const hasPermission = (permission: string) => {
+    return faculty?.permissions?.includes(permission) || false;
+  };
+
   return (
-    <FacultyAuthContext.Provider value={{ faculty, login, logout, isAuthenticated, updateActivationStatus }}>
+    <FacultyAuthContext.Provider value={{ faculty, user: faculty, token, login, logout, isAuthenticated, updateActivationStatus, hasPermission }}>
       {children}
     </FacultyAuthContext.Provider>
   );
@@ -127,4 +159,7 @@ export const useFacultyAuth = () => {
     throw new Error('useFacultyAuth must be used within a FacultyAuthProvider');
   }
   return context;
-}; 
+};
+
+// Add an alias export for backward compatibility with components using useAuth
+export const useAuth = useFacultyAuth; 

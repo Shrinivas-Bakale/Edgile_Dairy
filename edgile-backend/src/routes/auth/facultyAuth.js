@@ -136,8 +136,8 @@ router.post("/login", async (req, res) => {
     }
 
     // Find university by code
-    const university = await Admin.findOne({ universityCode });
-    logger.info("[DEBUG] University lookup result:", university);
+    const university = await Admin.findOne({ universityCode: universityCode.toUpperCase() });
+    logger.info("[DEBUG] University lookup result:", university ? university.universityName : "Not found");
     if (!university) {
       logger.warn("[DEBUG] Invalid university code");
       return res.status(401).json({ message: "Invalid university code" });
@@ -145,7 +145,7 @@ router.post("/login", async (req, res) => {
 
     // Find faculty by email and university
     const faculty = await Faculty.findOne({ email: email.toLowerCase(), university: university._id });
-    logger.info("[DEBUG] Faculty lookup result:", faculty);
+    logger.info("[DEBUG] Faculty lookup result:", faculty ? faculty.name : "Not found");
     if (!faculty) {
       logger.warn("[DEBUG] Faculty not found for email and university");
       return res.status(401).json({ message: "Invalid credentials" });
@@ -160,16 +160,26 @@ router.post("/login", async (req, res) => {
 
     // Check registration status
     if ((faculty.status === "pending" || !faculty.registrationCompleted) && faculty.isFirstLogin) {
+      // Define faculty permissions for registration phase
+      const registrationPermissions = [
+        'faculty:profile:read',
+        'faculty:profile:update'
+      ];
+      
       const token = jwt.sign(
         {
           id: faculty._id.toString(),
           role: "faculty",
           universityId: faculty.university,
           requiresRegistration: true,
+          permissions: registrationPermissions
         },
         process.env.JWT_SECRET,
         { expiresIn: "7d" }
       );
+      
+      logger.info("[DEBUG] Registration token created");
+      
       return res.status(200).json({
         token,
         message: "Login successful - Registration completion required",
@@ -179,12 +189,13 @@ router.post("/login", async (req, res) => {
           email: faculty.email,
           role: "faculty",
           department: faculty.department,
-          universityName: faculty.universityName,
+          universityName: faculty.universityName || university.universityName,
           status: faculty.status,
           employeeId: faculty.employeeId,
           registrationCompleted: false,
           requiresRegistration: true,
           isFirstLogin: true,
+          permissions: registrationPermissions
         },
       });
     }
@@ -203,15 +214,30 @@ router.post("/login", async (req, res) => {
     faculty.isFirstLogin = false;
     await faculty.save();
 
+    // Use faculty's permissions from model instead of hardcoding
+    const facultyPermissions = faculty.permissions || [
+      'faculty:profile:read',
+      'faculty:profile:update',
+      'faculty:dashboard',
+      'faculty:courses:view',
+      'faculty:students:view',
+      'faculty:timetable:view'
+    ];
+    
+    logger.info("[DEBUG] Using permissions:", facultyPermissions);
+
     const token = jwt.sign(
       {
         id: faculty._id.toString(),
         role: "faculty",
         universityId: faculty.university,
+        permissions: facultyPermissions
       },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
+    
+    logger.info("[DEBUG] Auth token created");
 
     res.status(200).json({
       token,
@@ -222,11 +248,12 @@ router.post("/login", async (req, res) => {
         email: faculty.email,
         role: "faculty",
         department: faculty.department,
-        universityName: faculty.universityName,
+        universityName: faculty.universityName || university.universityName,
         isFirstLogin: isFirstLogin,
         passwordChangeRequired: faculty.passwordChangeRequired,
         employeeId: faculty.employeeId,
         registrationCompleted: faculty.registrationCompleted,
+        permissions: facultyPermissions
       },
     });
   } catch (error) {
@@ -290,7 +317,7 @@ router.post("/forgot-password", async (req, res) => {
     }
     
     // Verify university exists
-    const university = await Admin.findOne({ universityCode });
+    const university = await Admin.findOne({ universityCode: universityCode.toUpperCase() });
     if (!university) {
       logger.warn(`⚠️ Invalid university code: ${universityCode}`);
       return res.status(400).json({ message: "Invalid university code" });

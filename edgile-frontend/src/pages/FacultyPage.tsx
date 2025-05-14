@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useDarkMode } from '../contexts/DarkModeContext';
 import { useAuth } from '../contexts/AuthContext';
 import { IconMail, IconPhone, IconBuilding, IconUser, IconUserOff, IconPlus, IconX } from '@tabler/icons-react';
 import { facultyAPI, adminAPI } from '../utils/api';
@@ -62,7 +61,8 @@ const DEPARTMENT_PREFIXES = {
 } as const;
 
 const FacultyPage: React.FC = () => {
-  const { isDarkMode } = useDarkMode();
+  // Constants
+  const isDarkMode = false; // Always use light mode
   const { user } = useAuth();
   const [facultyMembers, setFacultyMembers] = useState<FacultyMember[]>([]);
   const [registrationCodes, setRegistrationCodes] = useState<RegistrationCode[]>([]);
@@ -275,30 +275,14 @@ const FacultyPage: React.FC = () => {
   const handleCreateFaculty = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitLoading(true);
-    setSubmitError(null);
     setSubmitSuccess(false);
-
+    setSubmitError(null);
+    setGeneratedPassword('');
+    
+    const userId = user?.id || '';
+    const universityName = user?.universityName || 'KLE BCA Hubli';
+    
     try {
-      // Debug user object
-      console.log('Current user:', user);
-      
-      // Check for user session with more detailed error
-      if (!user) {
-        setSubmitError('No user session found. Please log in again.');
-        return;
-      }
-
-      // Use either id or _id from user object
-      const userId = user.id || user._id;
-      if (!userId) {
-        console.error('User object missing id:', user);
-        setSubmitError('Invalid user session. Please log in again.');
-        return;
-      }
-
-      // Get university name from user profile
-      const universityName = user.universityName || 'KLE BCA Hubli';
-
       // Validate inputs
       if (!facultyName.trim() || !facultyEmail || !facultyEmail.includes('@') || !selectedCode || !department || !employeeId) {
         setSubmitError('Please fill in all required fields');
@@ -317,7 +301,7 @@ const FacultyPage: React.FC = () => {
         universityName
       });
 
-      const result = await adminAPI.createFaculty({
+      const result = await adminAPI.addFaculty({
         name: facultyName,
         email: facultyEmail,
         password: generatedPassword,
@@ -328,13 +312,8 @@ const FacultyPage: React.FC = () => {
         universityName
       });
 
-      // Send welcome email
-      await adminAPI.sendFacultyWelcomeEmail({
-        email: facultyEmail,
-        name: facultyName,
-        password: generatedPassword,
-        employeeId: employeeId
-      });
+      // Email functionality removed - we'll just continue with the success flow
+      console.log('Faculty member created successfully');
 
       setSubmitSuccess(true);
       setFacultyName('');
@@ -348,7 +327,7 @@ const FacultyPage: React.FC = () => {
       await fetchFaculty();
       await fetchRegistrationCodes();
       
-      toast.success('Faculty member created successfully and welcome email sent!');
+      toast.success('Faculty member created successfully!');
     } catch (err: any) {
       console.error('Error creating faculty:', err);
       
@@ -370,11 +349,7 @@ const FacultyPage: React.FC = () => {
   const RetryButton = () => (
     <button
       onClick={() => fetchRegistrationCodes()}
-      className={`mt-2 text-sm px-3 py-1 rounded-md ${
-        isDarkMode
-          ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-          : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-      }`}
+      className="mt-2 text-sm px-3 py-1 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300"
     >
       Retry Loading Codes
     </button>
@@ -386,15 +361,15 @@ const FacultyPage: React.FC = () => {
     let text = status;
 
     if (!registrationCompleted) {
-      bgColor = isDarkMode ? 'bg-yellow-700' : 'bg-yellow-100';
-      textColor = isDarkMode ? 'text-yellow-100' : 'text-yellow-800';
+      bgColor = 'bg-yellow-100';
+      textColor = 'text-yellow-800';
       text = 'Registration Pending';
     } else if (status === 'active') {
-      bgColor = isDarkMode ? 'bg-green-700' : 'bg-green-100';
-      textColor = isDarkMode ? 'text-green-100' : 'text-green-800';
+      bgColor = 'bg-green-100';
+      textColor = 'text-green-800';
     } else if (status === 'inactive') {
-      bgColor = isDarkMode ? 'bg-red-700' : 'bg-red-100';
-      textColor = isDarkMode ? 'text-red-100' : 'text-red-800';
+      bgColor = 'bg-red-100';
+      textColor = 'text-red-800';
     }
 
     return (
@@ -418,25 +393,19 @@ const FacultyPage: React.FC = () => {
     return (
       <DashboardWrapper>
         <div className="p-6">
-          <h1 className={`text-2xl font-bold mb-6 ${
-            isDarkMode ? 'text-gray-100' : 'text-gray-900'
-          }`}>
+          <h1 className="text-2xl font-bold mb-6 text-gray-900">
             Faculty Members
           </h1>
           
-          <div className={`flex flex-col items-center justify-center p-12 rounded-lg ${
-            isDarkMode ? 'bg-gray-800' : 'bg-white'
-          }`}>
+          <div className="flex flex-col items-center justify-center p-12 rounded-lg bg-white">
             <IconUserOff 
               size={64} 
               className="text-red-500" 
             />
-            <h2 className={`mt-4 text-xl font-semibold text-red-500`}>
+            <h2 className="mt-4 text-xl font-semibold text-red-500">
               Error Loading Faculty Members
             </h2>
-            <p className={`mt-2 text-center ${
-              isDarkMode ? 'text-gray-400' : 'text-gray-500'
-            }`}>
+            <p className="mt-2 text-center text-gray-500">
               {error}
             </p>
             <pre className="mt-4 text-xs text-left bg-gray-900 text-gray-300 p-4 rounded w-full max-w-2xl overflow-auto">
@@ -454,20 +423,14 @@ const FacultyPage: React.FC = () => {
 
   return (
     <DashboardWrapper>
-      <div className="p-6">
+      <div className="p-6 max-w-7xl mx-auto justify-center">
         <div className="flex justify-between items-center mb-6">
-          <h1 className={`text-2xl font-bold ${
-            isDarkMode ? 'text-gray-100' : 'text-gray-900'
-          }`}>
+          <h1 className="text-2xl font-bold text-gray-900">
             Faculty Members
           </h1>
           <button
             onClick={() => setIsModalOpen(true)}
-            className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 ${
-              isDarkMode
-                ? 'bg-indigo-600 text-white hover:bg-indigo-700'
-                : 'bg-indigo-500 text-white hover:bg-indigo-600'
-            }`}
+            className="flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 bg-indigo-500 text-white hover:bg-indigo-600"
           >
             <IconPlus className="mr-2" size={18} />
             Create Faculty
@@ -476,120 +439,82 @@ const FacultyPage: React.FC = () => {
 
         {/* Faculty List */}
         {facultyMembers.length === 0 ? (
-          <div className={`flex flex-col items-center justify-center p-12 rounded-lg ${
-            isDarkMode ? 'bg-gray-800' : 'bg-white'
-          }`}>
+          <div className="flex flex-col items-center justify-center p-12 rounded-lg bg-white">
             <IconUserOff 
               size={64} 
-              className={isDarkMode ? 'text-gray-500' : 'text-gray-400'} 
+              className="text-gray-400" 
             />
-            <h2 className={`mt-4 text-xl font-semibold ${
-              isDarkMode ? 'text-gray-300' : 'text-gray-700'
-            }`}>
+            <h2 className="mt-4 text-xl font-semibold text-gray-700">
               No Faculty Members Found
             </h2>
-            <p className={`mt-2 text-center ${
-              isDarkMode ? 'text-gray-400' : 'text-gray-500'
-            }`}>
+            <p className="mt-2 text-center text-gray-500">
               No faculty members found for {user?.universityName || 'KLE BCA Hubli'}
             </p>
             <button
               onClick={() => setIsModalOpen(true)}
-              className={`mt-6 flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 ${
-                isDarkMode
-                  ? 'bg-indigo-600 text-white hover:bg-indigo-700'
-                  : 'bg-indigo-500 text-white hover:bg-indigo-600'
-              }`}
+              className="mt-6 flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 bg-indigo-500 text-white hover:bg-indigo-600"
             >
               <IconPlus className="mr-2" size={18} />
-              Add First Faculty Member
+              Create Faculty
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {facultyMembers.map((faculty) => (
-              <div
-                key={faculty.id}
-                className={`p-6 rounded-lg shadow-md ${
-                  isDarkMode ? 'bg-gray-800' : 'bg-white'
-                }`}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {facultyMembers.map((member) => (
+              <div 
+                key={member.id} 
+                className="bg-white rounded-xl shadow-sm overflow-hidden border-2 border-slate-700"
               >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center">
-                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                      isDarkMode ? 'bg-gray-700' : 'bg-gray-100'
-                    }`}>
-                      {faculty.imageUrl ? (
+                <div className="p-6">
+                  <div className="flex items-center space-x-4">
+                    <div className="h-12 w-12 flex-shrink-0 bg-gray-300 rounded-full flex items-center justify-center">
+                      {member.imageUrl ? (
                         <img
-                          src={faculty.imageUrl}
-                          alt={faculty.name}
+                          src={member.imageUrl}
+                          alt={member.name}
                           className="w-12 h-12 rounded-full object-cover"
                         />
                       ) : (
-                        <IconUser size={24} className={isDarkMode ? 'text-gray-400' : 'text-gray-500'} />
+                        <IconUser size={24} className="text-gray-500" />
                       )}
                     </div>
-                    <div className="ml-4">
-                      <h3 className={`font-semibold ${
-                        isDarkMode ? 'text-gray-100' : 'text-gray-900'
-                      }`}>
-                        {faculty.name}
+                    <div>
+                      <h3 className="text-lg font-medium text-gray-900">
+                        {member.name}
                       </h3>
-                      <p className={`text-sm ${
-                        isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                      }`}>
-                        {faculty.position}
+                      <p className="text-sm text-gray-500">
+                        {member.position || 'Faculty'} · {member.employeeId || 'No ID'}
                       </p>
                     </div>
                   </div>
-                  {renderStatusBadge(faculty.status, faculty.registrationCompleted)}
-                </div>
-                
-                <div className="space-y-2">
-                  <div className="flex items-center">
-                    <IconMail size={18} className={`mr-2 ${
-                      isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                    }`} />
-                    <span className={`text-sm ${
-                      isDarkMode ? 'text-gray-300' : 'text-gray-600'
-                    }`}>
-                      {faculty.email}
-                    </span>
-                  </div>
-                  
-                  <div className="flex items-center">
-                    <IconBuilding size={18} className={`mr-2 ${
-                      isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                    }`} />
-                    <span className={`text-sm ${
-                      isDarkMode ? 'text-gray-300' : 'text-gray-600'
-                    }`}>
-                      {faculty.department}
-                    </span>
-                  </div>
-                  
-                  {faculty.phone && (
-                    <div className="flex items-center">
-                      <IconPhone size={18} className={`mr-2 ${
-                        isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                      }`} />
-                      <span className={`text-sm ${
-                        isDarkMode ? 'text-gray-300' : 'text-gray-600'
-                      }`}>
-                        {faculty.phone}
+                  <div className="mt-4 space-y-2">
+                    <div className="flex items-center space-x-2">
+                      <IconMail className="text-gray-500" size={18} />
+                      <span className="text-sm text-gray-600">
+                        {member.email}
                       </span>
                     </div>
-                  )}
-
-                  <div className="flex items-center">
-                    <IconBuilding size={18} className={`mr-2 ${
-                      isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                    }`} />
-                    <span className={`text-sm ${
-                      isDarkMode ? 'text-gray-300' : 'text-gray-600'
-                    }`}>
-                      {faculty.universityName}
-                    </span>
+                    <div className="flex items-center space-x-2">
+                      <IconPhone className="text-gray-500" size={18} />
+                      <span className="text-sm text-gray-600">
+                        {member.phone || 'Not provided'}
+                      </span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <IconBuilding className="text-gray-500" size={18} />
+                      <span className="text-sm text-gray-600">
+                        {member.department || 'Department not specified'}
+                      </span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <IconUser className="text-gray-500" size={18} />
+                      <span className="text-sm text-gray-600">
+                        {member.universityName || user?.universityName || 'KLE BCA Hubli'}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="mt-5 pt-5 border-t border-gray-100 flex justify-between items-center">
+                    {renderStatusBadge(member.status, member.registrationCompleted)}
                   </div>
                 </div>
               </div>
@@ -597,179 +522,153 @@ const FacultyPage: React.FC = () => {
           </div>
         )}
 
-        {/* Create Faculty Modal */}
+        {/* Modal */}
         {isModalOpen && (
           <div className="fixed inset-0 z-50 overflow-y-auto">
-            <div className="flex items-center justify-center min-h-screen px-4">
-              <div className="fixed inset-0 bg-black opacity-50" onClick={() => setIsModalOpen(false)}></div>
-              <div className={`relative w-full max-w-md p-6 rounded-lg shadow-lg ${
-                isDarkMode ? 'bg-gray-800' : 'bg-white'
-              }`}>
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className={`text-xl font-bold ${
-                    isDarkMode ? 'text-gray-100' : 'text-gray-900'
-                  }`}>
-                    Create Faculty Member
-                  </h2>
+            <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+              <div className="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+              </div>
+
+              <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div className="flex items-center justify-between p-4 border-b border-gray-200">
+                  <h3 className="text-lg font-medium text-gray-900">
+                    Create New Faculty Member
+                  </h3>
                   <button
                     onClick={() => setIsModalOpen(false)}
-                    className={`p-1 rounded-full hover:bg-opacity-10 ${
-                      isDarkMode ? 'hover:bg-gray-400' : 'hover:bg-gray-500'
-                    }`}
+                    className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100"
                   >
-                    <IconX className={isDarkMode ? 'text-gray-300' : 'text-gray-500'} />
+                    <IconX className="text-gray-500" />
                   </button>
                 </div>
                 
-                <form onSubmit={handleCreateFaculty} className="space-y-4">
-                  <div>
-                    <label className={`block text-sm font-medium mb-1 ${
-                      isDarkMode ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      Faculty Name
-                    </label>
-                    <input
-                      type="text"
-                      value={facultyName}
-                      onChange={(e) => setFacultyName(e.target.value)}
-                      className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                        isDarkMode 
-                          ? 'bg-gray-700 border-gray-600 text-white' 
-                          : 'bg-white border-gray-300 text-gray-900'
-                      }`}
-                      placeholder="Enter faculty name"
-                      required
-                    />
+                <form onSubmit={handleCreateFaculty}>
+                  <div className="p-4 sm:p-6 space-y-4">
+                    <div>
+                      <label htmlFor="faculty-name" className="block text-sm font-medium text-gray-700">
+                        Faculty Name
+                      </label>
+                      <input
+                        type="text"
+                        id="faculty-name"
+                        value={facultyName}
+                        onChange={(e) => setFacultyName(e.target.value)}
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        required
+                      />
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="faculty-email" className="block text-sm font-medium text-gray-700">
+                        Email Address
+                      </label>
+                      <input
+                        type="email"
+                        id="faculty-email"
+                        value={facultyEmail}
+                        onChange={(e) => setFacultyEmail(e.target.value)}
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        required
+                      />
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="department" className="block text-sm font-medium text-gray-700">
+                        Department
+                      </label>
+                      <select
+                        id="department"
+                        value={department}
+                        onChange={handleDepartmentChange}
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        required
+                      >
+                        <option value="">Select Department</option>
+                        {DEPARTMENTS.map((dept) => (
+                          <option key={dept} value={dept}>{dept}</option>
+                        ))}
+                      </select>
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="employee-id" className="block text-sm font-medium text-gray-700">
+                        Employee ID
+                      </label>
+                      <input
+                        type="text"
+                        id="employee-id"
+                        value={employeeId}
+                        onChange={(e) => setEmployeeId(e.target.value)}
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        required
+                      />
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="registration-code" className="block text-sm font-medium text-gray-700">
+                        Registration Code
+                      </label>
+                      {registrationCodes.length > 0 ? (
+                        <select
+                          id="registration-code"
+                          value={selectedCode}
+                          onChange={(e) => setSelectedCode(e.target.value)}
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          required
+                        >
+                          <option value="">Select Registration Code</option>
+                          {registrationCodes
+                            .filter(code => !code.used && code.type === 'faculty')
+                            .map((code) => (
+                              <option key={code.code} value={code.code}>{code.code}</option>
+                            ))}
+                        </select>
+                      ) : submitError ? (
+                        <div className="mt-1">
+                          <p className="text-sm text-red-600">
+                            Failed to load registration codes. {submitError}
+                          </p>
+                          <RetryButton />
+                        </div>
+                      ) : (
+                        <div className="mt-1">
+                          <p className="text-sm text-yellow-600">
+                            No unused faculty registration codes available. Please generate new codes.
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                    
+                    {submitError && (
+                      <div className="bg-red-50 border border-red-200 rounded-md p-3">
+                        <p className="text-sm text-red-600">{submitError}</p>
+                      </div>
+                    )}
+                    
+                    {submitSuccess && (
+                      <div className="bg-green-50 border border-green-200 rounded-md p-3">
+                        <p className="text-sm text-green-600">Faculty member created successfully!</p>
+                      </div>
+                    )}
                   </div>
-
-                  <div>
-                    <label className={`block text-sm font-medium mb-1 ${
-                      isDarkMode ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      value={facultyEmail}
-                      onChange={(e) => setFacultyEmail(e.target.value)}
-                      className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                        isDarkMode 
-                          ? 'bg-gray-700 border-gray-600 text-white' 
-                          : 'bg-white border-gray-300 text-gray-900'
-                      }`}
-                      placeholder="faculty@example.com"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className={`block text-sm font-medium mb-1 ${
-                      isDarkMode ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      Employee ID
-                    </label>
-                    <input
-                      type="text"
-                      value={employeeId}
-                      readOnly
-                      className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                        isDarkMode 
-                          ? 'bg-gray-700 border-gray-600 text-white cursor-not-allowed opacity-75' 
-                          : 'bg-gray-100 border-gray-300 text-gray-900 cursor-not-allowed'
-                      }`}
-                      placeholder="Auto-generated based on department"
-                    />
-                  </div>
-
-                  <div>
-                    <label className={`block text-sm font-medium mb-1 ${
-                      isDarkMode ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      Registration Code
-                    </label>
-                    <select
-                      value={selectedCode}
-                      onChange={(e) => setSelectedCode(e.target.value)}
-                      className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                        isDarkMode 
-                          ? 'bg-gray-700 border-gray-600 text-white' 
-                          : 'bg-white border-gray-300 text-gray-900'
-                      }`}
-                      required
+                  
+                  <div className="px-4 py-3 bg-gray-100 sm:px-6 flex justify-end">
+                    <button
+                      type="button"
+                      onClick={() => setIsModalOpen(false)}
+                      className="mr-2 bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
-                      <option value="">Select a registration code</option>
-                      {registrationCodes.map((code) => (
-                        <option key={code.code} value={code.code}>
-                          {code.code}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className={`block text-sm font-medium mb-1 ${
-                      isDarkMode ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      Department
-                    </label>
-                    <select
-                      value={department}
-                      onChange={handleDepartmentChange}
-                      className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                        isDarkMode 
-                          ? 'bg-gray-700 border-gray-600 text-white' 
-                          : 'bg-white border-gray-300 text-gray-900'
-                      }`}
-                      required
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={submitLoading}
+                      className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
-                      <option value="">Select a department</option>
-                      {DEPARTMENTS.map((dept) => (
-                        <option key={dept} value={dept}>
-                          {dept}
-                        </option>
-                      ))}
-                    </select>
+                      {submitLoading ? 'Creating...' : 'Create Faculty'}
+                    </button>
                   </div>
-
-                  <div>
-                    <label className={`block text-sm font-medium mb-1 ${
-                      isDarkMode ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      University
-                    </label>
-                    <input
-                      type="text"
-                      value={user?.universityName || 'KLE BCA Hubli'}
-                      readOnly
-                      className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                        isDarkMode 
-                          ? 'bg-gray-700 border-gray-600 text-white cursor-not-allowed opacity-75' 
-                          : 'bg-gray-100 border-gray-300 text-gray-900 cursor-not-allowed'
-                      }`}
-                    />
-                  </div>
-
-                  {submitError && (
-                    <p className="mt-2 text-sm text-red-500">
-                      {submitError}
-                    </p>
-                  )}
-
-                  {submitSuccess && (
-                    <p className="mt-2 text-sm text-green-500">
-                      Faculty member created successfully!
-                    </p>
-                  )}
-
-                  <button
-                    type="submit"
-                    disabled={submitLoading}
-                    className={`w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white 
-                      ${submitLoading ? 'bg-indigo-400' : 'bg-indigo-600 hover:bg-indigo-700'} 
-                      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
-                  >
-                    {submitLoading ? 'Creating...' : 'Create Faculty Member'}
-                  </button>
                 </form>
               </div>
             </div>

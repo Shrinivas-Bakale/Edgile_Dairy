@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useStudentAuth } from '../../contexts/StudentAuthContext';
 import { useAuth } from '../../contexts/AuthContext';
-import { useSnackbar } from '../../contexts/SnackbarContext';
 import DashboardWrapper from '../../components/DashboardWrapper';
 import { studentAPI } from '../../utils/api';
 import { 
@@ -35,7 +34,6 @@ const CourseDetail: React.FC = () => {
   const navigate = useNavigate();
   const { student } = useStudentAuth();
   const { user } = useAuth();
-  const { showSnackbar } = useSnackbar();
   
   const [loading, setLoading] = useState(true);
   const [course, setCourse] = useState<Course | null>(null);
@@ -53,7 +51,6 @@ const CourseDetail: React.FC = () => {
         // Check if token exists before making API call
         const token = localStorage.getItem('token');
         if (!token) {
-          showSnackbar('Your session has expired. Please login again.', 'warning');
           navigate('/login');
           return;
         }
@@ -66,20 +63,18 @@ const CourseDetail: React.FC = () => {
           setIsEnrolled(response.isEnrolled || false);
         } else {
           setError('Failed to load course details. Please try again later.');
-          showSnackbar(response.message || 'Failed to load course details', 'error');
         }
       } catch (err: any) {
         // Handle errors without triggering logout
         console.error('Error fetching course details:', err);
         setError('Failed to fetch course details. Please try again later.');
-        showSnackbar('Error loading course details. Please try refreshing the page.', 'error');
       } finally {
         setLoading(false);
       }
     };
     
     fetchCourseDetails();
-  }, [id, navigate, showSnackbar]);
+  }, [id, navigate]);
   
   const getTypeColor = (type: string) => {
     switch (type) {

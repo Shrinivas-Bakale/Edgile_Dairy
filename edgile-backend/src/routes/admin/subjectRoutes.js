@@ -28,7 +28,7 @@ router.get('/', auth, adminAuthMiddleware, async (req, res) => {
     console.log('[DEBUG] GET /api/admin/subjects request received');
     console.log('[DEBUG] Query parameters:', req.query);
     
-    const { year, semester, archived, academicYear, university } = req.query;
+    const { year, semester, archived, university } = req.query;
     
     // Get admin details - either from req.user.id or allow explicit university in query
     let universityId = university;
@@ -60,29 +60,20 @@ router.get('/', auth, adminAuthMiddleware, async (req, res) => {
       // By default, show only non-archived subjects
       query.archived = false;
     }
-    if (academicYear) query.academicYear = academicYear;
     
     console.log('[DEBUG] Final query:', query);
     
     const subjects = await Subject.find(query).sort({ subjectName: 1 });
     
     logger.info(`Retrieved ${subjects.length} subjects for university ${universityId}`);
-    console.log(`[DEBUG] Found ${subjects.length} subjects matching query`);
     
-    // Return in the format frontend expects: { success: true, subjects: [...] }
     res.json({
       success: true,
-      count: subjects.length,
       subjects
     });
   } catch (error) {
     logger.error(`Error retrieving subjects: ${error.message}`);
-    console.error('[ERROR] Error retrieving subjects:', error);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Server error', 
-      error: error.message 
-    });
+    res.status(500).json({ success: false, message: 'Server error', error: error.message });
   }
 });
 
@@ -92,57 +83,11 @@ router.get('/', auth, adminAuthMiddleware, async (req, res) => {
  * @access Private (Admin only)
  */
 router.get('/subjects/academic-years', auth, adminAuthMiddleware, async (req, res) => {
-  try {
-    // Get admin details
-    const admin = await Admin.findById(req.user.id);
-    if (!admin) {
-      return res.status(404).json({ success: false, msg: 'Admin not found' });
-    }
-    
-    // Get distinct academic years
-    const academicYears = await Subject.distinct('academicYear', {
-      university: admin._id
-    });
-    
-    // Sort academic years
-    academicYears.sort((a, b) => {
-      // Extract start years for comparison
-      const yearA = parseInt(a.split('-')[0]);
-      const yearB = parseInt(b.split('-')[0]);
-      return yearB - yearA; // Descending order (most recent first)
-    });
-    
-    // Format academic years to ensure YYYY-YY format
-    const formattedYears = academicYears.map(year => {
-      // If already in correct format, return as is
-      if (/^\d{4}-\d{2}$/.test(year)) {
-        return year;
-      }
-      
-      // If single year format, convert to YYYY-YY
-      if (/^\d{4}$/.test(year)) {
-        const startYear = parseInt(year);
-        const endYear = (startYear + 1) % 100; // Get last two digits of the next year
-        return `${startYear}-${endYear.toString().padStart(2, '0')}`;
-      }
-      
-      // If old format YYYY-YYYY, convert to YYYY-YY
-      if (/^\d{4}-\d{4}$/.test(year)) {
-        const [startYear, endYear] = year.split('-');
-        return `${startYear}-${endYear.slice(2)}`;
-      }
-      
-      return year; // Return as is if format is unrecognized
-    });
-    
-    res.json({
-      success: true,
-      academicYears: formattedYears
-    });
-  } catch (error) {
-    logger.error(`Error retrieving academic years: ${error.message}`);
-    res.status(500).json({ success: false, msg: 'Server error', error: error.message });
-  }
+  res.status(200).json({
+    success: true,
+    message: 'Academic year functionality has been removed',
+    academicYears: []
+  });
 });
 
 /**
@@ -201,11 +146,9 @@ router.post('/subjects',
   adminAuthMiddleware,
   check('subjectName', 'Subject name is required').not().isEmpty(),
   check('subjectCode', 'Subject code is required').not().isEmpty(),
-  check('type', 'Subject type must be core, lab, or elective').isIn(['core', 'lab', 'elective']),
-  check('totalDuration', 'Total duration must be a positive number').isInt({ min: 1 }),
-  check('year', 'Year must be First, Second, or Third').isIn(['First', 'Second', 'Third']),
-  check('semester', 'Semester must be between 1 and 6').isInt({ min: 1, max: 6 }),
-  check('academicYear', 'Academic year is required').not().isEmpty(),
+  check('totalDuration', 'Total duration is required').isInt({ min: 1 }),
+  check('year', 'Year is required').isIn(['First', 'Second', 'Third']),
+  check('semester', 'Semester is required').isInt({ min: 1, max: 6 }),
   async (req, res) => {
   // Check for validation errors
   const errors = validationResult(req);
@@ -221,7 +164,6 @@ router.post('/subjects',
       totalDuration, 
       year, 
       semester,
-      academicYear,
       description
     } = req.body;
     
@@ -231,13 +173,12 @@ router.post('/subjects',
       return res.status(404).json({ success: false, msg: 'Admin not found' });
     }
     
-    // Check if subject with the same code already exists for the same year, semester, and academic year
+    // Check if subject with the same code already exists for the same year and semester
     const existingSubject = await Subject.findOne({
       university: admin._id,
       subjectCode,
       year,
-      semester,
-      academicYear
+      semester
     });
     
     if (existingSubject) {
@@ -254,12 +195,11 @@ router.post('/subjects',
     const newSubject = new Subject({
       subjectName,
       subjectCode,
-      type: type.toLowerCase(),
+      type: type?.toLowerCase() || 'core',
       totalDuration,
       weeklyHours,
       year,
       semester,
-      academicYear,
       description: description || '',
       university: admin._id,
       universityCode: admin.universityCode,
@@ -435,94 +375,11 @@ router.delete('/subjects/:id', auth, adminAuthMiddleware, async (req, res) => {
  * @desc Copy subjects from one academic year to another
  * @access Private (Admin only)
  */
-router.post('/subjects/copy', 
-  auth,
-  adminAuthMiddleware,
-  check('sourceYear', 'Source academic year is required').not().isEmpty(),
-  check('targetYear', 'Target academic year is required').not().isEmpty(),
-  check('year', 'Year is required').isIn(['First', 'Second', 'Third']),
-  check('semester', 'Semester is required').isInt({ min: 1, max: 6 }),
-  async (req, res) => {
-  // Check for validation errors
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ success: false, errors: errors.array() });
-  }
-  
-  try {
-    const { sourceYear, targetYear, year, semester } = req.body;
-    
-    // Get admin details
-    const admin = await Admin.findById(req.user.id);
-    if (!admin) {
-      return res.status(404).json({ success: false, msg: 'Admin not found' });
-    }
-    
-    // Check if the source year has subjects
-    const sourceSubjects = await Subject.find({
-      university: admin._id,
-      academicYear: sourceYear,
-      year,
-      semester,
-      archived: false
-    });
-    
-    if (sourceSubjects.length === 0) {
-      return res.status(404).json({
-        success: false,
-        msg: `No subjects found for ${year} year, semester ${semester} in academic year ${sourceYear}`
-      });
-    }
-    
-    // Check if subjects already exist in the target year
-    const existingTargetSubjects = await Subject.find({
-      university: admin._id,
-      academicYear: targetYear,
-      year,
-      semester
-    });
-    
-    if (existingTargetSubjects.length > 0) {
-      return res.status(400).json({
-        success: false,
-        msg: `Subjects already exist for ${year} year, semester ${semester} in academic year ${targetYear}`
-      });
-    }
-    
-    // Copy subjects to target year
-    const newSubjects = [];
-    
-    for (const subject of sourceSubjects) {
-      const newSubject = new Subject({
-        subjectName: subject.subjectName,
-        subjectCode: subject.subjectCode,
-        type: subject.type,
-        totalDuration: subject.totalDuration,
-        weeklyHours: subject.weeklyHours,
-        year: subject.year,
-        semester: subject.semester,
-        academicYear: targetYear,
-        university: admin._id,
-        universityCode: admin.universityCode,
-        createdBy: admin._id,
-        archived: false
-      });
-      
-      await newSubject.save();
-      newSubjects.push(newSubject);
-    }
-    
-    logger.info(`${newSubjects.length} subjects copied from ${sourceYear} to ${targetYear} for ${year} year, semester ${semester} by ${admin.name}`);
-    
-    res.status(201).json({
-      success: true,
-      msg: `${newSubjects.length} subjects copied successfully`,
-      subjects: newSubjects
-    });
-  } catch (error) {
-    logger.error(`Error copying subjects: ${error.message}`);
-    res.status(500).json({ success: false, msg: 'Server error', error: error.message });
-  }
+router.post('/subjects/copy', auth, adminAuthMiddleware, async (req, res) => {
+  return res.status(405).json({
+    success: false,
+    msg: 'This functionality has been removed. Academic year is no longer used.'
+  });
 });
 
 /**

@@ -58,7 +58,9 @@ module.exports = async (req, res, next) => {
     req.user = {
       id: decoded.id,
       email: admin.email,
-      role: 'admin'
+      role: 'admin',
+      university: admin.universityCode,
+      universityCode: admin.universityCode
     };
 
     next();

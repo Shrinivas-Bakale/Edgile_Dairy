@@ -74,18 +74,11 @@ const StudentProfile: React.FC = () => {
     const fetchProfile = async () => {
       try {
         setLoading(true);
-        const response = await api.get('/student/profile');
-        
+        const response: any = await api.get('/api/student/profile');
         if (response.data && response.data.success && response.data.student) {
           const studentData = response.data.student;
           setProfile(studentData);
-          
-          // Set updated profile fields for edit mode - only phone is editable
-          setUpdatedProfile({
-            phone: studentData.phone || '',
-          });
-          
-          // Fetch university info if not present or incomplete
+          setUpdatedProfile({ phone: studentData.phone || '' });
           if (!studentData.university || !studentData.university.universityName) {
             fetchUniversityInfo(studentData.universityCode);
           } else {
@@ -129,13 +122,12 @@ const StudentProfile: React.FC = () => {
         setLoading(false);
       }
     };
-
     fetchProfile();
   }, []);
   
   const fetchUniversityInfo = async (universityCode: string) => {
     try {
-      const response = await api.get(`/universities/info/${universityCode}`);
+      const response: any = await api.get(`/api/universities/info/${universityCode}`);
       if (response.data && response.data.success) {
         setUniversityInfo({
           name: response.data.university.universityName || '',
@@ -143,18 +135,8 @@ const StudentProfile: React.FC = () => {
         });
       }
     } catch (err) {
-      // Create a fallback API endpoint to get university info by code
-      try {
-        const fallbackResponse = await api.get(`/admin/university-by-code/${universityCode}`);
-        if (fallbackResponse.data && fallbackResponse.data.success) {
-          setUniversityInfo({
-            name: fallbackResponse.data.university.universityName || '',
-            adminName: fallbackResponse.data.university.name || ''
-          });
-        }
-      } catch (fallbackErr) {
-        // Silently handle this error as university info is not critical
-      }
+      // Silently handle this error as university info is not critical
+      // console.error('Failed to fetch university info:', err);
     }
   };
 
@@ -188,7 +170,7 @@ const StudentProfile: React.FC = () => {
   const handleSave = async () => {
     try {
       setLoading(true);
-      const response = await api.put('/student/update', updatedProfile);
+      const response: any = await api.put('/api/student/update', updatedProfile);
       
       if (response.data && response.data.student) {
         setProfile(response.data.student);

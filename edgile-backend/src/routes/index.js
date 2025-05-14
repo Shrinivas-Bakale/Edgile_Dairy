@@ -15,41 +15,51 @@ router.use('/student/auth', studentAuthRoutes);
 router.use('/admin/auth', adminAuthRoutes);
 router.use('/faculty/auth', facultyAuthRoutes);
 
+// Initialize route variables
+let facultyRoutes;
+let studentRoutes;
+let adminRoutes;
+let universityRoutes;
+
 // Try to load other route modules, but handle if they don't exist
 try {
   console.log('Attempting to load faculty routes...');
-  const facultyRoutes = require('./faculty/index');
+  facultyRoutes = require('./faculty/index');
   router.use('/faculty', facultyRoutes);
   console.log('Faculty routes loaded successfully');
 } catch (err) {
   console.log('Faculty routes not available:', err.message);
+  facultyRoutes = express.Router(); // Create empty router as fallback
 }
 
 try {
   console.log('Attempting to load student routes...');
-  const studentRoutes = require('./student/index');
+  studentRoutes = require('./student/index');
   router.use('/student', studentRoutes);
   console.log('Student routes loaded successfully');
 } catch (err) {
   console.log('Student routes not available:', err.message);
+  studentRoutes = express.Router(); // Create empty router as fallback
 }
 
 try {
   console.log('Attempting to load admin routes...');
-  const adminRoutes = require('./admin/index');
+  adminRoutes = require('./admin/index');
   router.use('/admin', adminRoutes);
   console.log('Admin routes loaded successfully');
 } catch (err) {
   console.log('Admin routes not available:', err.message);
+  adminRoutes = express.Router(); // Create empty router as fallback
 }
 
 try {
   console.log('Attempting to load university routes...');
-  const universityRoutes = require('./universityRoutes');
+  universityRoutes = require('./universityRoutes');
   router.use('/universities', universityRoutes);
   console.log('University routes loaded successfully');
 } catch (err) {
   console.log('University routes not available:', err.message);
+  universityRoutes = express.Router(); // Create empty router as fallback
 }
 
 // University verification endpoint (publicly accessible)
@@ -173,38 +183,31 @@ router.post('/verify-code', [
   }
 });
 
-// Add the new route to get university information by code
-router.get('/admin/university-by-code/:universityCode', async (req, res) => {
-  try {
-    const { universityCode } = req.params;
-    
-    if (!universityCode) {
-      return res.status(400).json({ success: false, message: 'University code is required' });
-    }
-    
-    const university = await Admin.findOne({ universityCode });
-    
-    if (!university) {
-      return res.status(404).json({ success: false, message: 'University not found' });
-    }
-    
-    res.status(200).json({
-      success: true,
-      university: {
-        _id: university._id,
-        name: university.name,
-        email: university.email,
-        universityName: university.universityName,
-        universityCode: university.universityCode
-      }
-    });
-  } catch (error) {
-    console.error('Error fetching university by code:', error);
-    res.status(500).json({ success: false, message: 'Server error', error: error.message });
-  }
-});
+// Import specific route modules
+const adminDashboardRoutes = require('./admin/dashboardRoutes');
+const adminClassroomRoutes = require('./admin/classroomRoutes');
+const adminSubjectRoutes = require('./admin/subjectRoutes');
+const adminAttendanceRoutes = require('./admin/attendanceRoutes');
+const studentAttendanceRoutes = require('./student/attendanceRoutes');
+const facultyProfileRoutes = require('./faculty/profile');
+const facultyAttendanceRoutes = require('./faculty/attendanceRoutes');
 
-// Update the classroom routes path
-router.use('/api/admin', require('./admin/classroomRoutes'));
+// Mount routes
+// Admin routes
+router.use('/admin', adminDashboardRoutes);
+router.use('/admin', adminClassroomRoutes);
+router.use('/admin', adminSubjectRoutes);
+router.use('/admin/attendance', adminAttendanceRoutes);
+
+// Student routes - use the previously loaded router or the specific routes
+router.use('/student/attendance', studentAttendanceRoutes);
+
+// Faculty routes
+router.use('/faculty/profile', facultyProfileRoutes);
+router.use('/faculty/attendance', facultyAttendanceRoutes);
+
+// Prevent duplicate mounting
+// These were already mounted earlier in the try/catch blocks
+// So we don't need to mount them again
 
 module.exports = router; 

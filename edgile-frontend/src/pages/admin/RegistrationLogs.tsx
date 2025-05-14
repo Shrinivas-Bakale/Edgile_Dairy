@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { adminAPI } from '../../utils/api';
 import DashboardWrapper from '../../components/DashboardWrapper';
-import { IconFilter, IconRefresh, IconArrowDown, IconArrowUp } from '@tabler/icons-react';
+import { IconFilter, IconRefresh, IconArrowDown, IconArrowUp, IconChevronDown } from '@tabler/icons-react';
 
 interface RegistrationLog {
   id: string;
@@ -46,6 +46,8 @@ const RegistrationLogs: React.FC = () => {
   const [yearFilter, setYearFilter] = useState<string>('');
   const [divisionFilter, setDivisionFilter] = useState<string>('');
   const [registerNumberFilter, setRegisterNumberFilter] = useState<string>('');
+
+  const [isTabsMenuOpen, setIsTabsMenuOpen] = useState(false);
 
   useEffect(() => {
     fetchLogs();
@@ -237,9 +239,13 @@ const RegistrationLogs: React.FC = () => {
 
   const logsToDisplay = getActiveLogList();
 
+  const handleTabsMenuToggle = () => {
+    setIsTabsMenuOpen(!isTabsMenuOpen);
+  };
+
   return (
     <DashboardWrapper>
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 overflow-container">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
             Registration Logs
@@ -260,33 +266,45 @@ const RegistrationLogs: React.FC = () => {
               <IconFilter className="mr-2" size={18} />
               {showFilters ? 'Hide Filters' : 'Show Filters'}
             </button>
-          </div>
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md mb-6">
-          <div className="border-b border-gray-200 dark:border-gray-700">
-            <nav className="flex -mb-px">
+            
+            <div className="relative">
               <button
-                className={`py-4 px-6 text-center border-b-2 font-medium text-sm ${
-                  activeTab === 'faculty'
-                    ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
-                }`}
-                onClick={() => setActiveTab('faculty')}
+                onClick={handleTabsMenuToggle}
+                className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
-                Faculty Registrations
+                {activeTab === 'faculty' ? 'Faculty Logs' : 'Student Logs'}
+                <IconChevronDown className="ml-2" size={18} />
               </button>
-              <button
-                className={`py-4 px-6 text-center border-b-2 font-medium text-sm ${
-                  activeTab === 'student'
-                    ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
-                }`}
-                onClick={() => setActiveTab('student')}
-              >
-                Student Registrations
-              </button>
-            </nav>
+              
+              {isTabsMenuOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+                  <div className="py-1">
+                    <button
+                      onClick={() => {
+                        setActiveTab('faculty');
+                        setIsTabsMenuOpen(false);
+                      }}
+                      className={`${
+                        activeTab === 'faculty' ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                      } flex w-full px-4 py-2 text-sm text-left hover:bg-gray-100`}
+                    >
+                      Faculty Logs
+                    </button>
+                    <button
+                      onClick={() => {
+                        setActiveTab('student');
+                        setIsTabsMenuOpen(false);
+                      }}
+                      className={`${
+                        activeTab === 'student' ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                      } flex w-full px-4 py-2 text-sm text-left hover:bg-gray-100`}
+                    >
+                      Student Logs
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -414,7 +432,7 @@ const RegistrationLogs: React.FC = () => {
           </div>
         ) : (
           <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto max-h-[calc(100vh-300px)] overflow-y-auto">
               {activeTab === 'faculty' ? (
                 // Faculty table
                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">

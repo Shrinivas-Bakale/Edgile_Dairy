@@ -22,14 +22,34 @@ dotenv.config();
 // Create Express app
 const app = express();
 
+// Enable CORS with configuration - moving this before other middleware to ensure it's applied first
+app.use(cors({
+  origin: 'http://localhost:3000', // Set to your frontend URL
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+}));
+
+// Add a custom middleware to handle CORS preflight for all routes
+app.options('*', cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
+
 // Security middleware
-app.use(helmet()); // Set security headers
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'cross-origin' }
+})); // Set security headers with CORS-friendly config
 app.use(xss()); // Sanitize inputs
 
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  max: 1000, // increased to 1000 requests per window for better handling
+  standardHeaders: true,
+  legacyHeaders: false,
   message: {
     success: false,
     message: 'Too many requests from this IP, please try again after 15 minutes'
@@ -38,14 +58,6 @@ const limiter = rateLimit({
 
 // Apply rate limiting to all requests
 app.use(limiter);
-
-// Enable CORS with configuration
-app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:5173'],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
 
 // Body parsers
 app.use(express.json({ limit: '10mb' }));
@@ -80,6 +92,22 @@ app.use((req, res, next) => {
   });
   const requestUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
   console.log(`Incoming request: ${req.method} ${requestUrl} from ${req.headers.origin || 'Unknown'}`);
+  
+  // Add CORS headers on every response to ensure they're present
+  if (req.headers.origin) {
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+  }
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  
+  // Log CORS-related headers for debugging
+  console.log('CORS Debug - Request headers:', {
+    origin: req.headers.origin,
+    method: req.method,
+    path: req.path
+  });
+  
   next();
 });
 
@@ -93,10 +121,13 @@ try {
   const adminRoutes = require('./src/routes/admin/index');
   const adminClassroomRoutes = require('./src/routes/admin/classroomRoutes');
   const adminSubjectRoutes = require('./src/routes/admin/subjectRoutes');
+  const adminAttendanceRoutes = require('./src/routes/admin/attendanceRoutes');
   const facultyProfileRoutes = require('./src/routes/faculty/profile');
   const universityRoutes = require('./src/routes/universityRoutes');
-  const facultyRoutes = require('./src/routes/facultyRoutes');
+  const facultyRoutes = require('./src/routes/faculty/index');
+  const facultyAttendanceRoutes = require('./src/routes/faculty/attendanceRoutes');
   const studentRoutes = require('./src/routes/studentRoutes');
+  const studentAttendanceRoutes = require('./src/routes/student/attendanceRoutes');
 
   // Register Routes
   console.log('Registering routes...');
@@ -108,9 +139,15 @@ try {
   app.use('/api/admin', adminRoutes);
   app.use('/api/admin', adminClassroomRoutes);
   app.use('/api/admin', adminSubjectRoutes);
+  app.use('/api/admin/attendance', adminAttendanceRoutes);
   app.use('/api/universities', universityRoutes);
   app.use('/api/faculty', facultyRoutes);
+  app.use('/api/faculty/attendance', facultyAttendanceRoutes);
   app.use('/api/student', studentRoutes);
+  app.use('/api/student/attendance', studentAttendanceRoutes);
+  // Video Library feature
+  const videoLibraryRoutes = require('./src/routes/videoLibraryRoutes');
+  app.use('/api/video-library', videoLibraryRoutes);
   console.log('Routes registered successfully');
 } catch (error) {
   console.error('Error loading routes:', error);
@@ -175,8 +212,25 @@ app.get("/api/test", (req, res) => {
   });
 });
 
+// CORS test endpoint
+app.get("/api/cors-test", (req, res) => {
+  console.log("CORS test endpoint hit");
+  res.json({
+    success: true,
+    message: "CORS is configured correctly!",
+    headers: {
+      origin: req.headers.origin,
+      host: req.headers.host,
+      method: req.method
+    }
+  });
+});
+
 // Mount API routes
 app.use('/api', routes);
+
+// Serve report files
+app.use('/reports', express.static(path.join(__dirname, '../reports')));
 
 // 404 middleware
 app.use((req, res, next) => {

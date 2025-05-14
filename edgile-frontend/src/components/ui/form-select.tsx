@@ -18,7 +18,7 @@ interface FormSelectProps {
   label: string;
   value: string;
   onChange: (value: string) => void;
-  options: { value: string; label: string }[];
+  options: { value: string; label: string; disabled?: boolean }[];
   disabled?: boolean;
   placeholder?: string;
   tooltip?: string;
@@ -76,7 +76,12 @@ export const FormSelect: React.FC<FormSelectProps> = ({
           <SelectGroup>
             <SelectItem value="">Select {label}</SelectItem>
             {options.map((option) => (
-              <SelectItem key={option.value} value={option.value}>
+              <SelectItem 
+                key={option.value} 
+                value={option.value} 
+                disabled={option.disabled}
+                className={option.disabled ? 'opacity-60 text-gray-500' : ''}
+              >
                 {option.label}
               </SelectItem>
             ))}

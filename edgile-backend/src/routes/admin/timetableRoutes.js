@@ -17,6 +17,12 @@ const ClassroomAssignment = require('../../models/ClassroomAssignment');
 // Middleware to check if the admin belongs to the university
 const checkUniversityAccess = async (req, res, next) => {
   try {
+    // Skip university check for specific routes that use ID parameters
+    if (req.method === 'DELETE' || (req.method === 'POST' && req.path.includes('/publish'))) {
+      logger.info(`Skipping university check for ${req.method} ${req.path}`);
+      return next();
+    }
+    
     // Admin ID is set in the validateAdmin middleware
     const universityId = req.body.university || req.query.university;
     
@@ -366,38 +372,42 @@ router.post('/:id/check-conflicts', async (req, res) => {
   }
 });
 
-// Publish a timetable
+// Update publish route to handle university access properly
 router.post('/:id/publish', async (req, res) => {
   try {
-    const timetable = await Timetable.findById(req.params.id)
-      .populate('classroom')
-      .populate('subjects')
-      .populate('faculty');
+    const timetableId = req.params.id;
+    logger.info(`Publishing timetable with ID: ${timetableId}`);
+    
+    // Find the timetable first to ensure it exists
+    const timetable = await Timetable.findById(timetableId);
 
     if (!timetable) {
+      logger.warn(`Timetable not found for publishing: ${timetableId}`);
       return res.status(404).json({
         success: false,
         message: 'Timetable not found'
       });
     }
-
-    // Check for conflicts before publishing
-    const conflicts = await timetableGenerator.checkConflicts(timetable);
-
-    if (conflicts.length > 0) {
-      return res.status(400).json({
+    
+    // For publish operations, manually check university access
+    if (req.admin.role !== 'super' && timetable.university && 
+        timetable.university.toString() !== req.admin._id.toString()) {
+      logger.warn(`Unauthorized publish attempt: Admin ${req.admin._id} trying to publish timetable ${timetableId} from university ${timetable.university}`);
+      return res.status(403).json({
         success: false,
-        message: 'Cannot publish timetable with conflicts',
-        conflicts
+        message: 'You do not have permission to publish this timetable'
       });
     }
 
+    // Update to published status
     timetable.status = 'published';
     await timetable.save();
 
+    logger.info(`Timetable published successfully: ${timetableId}`);
     return res.status(200).json({
       success: true,
-      data: timetable
+      data: timetable,
+      message: 'Timetable published successfully'
     });
   } catch (error) {
     logger.error(`Error publishing timetable: ${error.message}`);
@@ -442,6 +452,105 @@ router.post('/:id/assign-faculty', async (req, res) => {
     return res.status(500).json({
       success: false,
       message: 'Error auto-assigning faculty'
+    });
+  }
+});
+
+// Update DELETE route for timetable deletion
+router.delete('/:id', async (req, res) => {
+  try {
+    const timetableId = req.params.id;
+    logger.info(`Deleting timetable with ID: ${timetableId}`);
+    
+    // Find the timetable first to ensure it exists
+    const timetable = await Timetable.findById(timetableId);
+    
+    if (!timetable) {
+      logger.warn(`Timetable not found for deletion: ${timetableId}`);
+      return res.status(404).json({
+        success: false,
+        message: 'Timetable not found'
+      });
+    }
+    
+    // For DELETE operations, manually check university access
+    if (req.admin.role !== 'super' && timetable.university && 
+        timetable.university.toString() !== req.admin._id.toString()) {
+      logger.warn(`Unauthorized deletion attempt: Admin ${req.admin._id} trying to delete timetable ${timetableId} from university ${timetable.university}`);
+      return res.status(403).json({
+        success: false,
+        message: 'You do not have permission to delete this timetable'
+      });
+    }
+    
+    // Perform the deletion
+    await Timetable.findByIdAndDelete(timetableId);
+    
+    logger.info(`Timetable deleted successfully: ${timetableId}`);
+    return res.status(200).json({
+      success: true,
+      message: 'Timetable deleted successfully'
+    });
+  } catch (error) {
+    logger.error(`Error deleting timetable: ${error.message}`);
+    return res.status(500).json({
+      success: false,
+      message: 'Error deleting timetable'
+    });
+  }
+});
+
+// Add unpublish route to reverse published status
+router.post('/:id/unpublish', async (req, res) => {
+  try {
+    const timetableId = req.params.id;
+    logger.info(`Unpublishing timetable with ID: ${timetableId}`);
+    
+    // Find the timetable first to ensure it exists
+    const timetable = await Timetable.findById(timetableId);
+
+    if (!timetable) {
+      logger.warn(`Timetable not found for unpublishing: ${timetableId}`);
+      return res.status(404).json({
+        success: false,
+        message: 'Timetable not found'
+      });
+    }
+    
+    // Check if timetable is already in draft status
+    if (timetable.status === 'draft') {
+      logger.info(`Timetable ${timetableId} is already in draft status`);
+      return res.status(400).json({
+        success: false,
+        message: 'Timetable is already in draft status'
+      });
+    }
+    
+    // For unpublish operations, manually check university access
+    if (req.admin.role !== 'super' && timetable.university && 
+        timetable.university.toString() !== req.admin._id.toString()) {
+      logger.warn(`Unauthorized unpublish attempt: Admin ${req.admin._id} trying to unpublish timetable ${timetableId} from university ${timetable.university}`);
+      return res.status(403).json({
+        success: false,
+        message: 'You do not have permission to unpublish this timetable'
+      });
+    }
+
+    // Update to draft status
+    timetable.status = 'draft';
+    await timetable.save();
+
+    logger.info(`Timetable unpublished successfully: ${timetableId}`);
+    return res.status(200).json({
+      success: true,
+      data: timetable,
+      message: 'Timetable unpublished successfully'
+    });
+  } catch (error) {
+    logger.error(`Error unpublishing timetable: ${error.message}`);
+    return res.status(500).json({
+      success: false,
+      message: 'Error unpublishing timetable'
     });
   }
 });

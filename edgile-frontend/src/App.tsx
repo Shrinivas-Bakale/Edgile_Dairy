@@ -10,6 +10,8 @@ import { ToastProvider } from './contexts/ToastContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { StudentAuthProvider } from './contexts/StudentAuthContext';
 import { FacultyAuthProvider } from './contexts/FacultyAuthContext';
+import { AdminAuthProvider } from './contexts/AdminAuthContext';
+import DashboardWrapper from './components/DashboardWrapper';
 import React from 'react';
 
 // Create Query Client
@@ -36,11 +38,15 @@ import RegistrationCodes from './pages/admin/RegistrationCodes';
 import FacultyDashboard from './pages/faculty/FacultyDashboard';
 import FacultyCourses from './pages/faculty/Courses';
 import FacultyCourseDetail from './pages/faculty/CourseDetail';
+import FacultyProfile from './pages/faculty/Profile';
+import FacultyTimetable from './pages/faculty/Timetable';
 import TokenRegistration from './pages/faculty/TokenRegistration';
+import FacultyStudents from './pages/faculty/Students';
 import StudentDashboard from './pages/student/Dashboard';
 import StudentCourses from './pages/student/Courses';
 import StudentCourseDetail from './pages/student/CourseDetail';
 import StudentProfile from './pages/student/Profile';
+import StudentTimetable from './pages/student/Timetable';
 import LoginLogs from './pages/admin/LoginLogs';
 import RegistrationLogs from './pages/admin/RegistrationLogs';
 import ClassroomsPage from './pages/admin/ClassroomsPage';
@@ -49,9 +55,26 @@ import ClassroomUnavailabilityPage from './pages/admin/ClassroomUnavailabilityPa
 import SubjectsPage from './pages/admin/SubjectsPage';
 import SubjectEditPage from './pages/admin/SubjectEditPage';
 import TimetablePage from './pages/admin/TimetablePage';
+import CalendarOfEventsDashboard from './pages/admin/CalendarOfEventsDashboard';
+import COEViewPage from './pages/admin/COEViewPage';
+import COEEditPage from './pages/admin/COEEditPage';
+
+// Attendance Management Pages
+import FacultyAttendancePage from './pages/faculty/attendance/layout';
+import StudentAttendancePage from './pages/student/attendance';
+import AdminAttendanceSettingsPage from './pages/admin/AttendanceSettingsPage';
+import HolidayManager from './pages/admin/attendance/HolidayManager';
 
 // Define role type
 type UserRole = 'admin' | 'faculty' | 'student';
+
+// New imports
+import FacultyCalendarOfEvents from './pages/faculty/CalendarOfEvents';
+import StudentCalendarOfEvents from './pages/student/CalendarOfEvents';
+import FacultyCOEViewPage from './pages/faculty/COEViewPage';
+import StudentCOEViewPage from './pages/student/COEViewPage';
+import VideoLibraryPage from './pages/lecture-videos/VideoLibraryPage';
+import PlaylistDetailPage from './pages/lecture-videos/PlaylistDetailPage';
 
 function App() {
   return (
@@ -59,13 +82,15 @@ function App() {
       <SnackbarProvider>
         <ToastProvider>
           <AuthProvider>
-            <StudentAuthProvider>
-              <FacultyAuthProvider>
-                <ErrorBoundary>
-                  <AppRoutes />
-                </ErrorBoundary>
-              </FacultyAuthProvider>
-            </StudentAuthProvider>
+            <AdminAuthProvider>
+              <StudentAuthProvider>
+                <FacultyAuthProvider>
+                  <ErrorBoundary>
+                    <AppRoutes />
+                  </ErrorBoundary>
+                </FacultyAuthProvider>
+              </StudentAuthProvider>
+            </AdminAuthProvider>
           </AuthProvider>
         </ToastProvider>
       </SnackbarProvider>
@@ -237,6 +262,46 @@ const AppRoutes = () => {
             } 
           />
           <Route 
+            path="/admin/calendar-of-events" 
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <CalendarOfEventsDashboard />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/admin/coe/:id/view" 
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <COEViewPage />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/admin/coe/:id/edit" 
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <COEEditPage />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/admin/attendance" 
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <AdminAttendanceSettingsPage />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/admin/attendance/holidays" 
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <HolidayManager />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
             path="/faculty/dashboard" 
             element={
               <ProtectedRoute allowedRoles={['faculty']}>
@@ -257,6 +322,32 @@ const AppRoutes = () => {
             element={
               <ProtectedRoute allowedRoles={['faculty']}>
                 <FacultyCourseDetail />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/faculty/profile" 
+            element={
+              <ProtectedRoute allowedRoles={['faculty']}>
+                <FacultyProfile />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/faculty/timetable" 
+            element={
+              <ProtectedRoute allowedRoles={['faculty']}>
+                <FacultyTimetable />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/faculty/attendance/*" 
+            element={
+              <ProtectedRoute allowedRoles={['faculty']}>
+                <DashboardWrapper>
+                  <FacultyAttendancePage />
+                </DashboardWrapper>
               </ProtectedRoute>
             } 
           />
@@ -292,9 +383,75 @@ const AppRoutes = () => {
               </ProtectedRoute>
             } 
           />
+          <Route 
+            path="/student/timetable" 
+            element={
+              <ProtectedRoute allowedRoles={['student']}>
+                <StudentTimetable />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/student/attendance/*" 
+            element={
+              <ProtectedRoute allowedRoles={['student']}>
+                <StudentAttendancePage />
+              </ProtectedRoute>
+            } 
+          />
           
           {/* Token-based faculty registration (from admin email) */}
           <Route path="/faculty/complete-registration/:token" element={<TokenRegistration />} />
+          
+          {/* Faculty Routes */}
+          <Route 
+            path="/faculty/students" 
+            element={
+              <ProtectedRoute allowedRoles={['faculty']}>
+                <FacultyStudents />
+              </ProtectedRoute>
+            } 
+          />
+          
+          {/* Faculty Calendar of Events */}
+          <Route 
+            path="/faculty/calendar-of-events" 
+            element={
+              <ProtectedRoute allowedRoles={['faculty']}>
+                <FacultyCalendarOfEvents />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/faculty/coe/:id" 
+            element={
+              <ProtectedRoute allowedRoles={['faculty']}>
+                <FacultyCOEViewPage />
+              </ProtectedRoute>
+            } 
+          />
+          
+          {/* Student Calendar of Events */}
+          <Route 
+            path="/student/calendar-of-events" 
+            element={
+              <ProtectedRoute allowedRoles={['student']}>
+                <StudentCalendarOfEvents />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/student/coe/:id" 
+            element={
+              <ProtectedRoute allowedRoles={['student']}>
+                <StudentCOEViewPage />
+              </ProtectedRoute>
+            } 
+          />
+          
+          {/* Lecture Videos */}
+          <Route path="/lecture-videos" element={<ProtectedRoute><VideoLibraryPage /></ProtectedRoute>} />
+          <Route path="/lecture-videos/:playlistId" element={<ProtectedRoute><PlaylistDetailPage /></ProtectedRoute>} />
           
           {/* Catch all route - redirect authenticated users to their dashboard, others to login */}
           <Route path="*" element={<Navigate to={getRedirectPath()} replace />} />

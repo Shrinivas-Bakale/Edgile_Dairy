@@ -10,7 +10,6 @@ import {
   IconUsers,
   IconInfoCircle
 } from '@tabler/icons-react';
-import { useDarkMode } from '../contexts/DarkModeContext';
 
 interface ClassroomProps {
   classroom: {
@@ -22,6 +21,9 @@ interface ClassroomProps {
     occupancy?: number;
     occupiedBy?: string | null;
     lastBooking?: string;
+    occupiedByYear?: string;
+    occupiedBySemester?: number;
+    occupiedByDivision?: string;
   };
   onDelete?: (id: string) => void;
   showActions?: boolean;
@@ -34,32 +36,31 @@ const ClassroomDetailCard: React.FC<ClassroomProps> = ({
   showActions = true,
   isDetailView = false
 }) => {
-  const { isDarkMode } = useDarkMode();
   
   // Get status badge color
   const getStatusBadgeClass = (status: string) => {
     switch (status) {
       case 'available':
-        return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
+        return 'bg-green-100 text-green-800';
       case 'unavailable':
-        return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+        return 'bg-red-100 text-red-800';
       case 'maintenance':
-        return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200';
+        return 'bg-orange-100 text-orange-800';
       default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
+        return 'bg-gray-100 text-gray-800';
     }
   };
   
   return (
     <div className={`
       ${isDetailView ? 'w-full' : 'w-full sm:w-96'}
-      bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden
+      bg-white rounded-lg shadow-md overflow-hidden
       transition-all duration-300 hover:shadow-lg
-      ${isDarkMode ? 'border border-gray-700' : 'border border-gray-100'}
+      border border-gray-100
     `}>
       <div className="p-5">
         <div className="flex justify-between items-start mb-3">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white truncate">
+          <h3 className="text-lg font-semibold text-gray-900 truncate">
             {classroom.name}
           </h3>
           
@@ -72,46 +73,56 @@ const ClassroomDetailCard: React.FC<ClassroomProps> = ({
         </div>
         
         <div className="space-y-3">
-          <div className="flex items-center text-gray-700 dark:text-gray-300">
-            <IconBuildingSkyscraper size={18} className="mr-2 text-gray-500 dark:text-gray-400" />
+          <div className="flex items-center text-gray-700">
+            <IconBuildingSkyscraper size={18} className="mr-2 text-gray-500" />
             <span>Floor: {classroom.floor}</span>
           </div>
           
-          <div className="flex items-center text-gray-700 dark:text-gray-300">
-            <IconUser size={18} className="mr-2 text-gray-500 dark:text-gray-400" />
+          <div className="flex items-center text-gray-700">
+            <IconUser size={18} className="mr-2 text-gray-500" />
             <span>Capacity: {classroom.capacity} students</span>
           </div>
           
-          <div className="flex items-center text-gray-700 dark:text-gray-300">
+          <div className="flex items-center text-gray-700">
             <div className="mr-2 flex-shrink-0">
-              <IconUsers size={18} className="text-gray-500 dark:text-gray-400" />
+              <IconUsers size={18} className="text-gray-500" />
             </div>
             <span>
               Current occupancy: {classroom.occupiedBy ? (
-                <span className="font-medium text-blue-600 dark:text-blue-400">{classroom.occupiedBy}</span>
+                <span className="font-medium text-blue-600">
+                  {classroom.occupiedBy}
+                  {(classroom.occupiedByYear || classroom.occupiedBySemester || classroom.occupiedByDivision) && (
+                    <div className="mt-1 text-sm text-gray-600">
+                      <span className="inline-flex items-center bg-blue-100 text-blue-800 rounded-md px-2 py-1 text-xs">
+                        {classroom.occupiedByYear && `${classroom.occupiedByYear} Year`}
+                        {classroom.occupiedBySemester && `, Sem ${classroom.occupiedBySemester}`}
+                        {classroom.occupiedByDivision && `, Div ${classroom.occupiedByDivision}`}
+                      </span>
+                    </div>
+                  )}
+                </span>
               ) : (
-                <span className="text-gray-500 dark:text-gray-400">No class assigned</span>
+                <span className="text-gray-500">No class assigned</span>
               )}
             </span>
           </div>
           
           {classroom.lastBooking && (
-            <div className="flex items-center text-gray-700 dark:text-gray-300">
-              <IconCalendarEvent size={18} className="mr-2 text-gray-500 dark:text-gray-400" />
+            <div className="flex items-center text-gray-700">
+              <IconCalendarEvent size={18} className="mr-2 text-gray-500" />
               <span>Last used: {classroom.lastBooking}</span>
             </div>
           )}
         </div>
         
         {showActions && (
-          <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-between">
+          <div className="mt-4 pt-4 border-t border-gray-200 flex justify-between">
             <div>
               {classroom.status === 'available' && (
                 <Link
                   to={`/admin/classrooms/unavailable/${classroom._id}`}
                   className="inline-flex items-center px-2.5 py-1.5 text-xs font-medium rounded
                     text-yellow-700 bg-yellow-100 hover:bg-yellow-200
-                    dark:text-yellow-200 dark:bg-yellow-900/50 dark:hover:bg-yellow-900
                     transition-colors duration-200 mr-2"
                 >
                   <IconAlertTriangle size={14} className="mr-1" />
@@ -125,7 +136,6 @@ const ClassroomDetailCard: React.FC<ClassroomProps> = ({
                 to={`/admin/classrooms/edit/${classroom._id}`}
                 className="inline-flex items-center px-2.5 py-1.5 text-xs font-medium rounded
                   text-indigo-700 bg-indigo-100 hover:bg-indigo-200
-                  dark:text-indigo-200 dark:bg-indigo-900/50 dark:hover:bg-indigo-900
                   transition-colors duration-200"
               >
                 <IconPencil size={14} className="mr-1" />
@@ -137,7 +147,6 @@ const ClassroomDetailCard: React.FC<ClassroomProps> = ({
                   onClick={() => onDelete(classroom._id)}
                   className="inline-flex items-center px-2.5 py-1.5 text-xs font-medium rounded
                     text-red-700 bg-red-100 hover:bg-red-200
-                    dark:text-red-200 dark:bg-red-900/50 dark:hover:bg-red-900
                     transition-colors duration-200"
                 >
                   <IconTrash size={14} className="mr-1" />

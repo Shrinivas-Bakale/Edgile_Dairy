@@ -20,6 +20,18 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowedRoles 
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   
+  // DEBUG LOG
+  console.log('ProtectedRoute:', { 
+    isAuthenticated, 
+    role, 
+    user, 
+    allowedRoles, 
+    location,
+    isAuthorized,
+    isLoading,
+    path: location.pathname
+  });
+  
   // Get appropriate dashboard path based on user role
   const getDashboardPath = (userRole: string) => {
     switch (userRole) {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import api from '../../utils/api';
 import DashboardWrapper from '../../components/DashboardWrapper';
+import { adminAPI } from '../../utils/api';
 
 interface AdminProfile {
   name: string;
@@ -64,52 +65,47 @@ const AdminProfile: React.FC = () => {
           }
           return;
         }
-
-        // Fetch profile data
-        const response = await api.get('/api/admin/auth/profile');
         
-        if (!response.data) {
-          if (!profile) { // Only set error if we don't already have a profile
-            setError('No data received from server');
+        // Fetch profile data using adminAPI helper
+        try {
+          const response = await adminAPI.getProfile();
+          
+          if (!response || !response.user) {
+            if (!profile) { // Only set error if we don't already have a profile
+              setError('No data received from server');
+            }
+            return;
           }
-          return;
-        }
 
-        if (!response.data.success) {
-          if (!profile) { // Only set error if we don't already have a profile
-            setError(response.data.message || 'Failed to fetch profile');
-          }
-          return;
-        }
-
-        const userData = response.data.user;
-        if (!userData || !userData.email) {
-          if (!profile) { // Only set error if we don't already have a profile
-            setError('Invalid profile data received');
-          }
-          return;
-        }
-
-        // Set profile with fallback values for optional fields
-        setProfile({
-          name: userData.name || 'Admin User',
-          email: userData.email,
-          role: 'admin',
-          createdAt: userData.createdAt || new Date().toISOString(),
-          permissions: userData.permissions || []
-        });
-        setError(null);
-
-      } catch (err: any) {
-        // Only set error if we don't already have a profile from localStorage
-        if (!profile) {
-          if (err.response?.status === 401) {
-            setError('Your session has expired. Please login again.');
-            handleLogout();
+          const userData = response.user;
+          
+          // Validate profile data structure before setting state
+          if (userData && userData.email) {
+            setProfile({
+              name: userData.name || 'Admin User',
+              email: userData.email,
+              role: userData.role || 'admin',
+              createdAt: userData.createdAt || new Date().toISOString(),
+              permissions: userData.permissions || []
+            });
+            setError(null);
           } else {
-            const errorMessage = err.response?.data?.message || err.message || 'Failed to fetch profile data';
-            setError(errorMessage);
+            // Don't show error if we already have a profile from localStorage
+            if (!profile) {
+              setError('Invalid profile data structure');
+            }
           }
+        } catch (apiError: any) {
+          console.error('API Error:', apiError);
+          // Only set error if we don't already have profile from localStorage
+          if (!profile) {
+            setError(apiError.message || 'Error fetching profile data');
+          }
+        }
+      } catch (error: any) {
+        // Only set error if we don't already have profile from localStorage
+        if (!profile) {
+          setError(error.message || 'An error occurred while loading profile');
         }
       } finally {
         setLoading(false);

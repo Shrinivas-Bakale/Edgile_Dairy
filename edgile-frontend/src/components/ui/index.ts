@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Badge, badgeVariants } from "./badge";
 import { Alert, AlertDescription, AlertTitle } from "./alert";
 import { Skeleton } from "./skeleton";
+import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "./table";
 
 export {
   Button,
@@ -46,7 +47,15 @@ export {
   Alert,
   AlertDescription,
   AlertTitle,
-  Skeleton
+  Skeleton,
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow
 };
 
 export * from "./tooltip"; 

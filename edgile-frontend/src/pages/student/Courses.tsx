@@ -174,4 +174,4 @@ const StudentCourses: React.FC = () => {
   );
 };
 
-export default StudentCourses; 
+export default StudentCourses

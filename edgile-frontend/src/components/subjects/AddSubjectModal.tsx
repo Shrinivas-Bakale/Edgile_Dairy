@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { 
   IconX, 
   IconPlus,
@@ -20,24 +20,21 @@ interface AddSubjectModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: (subjects: any[]) => void;
-  academicYears: string[];
-  currentAcademicYear: string;
+  academicYears: string[]; // Keeping for compatibility but won't use
+  currentAcademicYear: string; // Keeping for compatibility but won't use
 }
 
 const AddSubjectModal: React.FC<AddSubjectModalProps> = ({ 
   isOpen, 
   onClose, 
-  onSuccess,
-  academicYears,
-  currentAcademicYear
+  onSuccess
 }) => {
   const { showSnackbar } = useSnackbar();
 
   // Common data shared across all subjects
   const [commonData, setCommonData] = useState({
     year: 'First',
-    semester: 1,
-    academicYear: new Date().getFullYear().toString() // Default to current year
+    semester: 1
   });
   
   // Multiple subject entries
@@ -60,70 +57,20 @@ const AddSubjectModal: React.FC<AddSubjectModalProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   
-  // Handle common data changes (year, semester, academicYear)
-  const handleCommonChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value, type } = e.target;
+  // Handle common data changes
+  const handleCommonChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
     
-    // Handle year selection - automatically update semester to valid range
-    if (name === 'year') {
-      let defaultSemester = 1;
-      if (value === 'Second') {
-        defaultSemester = 3;
-      } else if (value === 'Third') {
-        defaultSemester = 5;
-      }
-      
-      setCommonData({
-        ...commonData,
-        [name]: value,
-        semester: defaultSemester
-      });
-      return;
-    }
-    
-    // Handle number fields
-    if (type === 'number' && name === 'academicYear') {
-      // Ensure academicYear is a valid year
-      const year = parseInt(value);
-      const currentYear = new Date().getFullYear();
-      
-      // Allow years between 2000 and current year + 10
-      if (year >= 2000 && year <= currentYear + 10) {
-        setCommonData({
-          ...commonData,
-          [name]: value
-        });
-      }
-    } else {
-      setCommonData({
-        ...commonData,
-        [name]: value
-      });
-    }
+    setCommonData({
+      ...commonData,
+      [name]: name === 'semester' ? parseInt(value) : value
+    });
     
     // Clear errors when field is changed
     if (errors.common[name]) {
-      setErrors({
-        ...errors,
-        common: {
-          ...errors.common,
-          [name]: ''
-        }
-      });
-    }
-  };
-  
-  // Get available semesters based on selected year
-  const getAvailableSemesters = (year: string) => {
-    switch (year) {
-      case 'First':
-        return [1, 2];
-      case 'Second':
-        return [3, 4];
-      case 'Third':
-        return [5, 6];
-      default:
-        return [1, 2];
+      const updatedErrors = { ...errors };
+      updatedErrors.common[name] = '';
+      setErrors(updatedErrors);
     }
   };
   
@@ -180,42 +127,28 @@ const AddSubjectModal: React.FC<AddSubjectModalProps> = ({
   
   // Remove a subject entry
   const removeSubjectEntry = (index: number) => {
-    if (subjects.length === 1) {
-      // Don't remove the last entry, just clear it
-      setSubjects([{
-        subjectName: '',
-        subjectCode: '',
-        type: 'core',
-        totalDuration: 48,
-        description: ''
-      }]);
-      
-      setErrors({
-        ...errors,
-        subjects: {'0': {}}
-      });
-      
-      return;
-    }
+    if (subjects.length <= 1) return; // Don't remove the last entry
     
-    const updatedSubjects = subjects.filter((_, i) => i !== index);
+    const updatedSubjects = [...subjects];
+    updatedSubjects.splice(index, 1);
     setSubjects(updatedSubjects);
     
     // Update errors object
-    const updatedSubjectErrors = { ...errors.subjects };
-    delete updatedSubjectErrors[index.toString()];
+    const updatedErrors = { ...errors };
+    const updatedSubjectErrors: { [key: string]: { [key: string]: string } } = {};
     
-    // Reindex the errors
-    const reindexedErrors: { [key: string]: { [key: string]: string } } = {};
-    updatedSubjects.forEach((_, i) => {
-      const oldIndex = i >= index ? (i + 1).toString() : i.toString();
-      reindexedErrors[i.toString()] = updatedSubjectErrors[oldIndex] || {};
+    // Rebuild the subject errors with updated indices
+    Object.keys(updatedErrors.subjects).forEach(oldIndex => {
+      const numericIndex = parseInt(oldIndex);
+      if (numericIndex < index) {
+        updatedSubjectErrors[oldIndex] = updatedErrors.subjects[oldIndex];
+      } else if (numericIndex > index) {
+        updatedSubjectErrors[(numericIndex - 1).toString()] = updatedErrors.subjects[oldIndex];
+      }
     });
     
-    setErrors({
-      ...errors,
-      subjects: reindexedErrors
-    });
+    updatedErrors.subjects = updatedSubjectErrors;
+    setErrors(updatedErrors);
   };
   
   // Validate form inputs
@@ -224,11 +157,6 @@ const AddSubjectModal: React.FC<AddSubjectModalProps> = ({
       common: {} as { [key: string]: string },
       subjects: {} as { [key: string]: { [key: string]: string } }
     };
-    
-    // Validate common data
-    if (!commonData.academicYear) {
-      newErrors.common.academicYear = 'Academic year is required';
-    }
     
     // Validate each subject
     subjects.forEach((subject, index) => {
@@ -258,25 +186,6 @@ const AddSubjectModal: React.FC<AddSubjectModalProps> = ({
     return !hasCommonErrors && !hasSubjectErrors;
   };
   
-  // Format years for display
-  const formatYearForDisplay = (year: string): string => {
-    // If not already in YYYY-YY format, format it
-    if (!/^\d{4}-\d{2}$/.test(year)) {
-      return formatAcademicYear(year);
-    }
-    return year;
-  };
-  
-  // Set academicYear on component mount
-  useEffect(() => {
-    if (currentAcademicYear) {
-      setCommonData(prev => ({
-        ...prev,
-        academicYear: currentAcademicYear
-      }));
-    }
-  }, [currentAcademicYear]);
-  
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -297,11 +206,15 @@ const AddSubjectModal: React.FC<AddSubjectModalProps> = ({
         const subjectData = {
           ...subject,
           year: commonData.year,
-          semester: parseInt(commonData.semester.toString()),
-          academicYear: formatAcademicYear(commonData.academicYear)
+          semester: parseInt(commonData.semester.toString())
         };
         
-        const response = await adminAPI.createSubject(subjectData);
+        // Add type assertion to handle the response properly
+        const response = await adminAPI.createSubject(subjectData) as {
+          success: boolean;
+          subject?: any;
+          message?: string;
+        };
         
         if (response.success) {
           createdSubjects.push(response.subject);
@@ -333,8 +246,7 @@ const AddSubjectModal: React.FC<AddSubjectModalProps> = ({
   const resetForm = () => {
     setCommonData({
       year: 'First',
-      semester: 1,
-      academicYear: new Date().getFullYear().toString()
+      semester: 1
     });
     
     setSubjects([{
@@ -358,37 +270,28 @@ const AddSubjectModal: React.FC<AddSubjectModalProps> = ({
     return Math.ceil(totalDuration / 12);
   };
   
-  // Format academic year to ensure YYYY-YY format
-  const formatAcademicYear = (year: string): string => {
-    // If already in correct format, return as is
-    if (/^\d{4}-\d{2}$/.test(year)) {
-      return year;
+  // Get available semesters based on selected year
+  const getAvailableSemesters = (year: string) => {
+    switch (year) {
+      case 'First':
+        return [1, 2];
+      case 'Second':
+        return [3, 4];
+      case 'Third':
+        return [5, 6];
+      default:
+        return [1, 2, 3, 4, 5, 6];
     }
-    
-    // If single year format, convert to YYYY-YY
-    if (/^\d{4}$/.test(year)) {
-      const startYear = parseInt(year);
-      const endYear = (startYear + 1) % 100; // Get last two digits of the next year
-      return `${startYear}-${endYear.toString().padStart(2, '0')}`;
-    }
-    
-    // If old format YYYY-YYYY, convert to YYYY-YY
-    if (/^\d{4}-\d{4}$/.test(year)) {
-      const [startYear, endYear] = year.split('-');
-      return `${startYear}-${endYear.slice(2)}`;
-    }
-    
-    return year; // Return as is if format is unrecognized
   };
   
   if (!isOpen) return null;
   
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 overflow-y-auto">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-4xl mx-4 my-8">
-        <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
-            <IconPlus size={20} className="mr-2" />
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl mx-4 my-8">
+        <div className="flex justify-between items-center p-6 border-b border-gray-200">
+          <h2 className="text-xl font-semibold text-gray-900 flex items-center">
+            <IconPlus size={20} className="mr-2 text-indigo-600" />
             Add New Subjects
           </h2>
           <button
@@ -402,246 +305,229 @@ const AddSubjectModal: React.FC<AddSubjectModalProps> = ({
           </button>
         </div>
         
-        <form onSubmit={handleSubmit} className="p-6">
-          {submitError && (
-            <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md flex items-start">
-              <IconAlertCircle size={20} className="mr-2 flex-shrink-0 mt-0.5" />
-              <span>{submitError}</span>
-            </div>
-          )}
-          
-          {/* Common fields (Year, Semester, Academic Year) */}
-          <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-            <h3 className="text-lg font-semibold mb-3 text-gray-800 dark:text-white">
-              Common Settings
-            </h3>
+        <form onSubmit={handleSubmit}>
+          <div className="p-6">
+            {submitError && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-md flex items-start">
+                <IconAlertCircle size={20} className="mr-2 flex-shrink-0 text-red-500" />
+                <span className="text-red-700">{submitError}</span>
+              </div>
+            )}
             
-            <div className="grid grid-cols-3 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Year *
-                </label>
-                <select
-                  name="year"
-                  value={commonData.year}
-                  onChange={handleCommonChange}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                >
-                  <option value="First">First</option>
-                  <option value="Second">Second</option>
-                  <option value="Third">Third</option>
-                </select>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Semester *
-                </label>
-                <select
-                  name="semester"
-                  value={commonData.semester}
-                  onChange={handleCommonChange}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                >
-                  {getAvailableSemesters(commonData.year).map(semesterNumber => (
-                    <option key={semesterNumber} value={semesterNumber}>
-                      {semesterNumber}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Academic Year *
-                </label>
-                <select
-                  name="academicYear"
-                  value={commonData.academicYear}
-                  onChange={handleCommonChange}
-                  className={`w-full px-3 py-2 border ${
-                    errors.common.academicYear 
-                      ? 'border-red-500 focus:ring-red-500' 
-                      : 'border-gray-300 dark:border-gray-600 focus:ring-indigo-500'
-                  } rounded-md shadow-sm focus:outline-none focus:ring-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white`}
-                >
-                  {academicYears.map(year => (
-                    <option key={year} value={year}>
-                      {formatYearForDisplay(year)}
-                    </option>
-                  ))}
-                  <option value={new Date().getFullYear().toString()}>
-                    {formatYearForDisplay(new Date().getFullYear().toString())}
-                  </option>
-                </select>
-                {errors.common.academicYear && (
-                  <p className="mt-1 text-sm text-red-600">{errors.common.academicYear}</p>
-                )}
-                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                  Format: YYYY-YY (e.g., 2023-24)
-                </p>
-              </div>
-            </div>
-          </div>
-          
-          {/* Subject entries */}
-          <div className="mb-6 space-y-6">
-            <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
-                Subject Details
+            {/* Common settings section */}
+            <div className="mb-6 p-5 bg-gray-50 rounded-lg">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                Common Settings
               </h3>
-              <button
-                type="button"
-                onClick={addSubjectEntry}
-                className="flex items-center text-sm text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300"
-              >
-                <IconPlus size={16} className="mr-1" />
-                Add More
-              </button>
-            </div>
-            
-            {subjects.map((subject, index) => (
-              <div 
-                key={index} 
-                className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg relative"
-              >
-                {subjects.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => removeSubjectEntry(index)}
-                    className="absolute top-2 right-2 text-gray-400 hover:text-red-500 focus:outline-none"
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Year <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    name="year"
+                    value={commonData.year}
+                    onChange={handleCommonChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-gray-900"
+                    required
                   >
-                    <IconTrash size={18} />
-                  </button>
-                )}
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Subject Name *
-                    </label>
-                    <input
-                      type="text"
-                      name="subjectName"
-                      value={subject.subjectName}
-                      onChange={(e) => handleSubjectChange(index, e)}
-                      className={`w-full px-3 py-2 border ${
-                        errors.subjects[index]?.subjectName 
-                          ? 'border-red-500 focus:ring-red-500' 
-                          : 'border-gray-300 dark:border-gray-600 focus:ring-indigo-500'
-                      } rounded-md shadow-sm focus:outline-none focus:ring-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white`}
-                      placeholder="e.g., Data Structures and Algorithms"
-                    />
-                    {errors.subjects[index]?.subjectName && (
-                      <p className="mt-1 text-sm text-red-600">{errors.subjects[index].subjectName}</p>
-                    )}
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Subject Code *
-                    </label>
-                    <input
-                      type="text"
-                      name="subjectCode"
-                      value={subject.subjectCode}
-                      onChange={(e) => handleSubjectChange(index, e)}
-                      className={`w-full px-3 py-2 border ${
-                        errors.subjects[index]?.subjectCode 
-                          ? 'border-red-500 focus:ring-red-500' 
-                          : 'border-gray-300 dark:border-gray-600 focus:ring-indigo-500'
-                      } rounded-md shadow-sm focus:outline-none focus:ring-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white`}
-                      placeholder="e.g., CS201"
-                    />
-                    {errors.subjects[index]?.subjectCode && (
-                      <p className="mt-1 text-sm text-red-600">{errors.subjects[index].subjectCode}</p>
-                    )}
-                  </div>
+                    <option value="First">First Year</option>
+                    <option value="Second">Second Year</option>
+                    <option value="Third">Third Year</option>
+                  </select>
+                  {errors.common.year && (
+                    <p className="mt-1 text-sm text-red-600">{errors.common.year}</p>
+                  )}
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Type *
-                    </label>
-                    <select
-                      name="type"
-                      value={subject.type}
-                      onChange={(e) => handleSubjectChange(index, e)}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Semester <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    name="semester"
+                    value={commonData.semester}
+                    onChange={handleCommonChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-gray-900"
+                    required
+                  >
+                    {getAvailableSemesters(commonData.year).map(sem => (
+                      <option key={sem} value={sem}>Semester {sem}</option>
+                    ))}
+                  </select>
+                  {errors.common.semester && (
+                    <p className="mt-1 text-sm text-red-600">{errors.common.semester}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+            
+            {/* Subject details section */}
+            <div className="mb-6 space-y-6">
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-semibold text-gray-800">
+                  Subject Details
+                </h3>
+                <button
+                  type="button"
+                  onClick={addSubjectEntry}
+                  className="flex items-center text-sm text-indigo-600 hover:text-indigo-700"
+                >
+                  <IconPlus size={16} className="mr-1" />
+                  Add More
+                </button>
+              </div>
+              
+              {subjects.map((subject, index) => (
+                <div 
+                  key={index} 
+                  className="p-5 border border-gray-200 rounded-lg relative"
+                >
+                  {subjects.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeSubjectEntry(index)}
+                      className="absolute top-3 right-3 text-gray-400 hover:text-red-500 focus:outline-none"
                     >
-                      <option value="core">Core</option>
-                      <option value="lab">Lab</option>
-                      <option value="elective">Elective</option>
-                    </select>
+                      <IconTrash size={18} />
+                    </button>
+                  )}
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Subject Name <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        name="subjectName"
+                        value={subject.subjectName}
+                        onChange={(e) => handleSubjectChange(index, e)}
+                        className={`w-full px-3 py-2 border ${
+                          errors.subjects[index]?.subjectName 
+                            ? 'border-red-500 focus:ring-red-500' 
+                            : 'border-gray-300 focus:ring-indigo-500'
+                        } rounded-md shadow-sm focus:outline-none focus:ring-2 bg-white text-gray-900`}
+                        placeholder="e.g., Data Structures and Algorithms"
+                        required
+                      />
+                      {errors.subjects[index]?.subjectName && (
+                        <p className="mt-1 text-sm text-red-600">{errors.subjects[index].subjectName}</p>
+                      )}
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Subject Code <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        name="subjectCode"
+                        value={subject.subjectCode}
+                        onChange={(e) => handleSubjectChange(index, e)}
+                        className={`w-full px-3 py-2 border ${
+                          errors.subjects[index]?.subjectCode 
+                            ? 'border-red-500 focus:ring-red-500' 
+                            : 'border-gray-300 focus:ring-indigo-500'
+                        } rounded-md shadow-sm focus:outline-none focus:ring-2 bg-white text-gray-900`}
+                        placeholder="e.g., CS201"
+                        required
+                      />
+                      {errors.subjects[index]?.subjectCode && (
+                        <p className="mt-1 text-sm text-red-600">{errors.subjects[index].subjectCode}</p>
+                      )}
+                    </div>
                   </div>
                   
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Total Duration (hours) *
-                    </label>
-                    <input
-                      type="number"
-                      name="totalDuration"
-                      value={subject.totalDuration}
-                      onChange={(e) => handleSubjectChange(index, e)}
-                      min="1"
-                      className={`w-full px-3 py-2 border ${
-                        errors.subjects[index]?.totalDuration 
-                          ? 'border-red-500 focus:ring-red-500' 
-                          : 'border-gray-300 dark:border-gray-600 focus:ring-indigo-500'
-                      } rounded-md shadow-sm focus:outline-none focus:ring-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white`}
-                    />
-                    {errors.subjects[index]?.totalDuration ? (
-                      <p className="mt-1 text-sm text-red-600">{errors.subjects[index].totalDuration}</p>
-                    ) : (
-                      <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Type <span className="text-red-500">*</span>
+                      </label>
+                      <select
+                        name="type"
+                        value={subject.type}
+                        onChange={(e) => handleSubjectChange(index, e)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-gray-900"
+                        required
+                      >
+                        <option value="core">Core</option>
+                        <option value="lab">Lab</option>
+                        <option value="elective">Elective</option>
+                      </select>
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Total Duration (hours) <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="number"
+                        name="totalDuration"
+                        value={subject.totalDuration}
+                        onChange={(e) => handleSubjectChange(index, e)}
+                        className={`w-full px-3 py-2 border ${
+                          errors.subjects[index]?.totalDuration 
+                            ? 'border-red-500 focus:ring-red-500' 
+                            : 'border-gray-300 focus:ring-indigo-500'
+                        } rounded-md shadow-sm focus:outline-none focus:ring-2 bg-white text-gray-900`}
+                        min="1"
+                        required
+                      />
+                      {errors.subjects[index]?.totalDuration && (
+                        <p className="mt-1 text-sm text-red-600">{errors.subjects[index].totalDuration}</p>
+                      )}
+                      <p className="mt-1 text-xs text-gray-500">
                         Weekly hours: {calculateWeeklyHours(subject.totalDuration)}
                       </p>
-                    )}
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Description
+                    </label>
+                    <textarea
+                      name="description"
+                      value={subject.description}
+                      onChange={(e) => handleSubjectChange(index, e)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-gray-900"
+                      rows={3}
+                      placeholder="Enter subject description..."
+                    />
                   </div>
                 </div>
-                
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Description
-                  </label>
-                  <textarea
-                    name="description"
-                    value={subject.description}
-                    onChange={(e) => handleSubjectChange(index, e)}
-                    rows={3}
-                    className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white`}
-                    placeholder="Enter a course description..."
-                  />
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
           
-          <div className="flex justify-end">
+          <div className="flex items-center justify-end p-6 bg-gray-50 border-t border-gray-200 rounded-b-lg">
             <button
               type="button"
               onClick={() => {
                 resetForm();
                 onClose();
               }}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 rounded-md mr-2"
+              className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mr-3"
             >
               Cancel
             </button>
+            
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex items-center"
             >
-              {isSubmitting && (
-                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-              )}
-              Create Subjects ({subjects.length})
+              {isSubmitting ? (
+                <>
+                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Creating...
+                </>
+              ) : 'Create Subjects'}
             </button>
           </div>
         </form>

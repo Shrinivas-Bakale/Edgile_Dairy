@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useFacultyAuth } from "../../contexts/FacultyAuthContext";
 import { useStudentAuth } from "../../contexts/StudentAuthContext";
-import { useSnackbar } from "../../contexts/SnackbarContext";
 import { useTheme } from "@mui/material/styles";
 import {
   Box,
@@ -26,11 +25,9 @@ import {
   IconSchool,
   IconBuildingCommunity,
   IconArrowLeft,
-  IconTicket,
 } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import InteractiveGridPattern from "../../components/InteractiveGridPattern";
-import { codesAPI } from "../../utils/api";
 
 type UserRole = "student" | "faculty";
 
@@ -39,7 +36,6 @@ const Login: React.FC = () => {
   const location = useLocation();
   const { login: facultyLogin } = useFacultyAuth();
   const { login: studentLogin } = useStudentAuth();
-  const { showSnackbar } = useSnackbar();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -50,7 +46,6 @@ const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [validatingCode, setValidatingCode] = useState(false);
 
   // Clear any existing tokens on component mount to ensure fresh login
   useEffect(() => {
@@ -116,7 +111,6 @@ const Login: React.FC = () => {
             
             // Use a short timeout to ensure localStorage is updated before navigating
             console.log('Faculty login successful - redirecting to dashboard');
-            showSnackbar("Login successful", "success");
             
             setTimeout(() => {
               // Use navigate for better state handling
@@ -143,8 +137,11 @@ const Login: React.FC = () => {
             setPassword("");
             
             console.log('Student login successful, redirecting to dashboard');
-            showSnackbar("Login successful", "success");
+            
+            setTimeout(() => {
+              // Use navigate for better state handling
             navigate("/student/dashboard", { replace: true });
+            }, 100);
             return; // Exit early after navigation
           } catch (studentError: any) {
             console.error("Student login error:", studentError);
@@ -157,29 +154,17 @@ const Login: React.FC = () => {
       // Get the error message
       const errorMessage = err.message || "Login failed";
       
-      // Don't refresh page for credential errors, only for university code issues that need refresh
-      const requiresRefresh = errorMessage.includes("university code") && 
-                             !errorMessage.includes("Invalid credentials") &&
-                             !errorMessage.includes("invalid");
-      
+      // Show error message in UI and snackbar, but never refresh the page
       setError(errorMessage);
-      showSnackbar(errorMessage, "error");
       
-      // Only refresh for specific university code errors that require it
-      if (requiresRefresh) {
-        showSnackbar("Page will refresh in 3 seconds to resolve the issue...", "info");
-        setTimeout(() => {
-          window.location.reload();
-        }, 3000);
-      }
+      // Keep form inputs intact for the user to correct
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleGoBack = () => {
-    // Use window.location.href to force a complete page reload when going back to landing page
-    window.location.href = '/';
+    navigate('/');
   };
 
   return (
@@ -190,7 +175,7 @@ const Login: React.FC = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#080818",
+        backgroundColor: "#f0f9ff", // Light blue background
         position: "relative",
         overflow: "hidden",
       }}
@@ -203,18 +188,19 @@ const Login: React.FC = () => {
           top: 20, 
           left: 20, 
           zIndex: 10,
-          color: 'white',
-          backgroundColor: 'rgba(124, 58, 237, 0.2)',
+          color: '#1e40af', // Dark blue color
+          backgroundColor: 'rgba(59, 130, 246, 0.1)',
           '&:hover': {
-            backgroundColor: 'rgba(124, 58, 237, 0.4)',
-          }
+            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+          },
+          transition: 'all 0.2s ease'
         }}
         aria-label="Go back to landing page"
       >
         <IconArrowLeft size={24} />
       </IconButton>
 
-      {/* Background Patterns and Effects */}
+      {/* Background Elements */}
       <Box
         sx={{
           position: "fixed",
@@ -225,12 +211,40 @@ const Login: React.FC = () => {
           overflow: "hidden",
         }}
       >
+        {/* Decorative elements */}
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+            width: "40%",
+            height: "40%",
+            background: "radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%)",
+            borderBottomLeftRadius: "100%",
+            opacity: 0.7,
+            zIndex: 0,
+          }}
+        />
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            width: "35%",
+            height: "35%",
+            background: "radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%)",
+            borderTopRightRadius: "100%",
+            opacity: 0.7,
+            zIndex: 0,
+          }}
+        />
+
         {/* Primary Grid Pattern */}
         <InteractiveGridPattern 
-          dotColor="rgba(124, 58, 237, 0.6)"
+          dotColor="rgba(59, 130, 246, 0.6)" // Blue color
           dotSize={1.2}
-          dotSpacing={28}
-          dotOpacity={0.5}
+          dotSpacing={30}
+          dotOpacity={0.3}
           blur={0.8}
           speed={0.05}
           sx={{
@@ -239,15 +253,16 @@ const Login: React.FC = () => {
             width: "200%",
             transform: "translate(-25%, -25%) skewY(-12deg)",
             transformOrigin: "top left",
+            opacity: 0.5,
           }}
         />
 
-        {/* Secondary Grid Pattern (larger dots, slower movement) */}
+        {/* Secondary Grid Pattern */}
         <InteractiveGridPattern 
-          dotColor="rgba(59, 130, 246, 0.5)"
-          dotSize={2}
+          dotColor="rgba(37, 99, 235, 0.5)" // Darker blue
+          dotSize={1.5}
           dotSpacing={45}
-          dotOpacity={0.3}
+          dotOpacity={0.2}
           blur={1.5}
           speed={0.03}
           sx={{
@@ -256,59 +271,7 @@ const Login: React.FC = () => {
             width: "200%",
             transform: "translate(-10%, -10%) skewY(12deg)",
             transformOrigin: "bottom right",
-          }}
-        />
-
-        {/* Tertiary Grid Pattern (smaller, more subtle) */}
-        <InteractiveGridPattern 
-          dotColor="rgba(255, 255, 255, 0.4)"
-          dotSize={0.8}
-          dotSpacing={20}
-          dotOpacity={0.2}
-          blur={0.3}
-          speed={0.07}
-          sx={{
-            inset: 0,
-            height: "150%",
-            width: "150%",
-            transform: "translate(-10%, -10%)",
-          }}
-        />
-
-        {/* Radial Gradient Overlay */}
-        <Box
-          sx={{
-            position: "absolute",
-            inset: 0,
-            background: "radial-gradient(circle at center, transparent 10%, #080818 70%)",
-            pointerEvents: "none",
-            zIndex: 1,
-          }}
-        />
-
-        {/* Subtle glow effects */}
-        <Box
-          sx={{
-            position: "absolute",
-            top: "20%",
-            left: "15%",
-            width: "40vw",
-            height: "40vh",
-            background: "radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, transparent 70%)",
-            filter: "blur(80px)",
-            zIndex: 0,
-          }}
-        />
-        <Box
-          sx={{
-            position: "absolute",
-            bottom: "10%",
-            right: "10%",
-            width: "30vw",
-            height: "30vh",
-            background: "radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%)",
-            filter: "blur(80px)",
-            zIndex: 0,
+            opacity: 0.5,
           }}
         />
       </Box>
@@ -332,31 +295,28 @@ const Login: React.FC = () => {
           }}
         >
           <Paper
-            elevation={0}
+            elevation={4}
             sx={{
-              p: { xs: 2.5, sm: 3, md: 4 },
+              p: { xs: 3, sm: 4, md: 5 },
               width: "100%",
               borderRadius: 3,
-              backgroundColor: "rgba(16, 16, 28, 0.75)",
-              backdropFilter: "blur(20px)",
-              border: "1px solid rgba(255, 255, 255, 0.08)",
+              backgroundColor: "white",
+              border: "1px solid rgba(59, 130, 246, 0.1)",
               position: "relative",
               zIndex: 1,
-              boxShadow: "0 20px 40px rgba(0, 0, 0, 0.7)",
+              boxShadow: "0 10px 30px rgba(0, 0, 0, 0.08)",
               overflow: "hidden",
             }}
           >
-            {/* Gradient overlay for glassmorphism effect */}
+            {/* Blue accent border at top */}
             <Box
               sx={{
                 position: "absolute",
                 top: 0,
                 left: 0,
                 right: 0,
-                bottom: 0,
-                background: "linear-gradient(135deg, rgba(120, 85, 230, 0.12) 0%, rgba(59, 130, 246, 0.08) 100%)",
-                pointerEvents: "none",
-                zIndex: -1,
+                height: "4px",
+                background: "linear-gradient(90deg, #3b82f6 0%, #60a5fa 100%)",
               }}
             />
 
@@ -367,11 +327,7 @@ const Login: React.FC = () => {
               align="center"
               sx={{
                 fontWeight: 700,
-                background: "linear-gradient(45deg, #7c3aed 30%, #60a5fa 90%)",
-                backgroundClip: "text",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                textShadow: "0 2px 10px rgba(124, 58, 237, 0.3)",
+                color: '#1e3a8a', // Deep blue
                 mb: 1,
                 letterSpacing: "-0.02em",
               }}
@@ -379,16 +335,27 @@ const Login: React.FC = () => {
               Welcome to Edgile
             </Typography>
             <Typography
-              variant="body2"
-              color="rgba(255, 255, 255, 0.7)"
+              variant="body1"
+              color="text.secondary"
               align="center"
-              sx={{ mb: 3 }}
+              sx={{ mb: 4 }}
             >
               Please sign in to continue
             </Typography>
 
+            {error && (
+              <Typography
+                variant="body2"
+                color="error"
+                align="center"
+                sx={{ mb: 3 }}
+              >
+                {error}
+              </Typography>
+            )}
+
             <form onSubmit={handleSubmit}>
-              <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: 2, sm: 2.5 } }}>
+              <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: 2.5, sm: 3 } }}>
                 <ToggleButtonGroup
                   value={role}
                   exclusive
@@ -402,17 +369,17 @@ const Login: React.FC = () => {
                   sx={{
                     mb: 1,
                     ".MuiToggleButton-root": {
-                      py: { xs: 0.75, sm: 1 },
-                      color: "rgba(255, 255, 255, 0.7)",
-                      borderColor: "rgba(255, 255, 255, 0.1)",
+                      py: { xs: 1, sm: 1.2 },
+                      color: "#475569", // Slate-600
+                      borderColor: "rgba(59, 130, 246, 0.2)",
                       transition: "all 0.2s ease",
                       "&.Mui-selected": {
-                        bgcolor: "rgba(124, 58, 237, 0.2)",
-                        color: "#ffffff",
+                        bgcolor: "rgba(59, 130, 246, 0.1)",
+                        color: "#1e40af", // Blue-800
                         fontWeight: 600,
                       },
                       "&:hover": {
-                        bgcolor: "rgba(124, 58, 237, 0.1)",
+                        bgcolor: "rgba(59, 130, 246, 0.05)",
                       },
                     },
                   }}
@@ -439,32 +406,32 @@ const Login: React.FC = () => {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <IconUser size={18} color="rgba(255, 255, 255, 0.7)" />
+                        <IconUser size={18} stroke={1.5} color="#64748b" />
                       </InputAdornment>
                     ),
                   }}
                   sx={{
                     "& .MuiOutlinedInput-root": {
-                      color: "rgba(255, 255, 255, 0.9)",
+                      color: "#1e293b", // Slate-900
                       transition: "all 0.2s ease",
                       "&:hover .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "rgba(124, 58, 237, 0.5)",
+                        borderColor: "rgba(59, 130, 246, 0.5)",
                       },
                       "& .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "rgba(255, 255, 255, 0.2)",
+                        borderColor: "rgba(59, 130, 246, 0.2)",
                       },
                       "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "#7c3aed",
+                        borderColor: "#3b82f6", // Blue-500
                       },
                     },
                     "& .MuiInputLabel-root": {
-                      color: "rgba(255, 255, 255, 0.7)",
+                      color: "#64748b", // Slate-500
                       "&.Mui-focused": {
-                        color: "#7c3aed",
+                        color: "#3b82f6", // Blue-500
                       },
                     },
                     "& .MuiInputAdornment-root": {
-                      color: "rgba(255, 255, 255, 0.5)",
+                      color: "#64748b", // Slate-500
                     },
                   }}
                 />
@@ -481,7 +448,7 @@ const Login: React.FC = () => {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <IconLock size={18} color="rgba(255, 255, 255, 0.7)" />
+                        <IconLock size={18} stroke={1.5} color="#64748b" />
                       </InputAdornment>
                     ),
                     endAdornment: (
@@ -489,7 +456,7 @@ const Login: React.FC = () => {
                         <IconButton
                           onClick={() => setShowPassword(!showPassword)}
                           edge="end"
-                          sx={{ color: "rgba(255, 255, 255, 0.7)" }}
+                          sx={{ color: "#64748b" }} // Slate-500
                         >
                           {showPassword ? (
                             <IconEyeOff size={18} />
@@ -502,28 +469,27 @@ const Login: React.FC = () => {
                   }}
                   sx={{
                     "& .MuiOutlinedInput-root": {
-                      color: "rgba(255, 255, 255, 0.9)",
+                      color: "#1e293b", // Slate-900
                       transition: "all 0.2s ease",
                       "&:hover .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "rgba(124, 58, 237, 0.5)",
+                        borderColor: "rgba(59, 130, 246, 0.5)",
                       },
                       "& .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "rgba(255, 255, 255, 0.2)",
+                        borderColor: "rgba(59, 130, 246, 0.2)", 
                       },
                       "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "#7c3aed",
+                        borderColor: "#3b82f6", // Blue-500
                       },
                     },
                     "& .MuiInputLabel-root": {
-                      color: "rgba(255, 255, 255, 0.7)",
+                      color: "#64748b", // Slate-500
                       "&.Mui-focused": {
-                        color: "#7c3aed",
+                        color: "#3b82f6", // Blue-500
                       },
                     },
                   }}
                 />
 
-                {role === 'student' ? (
                   <TextField
                     fullWidth
                     label="University Code"
@@ -537,58 +503,32 @@ const Login: React.FC = () => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <IconSchool size={18} color="rgba(255, 255, 255, 0.7)" />
+                        <IconSchool size={18} stroke={1.5} color="#64748b" />
                         </InputAdornment>
                       ),
                     }}
                     sx={{
                       "& .MuiOutlinedInput-root": {
-                        color: "rgba(255, 255, 255, 0.9)",
+                      color: "#1e293b", // Slate-900
                         transition: "all 0.2s ease",
                         "&:hover .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "rgba(124, 58, 237, 0.5)",
+                        borderColor: "rgba(59, 130, 246, 0.5)",
                         },
                         "& .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "rgba(255, 255, 255, 0.2)",
+                        borderColor: "rgba(59, 130, 246, 0.2)",
                         },
                         "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "#7c3aed",
+                        borderColor: "#3b82f6", // Blue-500
                         },
                       },
                       "& .MuiInputLabel-root": {
-                        color: "rgba(255, 255, 255, 0.7)",
+                      color: "#64748b", // Slate-500
                         "&.Mui-focused": {
-                          color: "#7c3aed",
+                        color: "#3b82f6", // Blue-500
                         },
                       }
                     }}
                   />
-                ) : (
-                  <TextField
-                    fullWidth
-                    label="University Code"
-                    variant="outlined"
-                    value={universityCode}
-                    onChange={(e) => setUniversityCode(e.target.value)}
-                    required={true}
-                    type="text"
-                    name="universityCode"
-                    autoComplete="one-time-code"
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <IconSchool size={18} color="rgba(255, 255, 255, 0.7)" />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                )}
-
-                {error && (
-                  <Typography color="#ff5c8d" align="center" variant="body2" sx={{ mt: 1 }}>
-                    {error}
-                  </Typography>
-                )}
 
                 <motion.div
                   whileHover={{ scale: 1.02 }}
@@ -600,26 +540,30 @@ const Login: React.FC = () => {
                     variant="contained"
                     fullWidth
                     size="large"
-                    disabled={isLoading || (role === 'faculty' && !universityCode)}
+                    disabled={isLoading}
                     sx={{
                       mt: 2,
-                      py: { xs: 1.25, sm: 1.5 },
-                      background: "linear-gradient(45deg, #7c3aed 30%, #60a5fa 90%)",
-                      boxShadow: "0 5px 15px rgba(124, 58, 237, 0.4)",
+                      py: { xs: 1.5, sm: 1.75 },
+                      background: "linear-gradient(90deg, #1e40af 0%, #3b82f6 100%)", // Blue gradient
+                      boxShadow: "0 5px 15px rgba(59, 130, 246, 0.3)",
                       fontWeight: 600,
                       letterSpacing: "0.05em",
                       border: "none",
+                      borderRadius: "8px",
                       transition: "all 0.3s ease",
                       "&:hover": {
-                        background: "linear-gradient(45deg, #8b5cf6 30%, #3b82f6 90%)",
-                        boxShadow: "0 8px 20px rgba(124, 58, 237, 0.5)",
+                        background: "linear-gradient(90deg, #1e3a8a 0%, #2563eb 100%)", // Slightly darker blue
+                        boxShadow: "0 8px 20px rgba(59, 130, 246, 0.4)",
                       },
+                      "&:disabled": {
+                        background: "#94a3b8", // Slate-400
+                      }
                     }}
                   >
                     {isLoading ? (
                       <CircularProgress size={24} color="inherit" />
                     ) : (
-                      "SIGN IN"
+                      "Sign In"
                     )}
                   </Button>
                 </motion.div>
@@ -628,14 +572,14 @@ const Login: React.FC = () => {
                   <Box sx={{ 
                     display: 'flex', 
                     justifyContent: 'space-between', 
-                    mt: 2, 
+                    mt: 3, 
                     opacity: 0.9,
                     transition: 'opacity 0.3s ease'
                   }}>
                     <Link 
                       to="/register" 
                       style={{ 
-                        color: '#7c3aed', 
+                        color: '#3b82f6', // Blue-500 
                         textDecoration: 'none',
                         fontWeight: '500',
                         textAlign: 'center'
@@ -646,7 +590,7 @@ const Login: React.FC = () => {
                     <Link 
                       to="/forgot-password" 
                       style={{ 
-                        color: '#7c3aed', 
+                        color: '#3b82f6', // Blue-500 
                         textDecoration: 'none',
                         fontWeight: '500',
                         textAlign: 'center'
@@ -659,6 +603,11 @@ const Login: React.FC = () => {
               </Box>
             </form>
           </Paper>
+          
+          {/* Footer text */}
+          <Typography variant="body2" color="#64748b" align="center" sx={{ mt: 3 }}>
+            Edgile Education Platform — Secure Login
+          </Typography>
         </motion.div>
       </Container>
     </Box>

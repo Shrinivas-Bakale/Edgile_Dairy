@@ -49,6 +49,17 @@ const facultySchema = new mongoose.Schema(
       type: String,
       default: "faculty",
     },
+    permissions: {
+      type: [String],
+      default: [
+        'faculty:profile',
+        'faculty:dashboard',
+        'faculty:courses:view',
+        'faculty:students:view',
+        'faculty:attendance:manage',
+        'faculty:timetable:view'
+      ]
+    },
     status: {
       type: String,
       enum: ["active", "inactive", "pending"],

@@ -5,6 +5,9 @@ const studentAuthMiddleware = require("../middleware/studentAuthMiddleware");
 const Student = require("../models/Student");
 const Subject = require('../models/Subject');
 const logger = require('../utils/logger');
+const Timetable = require('../models/Timetable');
+const Classroom = require('../models/Classroom');
+const Faculty = require('../models/Faculty');
 
 const router = express.Router();
 
@@ -257,6 +260,135 @@ router.get('/courses/:id', studentAuthMiddleware, async (req, res) => {
   } catch (error) {
     logger.error(`Error retrieving course: ${error.message}`);
     res.status(500).json({ success: false, message: 'Server error', error: error.message });
+  }
+});
+
+/**
+ * @route GET /api/student/timetables
+ * @desc Get all published timetables for students
+ * @access Private (Student only)
+ */
+router.get('/timetables', studentAuthMiddleware, async (req, res) => {
+  try {
+    console.log('Fetching all published timetables for student');
+    
+    // Find all published timetables without any restrictions
+    // we're only filtering by published status to ensure students can't see drafts
+    const timetables = await Timetable.find({
+      status: 'published'
+    })
+    .populate('classroomId')
+    .populate('university', 'name email')
+    .sort({ createdAt: -1 });
+    
+    console.log(`Found ${timetables.length} published timetables`);
+    
+    // If no timetables found, still return success but with empty array
+    if (timetables.length === 0) {
+      console.log('No published timetables found');
+      return res.status(200).json({
+        success: true,
+        data: [],
+        totalPublished: 0,
+        message: 'No published timetables available'
+      });
+    }
+    
+    return res.status(200).json({
+      success: true,
+      data: timetables,
+      totalPublished: timetables.length,
+      message: 'Timetables found successfully'
+    });
+  } catch (error) {
+    console.error(`Error fetching all timetables: ${error.message}`);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to fetch timetables. Please try again later.',
+      error: error.message
+    });
+  }
+});
+
+/**
+ * @route GET /api/student/classroom/:id
+ * @desc Get classroom details by ID
+ * @access Private (Student only)
+ */
+router.get('/classroom/:id', studentAuthMiddleware, async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    console.log('Fetching classroom details for ID:', id);
+    
+    if (!id || id === '[object Object]') {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid classroom ID provided'
+      });
+    }
+    
+    const classroom = await Classroom.findById(id);
+    
+    if (!classroom) {
+      return res.status(404).json({
+        success: false,
+        message: 'Classroom not found'
+      });
+    }
+    
+    return res.status(200).json({
+      success: true,
+      data: classroom
+    });
+  } catch (error) {
+    console.error('Error fetching classroom details:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to fetch classroom details',
+      error: error.message
+    });
+  }
+});
+
+/**
+ * @route GET /api/student/faculty-details
+ * @desc Get faculty details by IDs
+ * @access Private (Student only)
+ */
+router.get('/faculty-details', studentAuthMiddleware, async (req, res) => {
+  try {
+    const { ids } = req.query;
+    
+    console.log('Fetching faculty details for IDs:', ids);
+    
+    if (!ids) {
+      return res.status(400).json({
+        success: false,
+        message: 'Faculty IDs are required'
+      });
+    }
+    
+    const facultyIds = ids.split(',');
+    
+    // Fetch faculty members from the database
+    const faculty = await Faculty.find({
+      _id: { $in: facultyIds }
+    }).select('name email');
+    
+    console.log(`Found ${faculty.length} faculty members`);
+    
+    return res.status(200).json({
+      success: true,
+      data: faculty
+    });
+  } catch (error) {
+    console.error('Error fetching faculty details:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to fetch faculty details',
+      error: error.message
+    });
   }
 });
 

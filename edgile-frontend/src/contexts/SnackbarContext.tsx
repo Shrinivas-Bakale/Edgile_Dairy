@@ -1,35 +1,23 @@
-import React, { createContext, useContext, useState } from 'react';
-import { Snackbar, Alert } from '@mui/material';
+import React, { createContext, useContext } from 'react';
+import { toast } from 'react-hot-toast';
 
 interface SnackbarContextType {
-  showSnackbar: (message: string, severity: 'success' | 'error' | 'warning' | 'info') => void;
+  showSnackbar: (message: string, severity?: 'success' | 'error' | 'warning' | 'info') => void;
 }
 
 const SnackbarContext = createContext<SnackbarContextType | undefined>(undefined);
 
 export const SnackbarProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState('');
-  const [severity, setSeverity] = useState<'success' | 'error' | 'warning' | 'info'>('info');
-
-  const showSnackbar = (message: string, severity: 'success' | 'error' | 'warning' | 'info') => {
-    setMessage(message);
-    setSeverity(severity);
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
+  const showSnackbar = (message: string, severity: 'success' | 'error' | 'warning' | 'info' = 'info') => {
+    if (severity === 'success') toast.success(message);
+    else if (severity === 'error') toast.error(message);
+    else if (severity === 'warning') toast(message, { icon: '⚠️' });
+    else toast(message);
   };
 
   return (
     <SnackbarContext.Provider value={{ showSnackbar }}>
       {children}
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
-          {message}
-        </Alert>
-      </Snackbar>
     </SnackbarContext.Provider>
   );
 };

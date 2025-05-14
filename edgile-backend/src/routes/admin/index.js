@@ -8,12 +8,22 @@ const adminAuthMiddleware = require('../../middleware/adminAuthMiddleware');
 const logger = require('../../utils/logger');
 const registrationLogger = require('../../utils/registrationLogger');
 const { validateAdmin } = require('../../middleware/auth');
+const eventController = require('../../controllers/admin/eventController');
+const { protect, adminOnly } = require('../../middleware/authMiddleware');
+const coeController = require('../../controllers/admin/coeController');
+const adminController = require('../../controllers/adminController');
 
 // Import route files
 const classroomRoutes = require('./classroomRoutes');
 const subjectRoutes = require('./subjectRoutes');
 const timetableRoutes = require('./timetableRoutes');
 const facultyRoutes = require('./facultyRoutes');
+const attendanceRoutes = require('./attendanceRoutes');
+
+// Add public route for listing all published COEs (must be before any auth middleware)
+router.get('/coes/published', coeController.listPublishedCOEs);
+// Add public route for viewing a single COE by id
+router.get('/coes/:id', coeController.getCOE);
 
 // Protect all admin routes
 router.use(adminAuthMiddleware);
@@ -36,6 +46,15 @@ router.use('/classrooms', classroomRoutes);
 router.use('/subjects', subjectRoutes);
 router.use('/timetable', timetableRoutes);
 router.use('/faculty', facultyRoutes);
+router.use('/attendance', attendanceRoutes);
+
+// Event routes
+router.get('/events', eventController.listEvents);
+router.post('/events', eventController.createEvent);
+router.put('/events/:id', eventController.updateEvent);
+router.delete('/events/:id', eventController.deleteEvent);
+router.patch('/events/:id/publish', eventController.setPublishState);
+router.get('/events/download', eventController.downloadEvents);
 
 // Get all faculty members for this university
 router.get('/faculty', async (req, res) => {
@@ -233,6 +252,41 @@ router.patch('/students/:id/status', async (req, res) => {
   }
 });
 
+// Get university information by code
+router.get('/university-by-code/:universityCode', async (req, res) => {
+  try {
+    const { universityCode } = req.params;
+    
+    if (!universityCode) {
+      return res.status(400).json({ success: false, message: 'University code is required' });
+    }
+    
+    // The Admin model is already available in this file's scope
+    const university = await Admin.findOne({ universityCode });
+    
+    if (!university) {
+      // It's good practice to log this on the server for debugging
+      logger.warn(`University not found with code: ${universityCode} by admin ${req.user?.id}`);
+      return res.status(404).json({ success: false, message: 'University not found' });
+    }
+    
+    res.status(200).json({
+      success: true,
+      university: {
+        _id: university._id,
+        name: university.name,         // Assuming Admin model has 'name' for the admin/university contact
+        email: university.email,       // Admin's email
+        universityName: university.universityName, // Actual name of the university
+        universityCode: university.universityCode  // The code used for lookup
+      }
+    });
+  } catch (error) {
+    // Log the error on the server
+    logger.error(`Error fetching university by code (${universityCode}): ${error.message}`, { error });
+    res.status(500).json({ success: false, message: 'Server error while fetching university data', error: error.message });
+  }
+});
+
 // Get dashboard statistics
 router.get('/stats', async (req, res) => {
   try {
@@ -360,6 +414,40 @@ router.get('/latest-registrations', async (req, res) => {
   } catch (error) {
     logger.error(`Error retrieving latest registrations: ${error.message}`);
     res.status(500).json({ msg: 'Server error', error: error.message });
+  }
+});
+
+// Test route for debugging
+router.get('/students/test-route', (req, res) => {
+  console.log('Test route hit');
+  res.status(200).json({ message: 'Test route is working' });
+});
+
+// COE (Calendar of Events) routes
+router.get('/coes', coeController.listCOEs);
+router.post('/coes', coeController.createCOE);
+router.put('/coes/:id', coeController.updateCOE);
+router.delete('/coes/:id', coeController.deleteCOE);
+router.patch('/coes/:id/publish', coeController.publishCOE);
+router.patch('/coes/:id/unpublish', coeController.unpublishCOE);
+// Festival/holiday suggestions
+router.get('/festivals', coeController.getFestivals);
+// Add public COE route
+router.get('/coes/:id/public', coeController.getPublicCOE);
+
+// Add the POST /students/promote route
+router.post('/students/promote', adminController.promoteStudents);
+
+// Add the POST /students/undo-promotion route with inline handler for debugging
+router.post('/students/undo-promotion', async (req, res) => {
+  console.log('Direct route handler for /students/undo-promotion called');
+  
+  try {
+    // Call the actual controller function
+    await adminController.undoPromotion(req, res);
+  } catch (error) {
+    console.error('Error in undo-promotion route handler:', error);
+    res.status(500).json({ message: 'Server error in route handler', error: error.message });
   }
 });
 

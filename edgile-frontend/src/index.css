@@ -9,8 +9,15 @@
     color-scheme: light;
   }
 
+  html, body {
+    height: 100%;
+    overflow: auto;
+  }
+
   body {
     @apply bg-gray-50 text-gray-900 transition-colors duration-300;
+    margin: 0;
+    padding: 0;
   }
 }
 
@@ -31,6 +38,12 @@
 /* Ensure all transitions are smooth */
 * {
   @apply transition-colors duration-300;
+}
+
+/* Fix for overflow issues on container elements */
+.overflow-container {
+  overflow: auto;
+  max-height: 100%;
 }
 
 /* Custom utility classes */
