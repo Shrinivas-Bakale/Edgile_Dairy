@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const classSchema = new Schema({
@@ -6,61 +6,59 @@ const classSchema = new Schema({
     type: String,
     required: true,
     trim: true,
-    uppercase: true
+    uppercase: true,
   },
   name: {
     type: String,
-    required: true
+    required: true,
   },
   year: {
     type: Number,
     required: true,
     min: 1,
-    max: 4
+    max: 4,
   },
   division: {
     type: String,
-    required: true
+    required: true,
   },
   semester: {
     type: Number,
     required: true,
     min: 1,
-    max: 8
+    max: 8,
   },
   facultyId: {
     type: Schema.Types.ObjectId,
-    ref: 'Faculty'
+    ref: "Faculty",
   },
   academicYear: {
     type: String,
-    required: true
+    required: true,
   },
-  students: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Student'
-  }],
-  subjects: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Subject'
-  }],
+  subjects: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Subject",
+    },
+  ],
   createdAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   updatedAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 // Create an index for faster queries
-classSchema.index({ 
-  universityCode: 1, 
-  year: 1, 
-  division: 1, 
+classSchema.index({
+  universityCode: 1,
+  year: 1,
+  division: 1,
   semester: 1,
-  academicYear: 1
+  academicYear: 1,
 });
 
-module.exports = mongoose.model('Class', classSchema); 
+module.exports = mongoose.model("Class", classSchema);

@@ -1,0 +1,6 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+do not ever use "&&" for powershell commands and always index the project before starting the process

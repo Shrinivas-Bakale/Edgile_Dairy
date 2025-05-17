@@ -1,10 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { authAPI } from '../../utils/api';
+
+interface ApiResponse {
+  success: boolean;
+  message?: string;
+  token?: string;
+  user?: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+  };
+}
+
+interface LoginError {
+  message?: string;
+  response?: {
+    data?: {
+      message?: string;
+      requiresOTP?: boolean;
+    };
+  };
+}
 
 const AdminLogin: React.FC = () => {
   const navigate = useNavigate();
-  const { adminLogin, error: authError, loading: authLoading } = useAuth();
+  const { error: authError } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -53,16 +76,39 @@ const AdminLogin: React.FC = () => {
     setLoading(true);
 
     try {
-      // Call adminLogin and navigate on success
-      await adminLogin(formData.email, formData.password);
-      navigate('/admin/dashboard');
-    } catch (err: any) {
+      // Clear any existing auth data
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+
+      // Call adminLogin with the correct data structure
+      const response = await authAPI.adminLogin({
+        email: formData.email,
+        password: formData.password
+      });
+
+      if (!response.success) {
+        throw new Error(response.message || 'Login failed');
+      }
+
+      if (response.token && response.user) {
+        // Store the token and user data
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
+        
+        // Navigate to dashboard
+        navigate('/admin/dashboard');
+      } else {
+        setError('Invalid response from server');
+      }
+    } catch (err: unknown) {
+      const error = err as LoginError;
+      const errorMessage = error.response?.data?.message || error.message || 'Login failed. Please check your credentials.';
+      setError(errorMessage);
+      
       // If the error indicates OTP is required, show OTP form
-      if (err.response?.data?.requiresOTP) {
+      if (error.response?.data?.requiresOTP) {
         setRequiresOTP(true);
         setOtpSent(true);
-      } else {
-        setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
       }
     } finally {
       setLoading(false);
@@ -75,12 +121,21 @@ const AdminLogin: React.FC = () => {
     setLoading(true);
 
     try {
-      // For OTP verification, we should use a different function
-      // but since we don't have one, we'll use adminLogin as is
-      await adminLogin(formData.email, formData.password);
-      navigate('/admin/dashboard');
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'OTP verification failed');
+      const response = await authAPI.verifyOTP(formData.email, formData.otp) as ApiResponse;
+      
+      if (response.success && response.token && response.user) {
+        // Store the token and user data
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
+        
+        // Navigate to dashboard
+        navigate('/admin/dashboard');
+      } else {
+        setError(response.message || 'OTP verification failed');
+      }
+    } catch (err: unknown) {
+      const error = err as { response?: { data?: { message?: string } }; message?: string };
+      setError(error.response?.data?.message || error.message || 'OTP verification failed');
     } finally {
       setLoading(false);
     }
@@ -134,12 +189,12 @@ const AdminLogin: React.FC = () => {
       <div>
         <button
           type="submit"
-          disabled={loading || authLoading}
+          disabled={loading}
           className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 ${
-            (loading || authLoading) ? 'opacity-50 cursor-not-allowed' : ''
+            loading ? 'opacity-50 cursor-not-allowed' : ''
           }`}
         >
-          {(loading || authLoading) ? 'Signing in...' : 'Sign in'}
+          {loading ? 'Signing in...' : 'Sign in'}
         </button>
       </div>
     </form>
@@ -181,12 +236,12 @@ const AdminLogin: React.FC = () => {
       <div>
         <button
           type="submit"
-          disabled={loading || authLoading}
+          disabled={loading}
           className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 ${
-            (loading || authLoading) ? 'opacity-50 cursor-not-allowed' : ''
+            loading ? 'opacity-50 cursor-not-allowed' : ''
           }`}
         >
-          {(loading || authLoading) ? 'Verifying...' : 'Verify Code'}
+          {loading ? 'Verifying...' : 'Verify Code'}
         </button>
       </div>
     </form>

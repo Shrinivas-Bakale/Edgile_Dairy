@@ -144,6 +144,11 @@ try {
   const groupRoutes = require("./src/routes/groupRoutes");
   const healthRoutes = require("./src/routes/health");
 
+  // Import auth routes
+  const authRoutes = require("./src/routes/auth/index");
+  const adminAuthRoutes = require("./src/routes/auth/adminAuth");
+  const facultyAuthRoutes = require("./src/routes/auth/facultyAuth");
+
   // Register Routes
   console.log("Registering routes...");
   app.use("/api/admin", adminRoutes);
@@ -152,6 +157,12 @@ try {
   app.use("/api/video-library", videoLibraryRoutes);
   app.use("/api/groups", groupRoutes);
   app.use("/health", healthRoutes);
+
+  // Register Auth Routes explicitly
+  app.use("/api/auth", authRoutes);
+  app.use("/api/auth/admin", adminAuthRoutes);
+  app.use("/api/auth/faculty", facultyAuthRoutes);
+
   console.log("Routes registered successfully");
 } catch (error) {
   console.error("Error loading routes:", error);
@@ -202,6 +213,7 @@ app.get("/", (req, res) => {
       universities: "/api/universities",
       videoLibrary: "/api/video-library",
       groups: "/api/groups",
+      auth: "/api/auth",
     },
   });
 });
