@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 const Admin = require("../models/Admin");
 const Faculty = require("../models/Faculty");
-const Student = require("../models/Student");
 const logger = require("../utils/logger");
 
 // ✅ Protect Route (JWT Authentication)
@@ -15,17 +14,17 @@ exports.protect = async (req, res, next) => {
         .json({ message: "No authentication token provided" });
     }
 
-    console.log('[DEBUG] Verifying JWT token');
+    console.log("[DEBUG] Verifying JWT token");
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log('[DEBUG] JWT decoded:', JSON.stringify(decoded));
-    
+    console.log("[DEBUG] JWT decoded:", JSON.stringify(decoded));
+
     // Extract permissions from token if available
     if (decoded.permissions) {
       req.userPermissions = decoded.permissions;
-      console.log('[DEBUG] Permissions from token:', req.userPermissions);
+      console.log("[DEBUG] Permissions from token:", req.userPermissions);
     } else {
       req.userPermissions = [];
-      console.log('[DEBUG] No permissions in token');
+      console.log("[DEBUG] No permissions in token");
     }
 
     let user;
@@ -38,11 +37,11 @@ exports.protect = async (req, res, next) => {
       // Add default admin permissions if not in token
       if (!req.userPermissions || req.userPermissions.length === 0) {
         req.userPermissions = [
-          'admin:all',
-          'admin:dashboard',
-          'admin:users:manage',
-          'admin:settings',
-          'admin:reports'
+          "admin:all",
+          "admin:dashboard",
+          "admin:users:manage",
+          "admin:settings",
+          "admin:reports",
         ];
       }
       // Set university to universityCode for admin users
@@ -56,28 +55,12 @@ exports.protect = async (req, res, next) => {
       // Add default faculty permissions if not in token
       if (!req.userPermissions || req.userPermissions.length === 0) {
         req.userPermissions = [
-          'faculty:profile',
-          'faculty:dashboard',
-          'faculty:courses:view',
-          'faculty:students:view',
-          'faculty:attendance:manage',
-          'faculty:timetable:view'
-        ];
-      }
-    } else if (decoded.role === "student") {
-      user = await Student.findById(decoded.id);
-      if (!user) {
-        logger.warn(`⚠️ Student not found with ID: ${decoded.id}`);
-        return res.status(401).json({ message: "Student not found" });
-      }
-      // Add default student permissions if not in token
-      if (!req.userPermissions || req.userPermissions.length === 0) {
-        req.userPermissions = [
-          'student:profile',
-          'student:dashboard',
-          'student:courses:view',
-          'student:timetable:view',
-          'student:attendance:view'
+          "faculty:profile",
+          "faculty:dashboard",
+          "faculty:courses:view",
+          "faculty:students:view",
+          "faculty:attendance:manage",
+          "faculty:timetable:view",
         ];
       }
     } else {
@@ -92,15 +75,16 @@ exports.protect = async (req, res, next) => {
       role: decoded.role,
       ...user._doc,
       permissions: req.userPermissions,
-      universityCode: user.universityCode || user.university?.code || 'KLE-F104ED', // Add university code
-      university: user.universityCode || user.university?.code || 'KLE-F104ED' // Set university to university code for compatibility
+      universityCode:
+        user.universityCode || user.university?.code || "KLE-F104ED", // Add university code
+      university: user.universityCode || user.university?.code || "KLE-F104ED", // Set university to university code for compatibility
     };
-    
+
     // Helper function for permission checking
     req.hasPermission = (permission) => {
       // If user has admin:all permission, they can do anything
-      if (req.userPermissions.includes('admin:all')) return true;
-      
+      if (req.userPermissions.includes("admin:all")) return true;
+
       // Check for specific permission
       return req.userPermissions.includes(permission);
     };
@@ -109,8 +93,6 @@ exports.protect = async (req, res, next) => {
     req.isFaculty = decoded.role === "faculty";
     // Helps determine if a user has admin access
     req.isAdmin = decoded.role === "admin";
-    // Helps determine if a user has student access
-    req.isStudent = decoded.role === "student";
 
     next();
   } catch (error) {
@@ -155,20 +137,6 @@ exports.facultyOnly = async (req, res, next) => {
   }
 };
 
-// ✅ Student-Only Access
-exports.studentOnly = async (req, res, next) => {
-  try {
-    if (req.user.role !== "student") {
-      logger.warn("⚠️ Unauthorized access attempt - Student access required");
-      return res.status(403).json({ message: "Student access required" });
-    }
-    next();
-  } catch (error) {
-    logger.error("🔥 Student Middleware Error:", error.message);
-    res.status(500).json({ message: "Server error", error: error.message });
-  }
-};
-
 // ✅ Check Permission Middleware
 exports.checkPermission = (requiredPermission) => {
   return (req, res, next) => {
@@ -176,15 +144,21 @@ exports.checkPermission = (requiredPermission) => {
       // Check if user exists and has permissions
       if (!req.user || !req.user.permissions) {
         logger.warn("⚠️ Permission check failed - No user or permissions");
-        return res.status(403).json({ message: "Access denied - Insufficient permissions" });
+        return res
+          .status(403)
+          .json({ message: "Access denied - Insufficient permissions" });
       }
-      
+
       // Check if user has the required permission
       if (!req.user.permissions.includes(requiredPermission)) {
-        logger.warn(`⚠️ Permission denied: ${req.user.role} tried to access ${requiredPermission}`);
-        return res.status(403).json({ message: "Access denied - Insufficient permissions" });
+        logger.warn(
+          `⚠️ Permission denied: ${req.user.role} tried to access ${requiredPermission}`
+        );
+        return res
+          .status(403)
+          .json({ message: "Access denied - Insufficient permissions" });
       }
-      
+
       // Permission granted
       next();
     } catch (error) {
@@ -201,15 +175,21 @@ exports.restrictTo = (role) => {
       // Check if user exists and has a role
       if (!req.user || !req.user.role) {
         logger.warn("⚠️ Role check failed - No user or role");
-        return res.status(403).json({ message: "Access denied - Authentication required" });
+        return res
+          .status(403)
+          .json({ message: "Access denied - Authentication required" });
       }
-      
+
       // Check if user has the required role
       if (req.user.role !== role) {
-        logger.warn(`⚠️ Role denied: ${req.user.role} tried to access ${role} route`);
-        return res.status(403).json({ message: `Access denied - ${role} access only` });
+        logger.warn(
+          `⚠️ Role denied: ${req.user.role} tried to access ${role} route`
+        );
+        return res
+          .status(403)
+          .json({ message: `Access denied - ${role} access only` });
       }
-      
+
       // Role allowed, continue
       next();
     } catch (error) {

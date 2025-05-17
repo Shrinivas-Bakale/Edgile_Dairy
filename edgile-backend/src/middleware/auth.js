@@ -1,93 +1,94 @@
-const jwt = require('jsonwebtoken');
-const Admin = require('../models/Admin');
-const Faculty = require('../models/Faculty');
-const Student = require('../models/Student');
+const jwt = require("jsonwebtoken");
+const Admin = require("../models/Admin");
+const Faculty = require("../models/Faculty");
 
-console.log('Auth middleware file loaded successfully');
+console.log("Auth middleware file loaded successfully");
 
 // Simple auth middleware function
 const authMiddleware = async (req, res, next) => {
-  console.log('Auth middleware executing');
-  
+  console.log("Auth middleware executing");
+
   try {
     // Get token from header
-    const token = req.header('Authorization')?.replace('Bearer ', '');
+    const token = req.header("Authorization")?.replace("Bearer ", "");
 
     if (!token) {
-      return res.status(401).json({ message: 'No authentication token provided' });
+      return res
+        .status(401)
+        .json({ message: "No authentication token provided" });
     }
 
     // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    
+
     // Find user based on role
     let user;
-    if (decoded.role === 'admin') {
+    if (decoded.role === "admin") {
       user = await Admin.findById(decoded.id);
-    } else if (decoded.role === 'faculty') {
+    } else if (decoded.role === "faculty") {
       user = await Faculty.findById(decoded.id);
     } else {
-      user = await Student.findById(decoded.id);
+      return res.status(403).json({ message: "Invalid user role" });
     }
 
     if (!user) {
-      return res.status(401).json({ message: 'User not found' });
+      return res.status(401).json({ message: "User not found" });
     }
 
     // Add user info to request
     req.user = {
       id: user._id,
       email: user.email,
-      role: decoded.role
+      role: decoded.role,
     };
 
     next();
   } catch (error) {
-    console.error('Auth middleware error:', error);
-    
-    if (error.name === 'JsonWebTokenError') {
-      return res.status(401).json({ message: 'Invalid token' });
-    } else if (error.name === 'TokenExpiredError') {
-      return res.status(401).json({ message: 'Token expired' });
+    console.error("Auth middleware error:", error);
+
+    if (error.name === "JsonWebTokenError") {
+      return res.status(401).json({ message: "Invalid token" });
+    } else if (error.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Token expired" });
     }
-    
-    res.status(500).json({ message: 'Server error' });
+
+    res.status(500).json({ message: "Server error" });
   }
 };
 
 // Admin-specific authentication middleware
 const validateAdmin = async (req, res, next) => {
-  console.log('ValidateAdmin middleware executing');
-  
+  console.log("ValidateAdmin middleware executing");
+
   try {
     // Get token from header
-    const token = req.header('Authorization')?.replace('Bearer ', '');
+    const token = req.header("Authorization")?.replace("Bearer ", "");
 
     if (!token) {
-      return res.status(401).json({ 
+      return res.status(401).json({
         success: false,
-        message: 'No authentication token provided' 
+        message: "No authentication token provided",
       });
     }
 
     // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    
+
     // Check if the user is an admin
-    if (decoded.role !== 'admin') {
-      return res.status(403).json({ 
+    if (decoded.role !== "admin") {
+      return res.status(403).json({
         success: false,
-        message: 'Access denied. Admin privileges required.' 
+        message: "Access denied. Admin privileges required.",
       });
     }
-    
+
     // Find the admin user
     const admin = await Admin.findById(decoded.id);
-    
+
     if (!admin) {
-      return res.status(401).json({ 
+      return res.status(401).json({
         success: false,
-        message: 'Admin not found' 
+        message: "Admin not found",
       });
     }
 
@@ -96,28 +97,28 @@ const validateAdmin = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.error('ValidateAdmin middleware error:', error);
-    
-    if (error.name === 'JsonWebTokenError') {
-      return res.status(401).json({ 
+    console.error("ValidateAdmin middleware error:", error);
+
+    if (error.name === "JsonWebTokenError") {
+      return res.status(401).json({
         success: false,
-        message: 'Invalid token' 
+        message: "Invalid token",
       });
-    } else if (error.name === 'TokenExpiredError') {
-      return res.status(401).json({ 
+    } else if (error.name === "TokenExpiredError") {
+      return res.status(401).json({
         success: false,
-        message: 'Token expired' 
+        message: "Token expired",
       });
     }
-    
-    return res.status(500).json({ 
+
+    return res.status(500).json({
       success: false,
-      message: 'Server error' 
+      message: "Server error",
     });
   }
 };
 
-module.exports = { 
-  authMiddleware, 
-  validateAdmin 
-}; 
+module.exports = {
+  authMiddleware,
+  validateAdmin,
+};

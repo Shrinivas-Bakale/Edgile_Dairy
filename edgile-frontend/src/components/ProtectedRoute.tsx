@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useFacultyAuth } from '../contexts/FacultyAuthContext';
 import { useSnackbar } from '../contexts/SnackbarContext';
 
-type UserRole = 'admin' | 'faculty' | 'student';
+type UserRole = 'admin' | 'faculty';
 
 interface ProtectedRouteProps {
   children?: ReactNode | ((props: { role: UserRole }) => React.ReactElement);
@@ -13,7 +13,7 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowedRoles }) => {
   const { isAuthenticated, role, user } = useAuth();
-  const { faculty, isAuthenticated: isFacultyAuthenticated } = useFacultyAuth();
+  const { isAuthenticated: isFacultyAuthenticated } = useFacultyAuth();
   const { showSnackbar } = useSnackbar();
   const location = useLocation();
   const navigate = useNavigate();
@@ -39,8 +39,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowedRoles 
         return '/admin/dashboard';
       case 'faculty':
         return '/faculty/dashboard';
-      case 'student':
-        return '/student/dashboard';
       default:
         return '/login';
     }
@@ -71,7 +69,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowedRoles 
           if (!userData || typeof userData !== 'object' || !userData.role) {
             throw new Error('Invalid user data structure');
           }
-        } catch (parseError) {
+        } catch {
           // Handle JSON parse error or invalid structure - don't clear storage automatically,
           // just redirect to login with warning
           showSnackbar('Invalid session data. Please log in again', 'error');

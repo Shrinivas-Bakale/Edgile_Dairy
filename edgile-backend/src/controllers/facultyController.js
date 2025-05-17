@@ -1,6 +1,5 @@
 const Class = require('../models/Class');
 const Subject = require('../models/Subject');
-const Student = require('../models/Student');
 const Timetable = require('../models/Timetable');
 const { AttendanceRecord } = require('../models/AttendanceRecord');
 const mongoose = require('mongoose');
@@ -98,36 +97,10 @@ exports.getSubjects = async (req, res) => {
 exports.getStudents = async (req, res) => {
   logControllerAccess('getStudents');
   try {
-    const { classId } = req.query;
-    const { universityCode } = req.user;
-
-    let students;
-    if (!classId) {
-      // Fetch all students for this university
-      students = await Student.find({ universityCode }).select('_id name email registerNumber rollNumber year semester division phone');
-    } else {
-      // Find the class
-      const classInfo = await Class.findOne({
-        _id: classId,
-        universityCode
-      });
-      if (!classInfo) {
-        return res.status(404).json({
-          success: false,
-          message: 'Class not found'
-        });
-      }
-      // Find students for this class
-      students = await Student.find({
-        universityCode,
-        year: classInfo.year,
-        division: classInfo.division,
-        semester: classInfo.semester
-      }).select('_id name email registerNumber rollNumber year semester division phone');
-    }
+    // Return an empty students array since student functionality is removed
     return res.status(200).json({
       success: true,
-      students
+      students: []
     });
   } catch (error) {
     console.error('Error in getStudents:', error);
@@ -147,90 +120,11 @@ exports.markAttendance = async (req, res) => {
     const { classId, subjectId, date, slotNumber, studentAttendance } = req.body;
     const { universityCode, id: facultyId } = req.user;
     
-    if (!classId || !subjectId || !date || !slotNumber || !studentAttendance || !studentAttendance.length) {
-      return res.status(400).json({
-        success: false,
-        message: 'Missing required fields'
-      });
-    }
-    
-    // Get attendance settings
-    const AttendanceSettings = require('../models/AttendanceSettings');
-    const settings = await AttendanceSettings.findOne({ universityCode });
-    
-    // Check if excused absences are allowed
-    const allowExcused = settings ? settings.allowExcusedAbsences : true;
-    
-    // Create attendance records for each student
-    const attendancePromises = studentAttendance.map(async (student) => {
-      // Validate attendance status
-      if (student.status === 'EXCUSED' && !allowExcused) {
-        student.status = 'ABSENT'; // Set to absent if excused is not allowed
-      }
-      
-      // Check if record already exists
-      const existingRecord = await AttendanceRecord.findOne({
-        class: classId,
-        subject: subjectId,
-        date,
-        slotNumber,
-        student: student.id
-      });
-      
-      if (existingRecord) {
-        // Update existing record
-        existingRecord.status = student.status;
-        existingRecord.reason = student.reason || '';
-        existingRecord.updatedAt = new Date();
-        return existingRecord.save();
-      } else {
-        // Create new record
-        return AttendanceRecord.create({
-          universityCode,
-          class: classId,
-          subject: subjectId,
-          faculty: facultyId,
-          student: student.id,
-          date,
-          slotNumber,
-          status: student.status,
-          reason: student.reason || ''
-        });
-      }
-    });
-    
-    await Promise.all(attendancePromises);
-    
-    // Get the updated records with student names for response
-    const updatedRecords = await AttendanceRecord.find({
-      class: classId,
-      subject: subjectId,
-      date,
-      slotNumber
-    })
-    .populate('student', 'name registerNumber')
-    .populate('subject', 'name code')
-    .sort({ 'student.name': 1 });
-    
-    // Format records for response
-    const formattedRecords = updatedRecords.map(record => ({
-      _id: record._id,
-      date: record.date,
-      slotNumber: record.slotNumber,
-      status: record.status,
-      reason: record.reason,
-      studentId: record.student ? record.student._id : null,
-      studentName: record.student ? record.student.name : 'Unknown',
-      studentRegisterNumber: record.student ? record.student.registerNumber : 'Unknown',
-      subjectId: record.subject ? record.subject._id : null,
-      subjectName: record.subject ? record.subject.name : 'Unknown',
-      subjectCode: record.subject ? record.subject.code : 'Unknown'
-    }));
-    
+    // Since student functionality is removed, return a successful response without processing
     return res.status(200).json({
       success: true,
-      message: 'Attendance marked successfully',
-      data: formattedRecords
+      message: 'Student functionality is disabled. No attendance was marked.',
+      data: []
     });
   } catch (error) {
     console.error('Error in markAttendance:', error);
@@ -247,57 +141,14 @@ exports.markAttendance = async (req, res) => {
 // @access  Private (Faculty only)
 exports.getClassAttendance = async (req, res) => {
   try {
-    const { classId, date, subjectId } = req.query;
-    const { universityCode } = req.user;
-    
-    if (!classId || !date) {
-      return res.status(400).json({
-        success: false,
-        message: 'Class ID and date are required'
-      });
-    }
-    
-    // Parse date
-    const attendanceDate = new Date(date);
-    attendanceDate.setHours(0, 0, 0, 0);
-    const nextDay = new Date(attendanceDate);
-    nextDay.setDate(nextDay.getDate() + 1);
-    
-    // Build query
-    const query = {
-      universityCode,
-      class: classId,
-      date: { $gte: attendanceDate, $lt: nextDay }
-    };
-    
-    if (subjectId) {
-      query.subject = subjectId;
-    }
-    
-    // Find attendance records
-    const attendanceRecords = await AttendanceRecord.find(query)
-      .populate('student', 'name registerNumber')
-      .populate('subject', 'name code')
-      .sort({ slotNumber: 1, 'student.name': 1 });
-    
-    // Format records for the frontend
-    const formattedRecords = attendanceRecords.map(record => ({
-      _id: record._id,
-      date: record.date,
-      slotNumber: record.slotNumber,
-      status: record.status,
-      reason: record.reason,
-      studentId: record.student ? record.student._id : null,
-      studentName: record.student ? record.student.name : 'Unknown',
-      studentRegisterNumber: record.student ? record.student.registerNumber : 'Unknown',
-      subjectId: record.subject ? record.subject._id : null,
-      subjectName: record.subject ? record.subject.name : 'Unknown',
-      subjectCode: record.subject ? record.subject.code : 'Unknown'
-    }));
-    
+    // Return empty attendance data since student functionality is removed
     return res.status(200).json({
       success: true,
-      data: formattedRecords
+      data: {
+        date: new Date().toISOString().split('T')[0],
+        records: [],
+        summary: { present: 0, absent: 0, excused: 0, total: 0 }
+      }
     });
   } catch (error) {
     console.error('Error in getClassAttendance:', error);

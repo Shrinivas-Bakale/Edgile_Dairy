@@ -139,7 +139,6 @@ try {
   console.log("Loading routes...");
   const adminRoutes = require("./src/routes/adminRoutes");
   const facultyRoutes = require("./src/routes/facultyRoutes");
-  const studentRoutes = require("./src/routes/studentRoutes");
   const universityRoutes = require("./src/routes/universityRoutes");
   const videoLibraryRoutes = require("./src/routes/videoLibraryRoutes");
   const groupRoutes = require("./src/routes/groupRoutes");
@@ -149,7 +148,6 @@ try {
   console.log("Registering routes...");
   app.use("/api/admin", adminRoutes);
   app.use("/api/faculty", facultyRoutes);
-  app.use("/api/student", studentRoutes);
   app.use("/api/universities", universityRoutes);
   app.use("/api/video-library", videoLibraryRoutes);
   app.use("/api/groups", groupRoutes);
@@ -201,7 +199,6 @@ app.get("/", (req, res) => {
       test: "/api/test",
       admin: "/api/admin",
       faculty: "/api/faculty",
-      student: "/api/student",
       universities: "/api/universities",
       videoLibrary: "/api/video-library",
       groups: "/api/groups",

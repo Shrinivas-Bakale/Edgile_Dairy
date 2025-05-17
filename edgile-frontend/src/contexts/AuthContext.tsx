@@ -3,10 +3,9 @@ import { authAPI } from '../utils/api';
 import api from '../utils/api';
 import { adminAPI } from '../utils/api';
 import { facultyAPI } from '../utils/api';
-import { studentAPI } from '../utils/api';
 
 // Define user roles as a union type for TypeScript
-export type UserRole = 'student' | 'faculty' | 'admin';
+export type UserRole = 'faculty' | 'admin';
 
 // Define permission strings for RBAC
 export type Permission = 
@@ -20,11 +19,7 @@ export type Permission =
   | 'faculty:profile'
   | 'faculty:courses:manage'
   | 'faculty:students:view'
-  | 'faculty:grades:manage'
-  | 'student:profile'
-  | 'student:courses:view'
-  | 'student:assignments:submit'
-  | 'student:grades:view';
+  | 'faculty:grades:manage';
 
 // Get default permissions based on role
 const getDefaultPermissions = (role: UserRole): Permission[] => {
@@ -45,13 +40,6 @@ const getDefaultPermissions = (role: UserRole): Permission[] => {
         'faculty:courses:manage',
         'faculty:students:view',
         'faculty:grades:manage'
-      ];
-    case 'student':
-      return [
-        'student:profile',
-        'student:courses:view',
-        'student:assignments:submit',
-        'student:grades:view'
       ];
     default:
       return [];
@@ -80,7 +68,6 @@ interface AuthContextType {
   login: (email: string, password: string, universityCode?: string) => Promise<void>;
   adminLogin: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string, universityCode: string) => Promise<any>;
-  verifyStudentOTP: (email: string, otp: string, password: string, name: string, universityCode: string) => Promise<void>;
   checkAdminEmailExists: (email: string) => Promise<boolean>;
   logout: () => void;
   hasPermission: (permission: Permission) => boolean;
@@ -99,7 +86,6 @@ const AuthContext = createContext<AuthContextType>({
   login: async () => {},
   adminLogin: async () => {},
   register: async () => {},
-  verifyStudentOTP: async () => {},
   checkAdminEmailExists: async () => false,
   logout: () => {},
   hasPermission: () => false,
@@ -139,7 +125,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             }
             
             // Make sure role is valid
-            if (!parsedUser.role || !['admin', 'faculty', 'student'].includes(parsedUser.role)) {
+            if (!parsedUser.role || !['admin', 'faculty'].includes(parsedUser.role)) {
               parsedUser.role = inferRoleFromEmail(parsedUser.email);
             }
             
@@ -180,7 +166,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } else if (email.includes('@faculty') || email.includes('@faculty.edgile.com')) {
       return 'faculty';
     } else {
-      return 'student';
+      throw new Error('Unknown role');
     }
   };
 
@@ -238,11 +224,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setError(null);
       
       // Determine role based on email domain
-      let role = 'student';
+      let role = 'faculty';
       if (email.endsWith('@admin.edgile.com')) {
         role = 'admin';
-      } else if (email.endsWith('@faculty.edgile.com')) {
-        role = 'faculty';
       }
       
       const data = await authAPI.login({
@@ -377,50 +361,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  // Verify Student OTP function
-  const verifyStudentOTP = async (email: string, otp: string, password: string, name: string, universityCode: string) => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      const data = await authAPI.verifyStudentOTP({
-        email,
-        otp,
-        password,
-        name,
-        universityCode
-      });
-      
-      if (data.success) {
-        // Set auth state
-        setIsAuthenticated(true);
-        setUser(data.user);
-        setToken(data.token);
-        setRole('student');
-        
-        // Set permissions based on user data or defaults
-        const userPermissions = data.user.permissions || getDefaultPermissions('student');
-        setPermissions(userPermissions);
-        
-        // Store in localStorage
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify({
-          ...data.user,
-          permissions: userPermissions
-        }));
-        
-        // Set the token in the API client
-        api.setToken(data.token);
-      }
-    } catch (err: any) {
-      setError(err.response?.data?.msg || 'OTP verification failed. Please try again.');
-      console.error('OTP verification error:', err);
-      throw err;
-    } finally {
-      setLoading(false);
-    }
-  };
-
   // Add a helper function for debouncing profile fetch calls
   const debounce = <F extends (...args: any[]) => any>(func: F, wait: number) => {
     let timeout: ReturnType<typeof setTimeout> | null = null;
@@ -476,15 +416,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             });
             return true;
           }
-        } else if (role === 'student') {
-          const response = await studentAPI.getProfile();
-          if (response?.student) {
-            setUser({
-              ...user,
-              ...response.student
-            });
-            return true;
-          }
         }
         return false;
       } catch (error) {
@@ -513,7 +444,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     login,
     adminLogin,
     register,
-    verifyStudentOTP,
     checkAdminEmailExists,
     logout,
     hasPermission,

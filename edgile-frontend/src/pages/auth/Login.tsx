@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useFacultyAuth } from "../../contexts/FacultyAuthContext";
-import { useStudentAuth } from "../../contexts/StudentAuthContext";
 import { useTheme } from "@mui/material/styles";
 import {
   Box,
@@ -12,8 +11,6 @@ import {
   IconButton,
   InputAdornment,
   CircularProgress,
-  ToggleButton,
-  ToggleButtonGroup,
   Container,
   useMediaQuery,
 } from "@mui/material";
@@ -22,27 +19,22 @@ import {
   IconLock,
   IconEye,
   IconEyeOff,
-  IconSchool,
   IconBuildingCommunity,
   IconArrowLeft,
 } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import InteractiveGridPattern from "../../components/InteractiveGridPattern";
 
-type UserRole = "student" | "faculty";
-
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { login: facultyLogin } = useFacultyAuth();
-  const { login: studentLogin } = useStudentAuth();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [universityCode, setUniversityCode] = useState("");
-  const [role, setRole] = useState<UserRole>("student");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -84,75 +76,47 @@ const Login: React.FC = () => {
         throw new Error("Email and password are required");
       }
 
-      console.log("Attempting login with:", { email, role });
+      console.log("Attempting login with:", { email, role: "faculty" });
 
-      switch (role) {
-        case "faculty":
-          if (!universityCode) {
-            throw new Error("University code is required");
-          }
-          
-          try {
-            console.log("Making faculty login API call with university code...");
-            // Faculty login - returns token, user, etc. - pass universityCode
-            const facultyResponse = await facultyLogin(email, password, universityCode);
-            console.log('Faculty login response received:', facultyResponse);
-            
-            // Clear password from memory after successful login
-            setPassword("");
-            
-            // Make sure data is stored in localStorage before redirect
-            // (this should already be done in the facultyLogin function)
-            if (!localStorage.getItem('token') || !localStorage.getItem('user')) {
-              console.log('Ensuring auth data is stored in localStorage');
-              localStorage.setItem('token', facultyResponse.token);
-              localStorage.setItem('user', JSON.stringify(facultyResponse.user));
-            }
-            
-            // Use a short timeout to ensure localStorage is updated before navigating
-            console.log('Faculty login successful - redirecting to dashboard');
-            
-            setTimeout(() => {
-              // Use navigate for better state handling
-              navigate('/faculty/dashboard', { replace: true });
-            }, 100);
-            
-            return;
-          } catch (facultyError: any) {
-            console.error("Faculty login error:", facultyError);
-            throw facultyError;
-          }
-          
-        case "student":
-          if (!universityCode) {
-            throw new Error("University code is required");
-          }
-          
-          try {
-            console.log("Making student login API call...");
-            // Student login
-            await studentLogin(email, password, universityCode);
-            
-            // Clear password from memory after successful login
-            setPassword("");
-            
-            console.log('Student login successful, redirecting to dashboard');
-            
-            setTimeout(() => {
-              // Use navigate for better state handling
-            navigate("/student/dashboard", { replace: true });
-            }, 100);
-            return; // Exit early after navigation
-          } catch (studentError: any) {
-            console.error("Student login error:", studentError);
-            throw studentError;
-          }
+      if (!universityCode) {
+        throw new Error("University code is required");
       }
-    } catch (err: any) {
+      
+      try {
+        console.log("Making faculty login API call with university code...");
+        // Faculty login - returns token, user, etc. - pass universityCode
+        const facultyResponse = await facultyLogin(email, password, universityCode);
+        console.log('Faculty login response received:', facultyResponse);
+        
+        // Clear password from memory after successful login
+        setPassword("");
+        
+        // Make sure data is stored in localStorage before redirect
+        // (this should already be done in the facultyLogin function)
+        if (!localStorage.getItem('token') || !localStorage.getItem('user')) {
+          console.log('Ensuring auth data is stored in localStorage');
+          localStorage.setItem('token', facultyResponse.token);
+          localStorage.setItem('user', JSON.stringify(facultyResponse.user));
+        }
+        
+        // Use a short timeout to ensure localStorage is updated before navigating
+        console.log('Faculty login successful - redirecting to dashboard');
+        
+        setTimeout(() => {
+          // Use navigate for better state handling
+          navigate('/faculty/dashboard', { replace: true });
+        }, 100);
+        
+        return;
+      } catch (facultyError: unknown) {
+        console.error("Faculty login error:", facultyError);
+        throw facultyError;
+      }
+    } catch (err: unknown) {
       console.error('Login error:', err);
       
       // Get the error message
-      const errorMessage = err.message || "Login failed";
+      const errorMessage = err instanceof Error ? err.message : "Login failed";
       
       // Show error message in UI and snackbar, but never refresh the page
       setError(errorMessage);
@@ -356,43 +320,25 @@ const Login: React.FC = () => {
 
             <form onSubmit={handleSubmit}>
               <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: 2.5, sm: 3 } }}>
-                <ToggleButtonGroup
-                  value={role}
-                  exclusive
-                  onChange={(_, newRole) => {
-                    if (newRole) {
-                      setRole(newRole);
-                      setError(""); // Clear any previous errors
-                    }
-                  }}
-                  fullWidth
-                  sx={{
-                    mb: 1,
-                    ".MuiToggleButton-root": {
-                      py: { xs: 1, sm: 1.2 },
-                      color: "#475569", // Slate-600
-                      borderColor: "rgba(59, 130, 246, 0.2)",
-                      transition: "all 0.2s ease",
-                      "&.Mui-selected": {
-                        bgcolor: "rgba(59, 130, 246, 0.1)",
-                        color: "#1e40af", // Blue-800
-                        fontWeight: 600,
-                      },
-                      "&:hover": {
-                        bgcolor: "rgba(59, 130, 246, 0.05)",
-                      },
-                    },
+                <Box 
+                  sx={{ 
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                    mb: 1
                   }}
                 >
-                  <ToggleButton value="student">
-                    <IconSchool size={18} style={{ marginRight: 8 }} />
-                    Student
-                  </ToggleButton>
-                  <ToggleButton value="faculty">
-                    <IconBuildingCommunity size={18} style={{ marginRight: 8 }} />
-                    Faculty
-                  </ToggleButton>
-                </ToggleButtonGroup>
+                  <IconBuildingCommunity size={18} style={{ color: '#1e40af' }} />
+                  <Typography 
+                    variant="body1" 
+                    sx={{ 
+                      fontWeight: 600, 
+                      color: '#1e40af'  // Blue-800
+                    }}
+                  >
+                    Faculty Login
+                  </Typography>
+                </Box>
 
                 <TextField
                   fullWidth
@@ -490,45 +436,45 @@ const Login: React.FC = () => {
                   }}
                 />
 
-                  <TextField
-                    fullWidth
-                    label="University Code"
-                    variant="outlined"
-                    value={universityCode}
-                    onChange={(e) => setUniversityCode(e.target.value)}
-                    required={true}
-                    type="text"
-                    name="universityCode"
-                    autoComplete="one-time-code"
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                        <IconSchool size={18} stroke={1.5} color="#64748b" />
-                        </InputAdornment>
-                      ),
-                    }}
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                      color: "#1e293b", // Slate-900
-                        transition: "all 0.2s ease",
-                        "&:hover .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "rgba(59, 130, 246, 0.5)",
-                        },
-                        "& .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "rgba(59, 130, 246, 0.2)",
-                        },
-                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "#3b82f6", // Blue-500
-                        },
+                <TextField
+                  fullWidth
+                  label="University Code"
+                  variant="outlined"
+                  value={universityCode}
+                  onChange={(e) => setUniversityCode(e.target.value)}
+                  required={true}
+                  type="text"
+                  name="universityCode"
+                  autoComplete="one-time-code"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                      <IconBuildingCommunity size={18} stroke={1.5} color="#64748b" />
+                      </InputAdornment>
+                    ),
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                    color: "#1e293b", // Slate-900
+                      transition: "all 0.2s ease",
+                      "&:hover .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "rgba(59, 130, 246, 0.5)",
                       },
-                      "& .MuiInputLabel-root": {
-                      color: "#64748b", // Slate-500
-                        "&.Mui-focused": {
-                        color: "#3b82f6", // Blue-500
-                        },
-                      }
-                    }}
-                  />
+                      "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "rgba(59, 130, 246, 0.2)",
+                      },
+                      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#3b82f6", // Blue-500
+                      },
+                    },
+                    "& .MuiInputLabel-root": {
+                    color: "#64748b", // Slate-500
+                      "&.Mui-focused": {
+                      color: "#3b82f6", // Blue-500
+                      },
+                    }
+                  }}
+                />
 
                 <motion.div
                   whileHover={{ scale: 1.02 }}
@@ -567,39 +513,26 @@ const Login: React.FC = () => {
                     )}
                   </Button>
                 </motion.div>
-                
-                {role === 'student' && (
-                  <Box sx={{ 
-                    display: 'flex', 
-                    justifyContent: 'space-between', 
-                    mt: 3, 
-                    opacity: 0.9,
-                    transition: 'opacity 0.3s ease'
-                  }}>
-                    <Link 
-                      to="/register" 
-                      style={{ 
-                        color: '#3b82f6', // Blue-500 
-                        textDecoration: 'none',
-                        fontWeight: '500',
-                        textAlign: 'center'
-                      }}
-                    >
-                      New user? Register here
-                    </Link>
-                    <Link 
-                      to="/forgot-password" 
-                      style={{ 
-                        color: '#3b82f6', // Blue-500 
-                        textDecoration: 'none',
-                        fontWeight: '500',
-                        textAlign: 'center'
-                      }}
-                    >
-                      Forgot password?
-                    </Link>
-                  </Box>
-                )}
+
+                <Box sx={{ 
+                  display: 'flex', 
+                  justifyContent: 'center', 
+                  mt: 3, 
+                  opacity: 0.9,
+                  transition: 'opacity 0.3s ease'
+                }}>
+                  <Link 
+                    to="/forgot-password" 
+                    style={{ 
+                      color: '#3b82f6', // Blue-500 
+                      textDecoration: 'none',
+                      fontWeight: '500',
+                      textAlign: 'center'
+                    }}
+                  >
+                    Forgot password?
+                  </Link>
+                </Box>
               </Box>
             </form>
           </Paper>

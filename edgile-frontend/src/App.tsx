@@ -2,13 +2,10 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useAuth } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
-import LoadingSpinner from './components/LoadingSpinner';
 import ErrorBoundary from './components/ErrorBoundary';
-import Unauthorized from './components/Unauthorized';
 import { SnackbarProvider } from './contexts/SnackbarContext';
 import { ToastProvider } from './contexts/ToastContext';
 import { AuthProvider } from './contexts/AuthContext';
-import { StudentAuthProvider } from './contexts/StudentAuthContext';
 import { FacultyAuthProvider } from './contexts/FacultyAuthContext';
 import { AdminAuthProvider } from './contexts/AdminAuthContext';
 import DashboardWrapper from './components/DashboardWrapper';
@@ -23,7 +20,6 @@ import AdminLogin from './pages/admin/Login';
 import AdminRegister from './pages/auth/AdminRegister';
 import AdminAccess from './pages/auth/AdminAccess';
 import AdminChoice from './pages/auth/AdminChoice';
-import StudentRegister from './pages/student/Register';
 import ForgotPassword from './pages/auth/ForgotPassword';
 
 // Landing Page
@@ -42,11 +38,6 @@ import FacultyProfile from './pages/faculty/Profile';
 import FacultyTimetable from './pages/faculty/Timetable';
 import TokenRegistration from './pages/faculty/TokenRegistration';
 import FacultyStudents from './pages/faculty/Students';
-import StudentDashboard from './pages/student/Dashboard';
-import StudentCourses from './pages/student/Courses';
-import StudentCourseDetail from './pages/student/CourseDetail';
-import StudentProfile from './pages/student/Profile';
-import StudentTimetable from './pages/student/Timetable';
 import LoginLogs from './pages/admin/LoginLogs';
 import RegistrationLogs from './pages/admin/RegistrationLogs';
 import ClassroomsPage from './pages/admin/ClassroomsPage';
@@ -61,18 +52,12 @@ import COEEditPage from './pages/admin/COEEditPage';
 
 // Attendance Management Pages
 import FacultyAttendancePage from './pages/faculty/attendance/layout';
-import StudentAttendancePage from './pages/student/attendance';
 import AdminAttendanceSettingsPage from './pages/admin/AttendanceSettingsPage';
 import HolidayManager from './pages/admin/attendance/HolidayManager';
 
-// Define role type
-type UserRole = 'admin' | 'faculty' | 'student';
-
 // New imports
 import FacultyCalendarOfEvents from './pages/faculty/CalendarOfEvents';
-import StudentCalendarOfEvents from './pages/student/CalendarOfEvents';
 import FacultyCOEViewPage from './pages/faculty/COEViewPage';
-import StudentCOEViewPage from './pages/student/COEViewPage';
 import VideoLibraryPage from './pages/lecture-videos/VideoLibraryPage';
 import PlaylistDetailPage from './pages/lecture-videos/PlaylistDetailPage';
 
@@ -83,13 +68,11 @@ function App() {
         <ToastProvider>
           <AuthProvider>
             <AdminAuthProvider>
-              <StudentAuthProvider>
-                <FacultyAuthProvider>
-                  <ErrorBoundary>
-                    <AppRoutes />
-                  </ErrorBoundary>
-                </FacultyAuthProvider>
-              </StudentAuthProvider>
+              <FacultyAuthProvider>
+                <ErrorBoundary>
+                  <AppRoutes />
+                </ErrorBoundary>
+              </FacultyAuthProvider>
             </AdminAuthProvider>
           </AuthProvider>
         </ToastProvider>
@@ -111,8 +94,6 @@ const AppRoutes = () => {
         return '/admin/dashboard';
       case 'faculty':
         return '/faculty/dashboard';
-      case 'student':
-        return '/student/dashboard';
       default:
         return '/login';
     }
@@ -132,10 +113,6 @@ const AppRoutes = () => {
           <Route 
             path="/login" 
             element={isAuthenticated ? <Navigate to={getRedirectPath()} replace /> : <Login />} 
-          />
-          <Route 
-            path="/register" 
-            element={isAuthenticated ? <Navigate to={getRedirectPath()} replace /> : <StudentRegister />} 
           />
           <Route 
             path="/forgot-password" 
@@ -351,54 +328,6 @@ const AppRoutes = () => {
               </ProtectedRoute>
             } 
           />
-          <Route 
-            path="/student/dashboard" 
-            element={
-              <ProtectedRoute allowedRoles={['student']}>
-                <StudentDashboard />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/student/courses" 
-            element={
-              <ProtectedRoute allowedRoles={['student']}>
-                <StudentCourses />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/student/courses/:id" 
-            element={
-              <ProtectedRoute allowedRoles={['student']}>
-                <StudentCourseDetail />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/student/profile" 
-            element={
-              <ProtectedRoute allowedRoles={['student']}>
-                <StudentProfile />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/student/timetable" 
-            element={
-              <ProtectedRoute allowedRoles={['student']}>
-                <StudentTimetable />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/student/attendance/*" 
-            element={
-              <ProtectedRoute allowedRoles={['student']}>
-                <StudentAttendancePage />
-              </ProtectedRoute>
-            } 
-          />
           
           {/* Token-based faculty registration (from admin email) */}
           <Route path="/faculty/complete-registration/:token" element={<TokenRegistration />} />
@@ -427,24 +356,6 @@ const AppRoutes = () => {
             element={
               <ProtectedRoute allowedRoles={['faculty']}>
                 <FacultyCOEViewPage />
-              </ProtectedRoute>
-            } 
-          />
-          
-          {/* Student Calendar of Events */}
-          <Route 
-            path="/student/calendar-of-events" 
-            element={
-              <ProtectedRoute allowedRoles={['student']}>
-                <StudentCalendarOfEvents />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/student/coe/:id" 
-            element={
-              <ProtectedRoute allowedRoles={['student']}>
-                <StudentCOEViewPage />
               </ProtectedRoute>
             } 
           />
