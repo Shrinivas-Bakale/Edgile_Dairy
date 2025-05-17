@@ -1,5 +1,7 @@
 # Dependencies
+# Dependencies
 node_modules/
+*/node_modules/
 */node_modules/
 **/node_modules/
 npm-debug.log
@@ -139,4 +141,5 @@ uploads/
 
 # System Files
 .DS_Store
+Thumbs.db
 Thumbs.db

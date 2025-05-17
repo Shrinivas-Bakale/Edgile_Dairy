@@ -72,7 +72,7 @@ const fileFormat = winston.format.combine(
 // Determine log level based on environment
 const level = process.env.NODE_ENV === "production" ? "warn" : "debug";
 
-// Create the logger
+// Create the logger with only console transport
 const logger = winston.createLogger({
   levels: logLevels,
   level,
