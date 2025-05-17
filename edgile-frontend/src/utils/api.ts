@@ -169,7 +169,7 @@ class ApiClient {
   /**
    * Handle API response with error handling
    */
-  private async handleResponse<T>(response: Response): Promise<T> {
+  private async handleResponse<T>(response: Response, isLoginAttempt = false): Promise<T> {
     // Handle different response status codes
     if (response.status === 429) {
       throw new Error('RATE_LIMITED');
@@ -181,8 +181,8 @@ class ApiClient {
         headers: Object.fromEntries(response.headers.entries())
       });
       
-      // Try to refresh token if not already refreshing
-      if (!this.isRefreshing) {
+      // Don't try to refresh token during login attempts
+      if (!isLoginAttempt && !this.isRefreshing) {
         try {
           const newToken = await this.refreshToken();
           // Retry the original request with new token
@@ -193,8 +193,8 @@ class ApiClient {
               Authorization: `Bearer ${newToken}`
             }
           });
-          return this.handleResponse<T>(retryResponse);
-        } catch (error) {
+          return this.handleResponse<T>(retryResponse, isLoginAttempt);
+        } catch (refreshError) {
           // If refresh fails, clear auth state and throw error
           this.setToken(null);
           localStorage.removeItem('user');
@@ -204,21 +204,16 @@ class ApiClient {
         }
       }
       
-      // If already refreshing, wait for refresh to complete
-      return new Promise((resolve, reject) => {
-        this.subscribeTokenRefresh((token: string) => {
-          // Retry the original request with new token
-          fetch(response.url, {
-            ...response,
-            headers: {
-              ...response.headers,
-              Authorization: `Bearer ${token}`
-            }
-          })
-            .then(res => resolve(this.handleResponse<T>(res)))
-            .catch(reject);
-        });
-      });
+      // For login attempts or if already refreshing, try to parse error response
+      try {
+        const data = await response.json();
+        throw {
+          message: data.message || 'Authentication failed',
+          response: { data }
+        };
+      } catch (parseError) {
+        throw new Error('Authentication failed');
+      }
     }
     
     if (response.status === 403) {
@@ -359,7 +354,7 @@ class ApiClient {
   /**
    * Make a POST request to the API with debouncing
    */
-  async post<T>(path: string, body: any): Promise<T> {
+  async post<T>(path: string, body: any, isLoginAttempt = false): Promise<T> {
     const cacheKey = this.createCacheKey('POST', path, body);
     
     // If this exact request is already in progress, return the existing promise
@@ -383,15 +378,15 @@ class ApiClient {
           headers: this.getHeaders(),
           body: JSON.stringify(body),
           signal: controller.signal,
-          credentials: 'include' // Changed from 'same-origin' to 'include' for cross-origin auth
+          credentials: 'include'
         });
         
-        return await this.handleResponse<T>(response);
-    } catch (error: any) {
+        return await this.handleResponse<T>(response, isLoginAttempt);
+      } catch (error: any) {
         if (error.message === 'RATE_LIMITED' && retries > 0) {
           return executeRequest(retries - 1);
         }
-      throw error;
+        throw error;
       } finally {
         if (retries === 2) { // Only on the first try
           this.pendingRequests.delete(cacheKey);
@@ -484,6 +479,154 @@ class ApiClient {
 // Create a singleton instance
 const api = new ApiClient();
 
+// Auth response interfaces
+interface AdminLoginResponse {
+  success: boolean;
+  token: string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+    permissions?: string[];
+  };
+  message?: string;
+}
+
+interface FacultyLoginResponse {
+  success: boolean;
+  token: string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+    department?: string;
+    universityName?: string;
+  };
+  message?: string;
+}
+
+interface StudentLoginResponse {
+  success: boolean;
+  token: string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+    universityCode?: string;
+  };
+  message?: string;
+}
+
+// Standalone auth functions
+export const adminLogin = async (email: string, password: string): Promise<AdminLoginResponse> => {
+  try {
+    const response = await api.post<AdminLoginResponse>('/api/auth/admin/login', {
+      email,
+      password
+    }, true);
+
+    if (!response.token || !response.user) {
+      throw new Error('Invalid response format from server');
+    }
+
+    // Store the token and user data
+    api.setToken(response.token);
+    localStorage.setItem('user', JSON.stringify(response.user));
+
+    return {
+      success: true,
+      token: response.token,
+      user: response.user,
+      message: response.message || 'Login successful'
+    };
+  } catch (error: unknown) {
+    const err = error as { message?: string; response?: { data?: any } };
+    
+    // Clear any existing auth data
+    api.setToken(null);
+    localStorage.removeItem('user');
+
+    // If it's an API error response, preserve the structure
+    if (err.response?.data) {
+      return {
+        success: false,
+        token: '',
+        user: {
+          id: '',
+          name: '',
+          email: '',
+          role: '',
+          permissions: []
+        },
+        message: err.response.data.message || 'Login failed'
+      };
+    }
+    
+    // Otherwise create a standard error response
+    return {
+      success: false,
+      token: '',
+      user: {
+        id: '',
+        name: '',
+        email: '',
+        role: '',
+        permissions: []
+      },
+      message: err.message || 'Login failed'
+    };
+  }
+};
+
+export const facultyLogin = async (email: string, password: string, universityCode: string): Promise<FacultyLoginResponse> => {
+  try {
+    const response = await api.post<FacultyLoginResponse>('/api/auth/faculty/login', {
+      email,
+      password,
+      universityCode
+    });
+
+    return {
+      success: true,
+      ...response,
+      message: response.message || 'Login successful'
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      token: '',
+      user: null,
+      message: error.response?.data?.message || error.message || 'Login failed'
+    };
+  }
+};
+
+export const studentLogin = async (email: string, password: string, universityCode: string): Promise<StudentLoginResponse> => {
+  try {
+    const response = await api.post<StudentLoginResponse>('/api/auth/student/login', {
+      email,
+      password,
+      universityCode
+    });
+
+    return {
+      success: true,
+      ...response,
+      message: response.message || 'Login successful'
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      token: '',
+      user: null,
+      message: error.response?.data?.message || error.message || 'Login failed'
+    };
+  }
+};
+
 // Auth API wrapper
 export const authAPI = {
   login: async (data: { 
@@ -502,12 +645,66 @@ export const authAPI = {
   }) => {
     return api.post('/api/auth/register', data);
   },
-  
+
   adminLogin: async (data: { 
     email: string; 
     password: string;
-  }) => {
-    return api.post('/api/auth/admin/login', data);
+  }): Promise<AdminLoginResponse> => {
+    try {
+      // Mark this as a login attempt to prevent token refresh
+      const response = await api.post<AdminLoginResponse>('/api/admin/auth/login', data, true);
+      
+      if (!response.token || !response.user) {
+        throw new Error('Invalid response format from server');
+      }
+
+      // Store the token and user data
+      api.setToken(response.token);
+      localStorage.setItem('user', JSON.stringify(response.user));
+
+      return {
+        success: true,
+        token: response.token,
+        user: response.user,
+        message: response.message || 'Login successful'
+      };
+    } catch (error: unknown) {
+      const err = error as { message?: string; response?: { data?: any } };
+      
+      // Clear any existing auth data
+      api.setToken(null);
+      localStorage.removeItem('user');
+
+      // If it's an API error response, preserve the structure
+      if (err.response?.data) {
+        return {
+          success: false,
+          token: '',
+          user: {
+            id: '',
+            name: '',
+            email: '',
+            role: '',
+            permissions: []
+          },
+          message: err.response.data.message || 'Login failed'
+        };
+      }
+      
+      // Otherwise create a standard error response
+      return {
+        success: false,
+        token: '',
+        user: {
+          id: '',
+          name: '',
+          email: '',
+          role: '',
+          permissions: []
+        },
+        message: err.message || 'Login failed'
+      };
+    }
   },
   
   verifyOTP: async (email: string, otp: string) => {
@@ -958,21 +1155,6 @@ export const facultyAPI = {
   getCourseById: async (id: string) => {
     return api.get(`/api/faculty/courses/${id}`);
   },
-};
-
-// Faculty login method
-export const facultyLogin = async (email: string, password: string, universityCode: string) => {
-  return api.post('/api/auth/faculty/login', { email, password, universityCode });
-};
-
-// Student login method
-export const studentLogin = async (email: string, password: string, universityCode: string) => {
-  return api.post('/api/auth/student/login', { email, password, universityCode });
-};
-
-// Admin login method
-export const adminLogin = async (email: string, password: string) => {
-  return api.post('/api/admin/login', { email, password });
 };
 
 // Student Auth API wrapper
