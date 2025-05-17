@@ -16,7 +16,8 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:5001',
         changeOrigin: true,
-        secure: false
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, '')
       }
     },
     hmr: {
@@ -45,13 +46,6 @@ export default defineConfig({
           vendor: ['react', 'react-dom', 'react-router-dom'],
           mui: ['@mui/material', '@mui/icons-material', '@emotion/react', '@emotion/styled']
         }
-      }
-    }
-  },
-  css: {
-    preprocessorOptions: {
-      css: {
-        additionalData: `@import "@/index.css";`
       }
     }
   }

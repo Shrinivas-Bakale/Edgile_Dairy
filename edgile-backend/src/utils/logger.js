@@ -1,5 +1,4 @@
 const winston = require('winston');
-const path = require('path');
 
 // Define log levels
 const logLevels = {
@@ -33,20 +32,10 @@ const consoleFormat = winston.format.combine(
   })
 );
 
-// Define format for file logs (without colors)
-const fileFormat = winston.format.combine(
-  winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-  winston.format.printf((info) => {
-    const { timestamp, level, message, ...meta } = info;
-    const metaString = Object.keys(meta).length ? JSON.stringify(meta, null, 2) : '';
-    return `${timestamp} [${level}]: ${message} ${metaString}`;
-  })
-);
-
 // Determine log level based on environment
 const level = process.env.NODE_ENV === 'production' ? 'info' : 'debug';
 
-// Create the logger
+// Create the logger with only console transport
 const logger = winston.createLogger({
   levels: logLevels,
   level,
@@ -54,24 +43,7 @@ const logger = winston.createLogger({
     // Console transport for all logs
     new winston.transports.Console({
       format: consoleFormat,
-    }),
-    
-    // Error file transport
-    new winston.transports.File({
-      filename: path.join('logs', 'error.log'),
-      level: 'error',
-      format: fileFormat,
-      maxsize: 10485760, // 10MB
-      maxFiles: 5,
-    }),
-    
-    // Combined logs file transport
-    new winston.transports.File({
-      filename: path.join('logs', 'combined.log'),
-      format: fileFormat,
-      maxsize: 10485760, // 10MB
-      maxFiles: 5,
-    }),
+    })
   ],
   // Don't exit on error
   exitOnError: false,

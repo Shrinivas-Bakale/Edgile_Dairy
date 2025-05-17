@@ -510,14 +510,8 @@ export const authAPI = {
     return api.post('/api/auth/admin/login', data);
   },
   
-  verifyOTP: async (data: { 
-    email: string; 
-    otp: string;
-    password: string;
-    name: string;
-    universityCode: string;
-  }) => {
-    return api.post('/api/auth/verify-otp', data);
+  verifyOTP: async (email: string, otp: string) => {
+    return api.post('/api/auth/admin/verify-otp', { email, otp });
   },
   
   checkAdminEmail: async (email: string) => {
@@ -543,12 +537,23 @@ export const authAPI = {
     return api.post('/api/auth/admin/verify-access-code', { accessCode });
   },
   
-  generateOTP: async (email: string) => {
-    return api.post('/api/auth/admin/generate-otp', { email });
+  generateOTP: async (data: { 
+    email: string;
+    name: string;
+    universityName: string;
+    superAdminCode?: string;
+  }) => {
+    return api.post('/api/auth/admin/generate-otp', data);
   },
   
-  adminVerifyOTP: async (email: string, otp: string) => {
-    return api.post('/api/auth/admin/verify-otp', { email, otp });
+  adminVerifyOTP: async (data: {
+    email: string;
+    otp: string;
+    password: string;
+    name: string;
+    universityName: string;
+  }) => {
+    return api.post('/api/auth/admin/verify-otp', data);
   }
 };
 

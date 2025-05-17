@@ -12,9 +12,15 @@ interface PasswordCriteria {
   special: boolean;
 }
 
+// API response types
+interface ApiResponse {
+  success: boolean;
+  message?: string;
+}
+
 const AdminRegister: React.FC = () => {
   const navigate = useNavigate();
-  const { adminLogin, login, checkAdminEmailExists } = useAuth();
+  const { adminLogin, checkAdminEmailExists } = useAuth();
   const [step, setStep] = useState<'initial' | 'otp'>('initial');
   const [formData, setFormData] = useState({
     name: '',
@@ -105,8 +111,13 @@ const AdminRegister: React.FC = () => {
     setLoading(true);
 
     try {
-      // Generate OTP
-      const response = await authAPI.generateOTP(formData.email);
+      // Generate OTP with all required fields
+      const response = await authAPI.generateOTP({
+        email: formData.email,
+        name: formData.name,
+        universityName: formData.universityName,
+        superAdminCode: formData.superAdminCode
+      });
 
       if (response.success) {
         setOtpSent(true);
@@ -140,42 +151,28 @@ const AdminRegister: React.FC = () => {
 
     try {
       // Verify OTP and complete registration
-      const response = await authAPI.verifyOTP(formData.email, formData.otp);
+      const response = await authAPI.adminVerifyOTP({
+        email: formData.email,
+        otp: formData.otp,
+        password: formData.password,
+        name: formData.name,
+        universityName: formData.universityName
+      });
 
-      if (response.success) {
-        // Complete registration with password
-        const registerResponse = await authAPI.register({
-          email: formData.email,
-          password: formData.password,
-          name: formData.name,
-          universityName: formData.universityName
-        });
-
-        if (registerResponse.token && registerResponse.user) {
-          // Store token and user data in localStorage first
-          localStorage.setItem('token', registerResponse.token);
-          localStorage.setItem('user', JSON.stringify(registerResponse.user));
-          
-          // Then update auth context
-          login(registerResponse.token, registerResponse.user);
-          
+      if (response && response.success) {
+        // Try to login with the new credentials
+        try {
+          await adminLogin(formData.email, formData.password);
           // Immediately navigate to dashboard
           window.location.href = '/admin/dashboard';
-        } else {
-          try {
-            // Otherwise try to login
-            console.log('Registration successful but no token received, attempting login');
-            const loginResult = await adminLogin(formData.email, formData.password);
-            
-            // Immediately navigate to dashboard
-            window.location.href = '/admin/dashboard';
-          } catch (loginError) {
-            console.error('Login failed after registration:', loginError);
-            setError('Registration successful but login failed. Please try logging in manually.');
-          }
+        } catch (loginError) {
+          console.error('Login failed after registration:', loginError);
+          setError('Registration successful but login failed. Please try logging in manually.');
+          navigate('/admin/login');
         }
       }
-    } catch (err: any) {
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { message: string } } };
       setError(err.response?.data?.message || 'Registration failed');
     } finally {
       setLoading(false);
