@@ -10,6 +10,8 @@ class ApiClient {
   private token: string | null;
   private requestQueue: Map<string, Promise<any>>;
   private pendingRequests: Set<string>;
+  private isRefreshing: boolean;
+  private refreshSubscribers: Array<(token: string) => void>;
 
   constructor() {
     // Use the configured API URL
@@ -30,6 +32,15 @@ class ApiClient {
     // Initialize request tracking
     this.requestQueue = new Map();
     this.pendingRequests = new Set();
+    this.isRefreshing = false;
+    this.refreshSubscribers = [];
+
+    // Initialize token from localStorage
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      this.token = storedToken;
+      console.log('[API] Token initialized from localStorage');
+    }
   }
 
   /**
@@ -40,8 +51,77 @@ class ApiClient {
     
     if (token) {
       console.log('[API] Authentication token set successfully');
+      // Store token in localStorage
+      localStorage.setItem('token', token);
     } else {
       console.log('[API] Authentication token cleared');
+      // Remove token from localStorage
+      localStorage.removeItem('token');
+    }
+  }
+
+  /**
+   * Subscribe to token refresh
+   */
+  private subscribeTokenRefresh(cb: (token: string) => void) {
+    this.refreshSubscribers.push(cb);
+  }
+
+  /**
+   * Notify subscribers of token refresh
+   */
+  private onTokenRefreshed(token: string) {
+    this.refreshSubscribers.forEach(cb => cb(token));
+    this.refreshSubscribers = [];
+  }
+
+  /**
+   * Handle token refresh
+   */
+  private async refreshToken(): Promise<string> {
+    try {
+      this.isRefreshing = true;
+      
+      // Get stored user data
+      const storedUser = localStorage.getItem('user');
+      if (!storedUser) {
+        throw new Error('No user data found');
+      }
+
+      const user = JSON.parse(storedUser);
+      
+      // Call refresh token endpoint
+      const response = await fetch(`${this.baseUrl}/api/auth/refresh-token`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userId: user.id,
+          role: user.role
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to refresh token');
+      }
+
+      const data = await response.json();
+      const newToken = data.token;
+
+      // Update token
+      this.setToken(newToken);
+      this.onTokenRefreshed(newToken);
+
+      return newToken;
+    } catch (error) {
+      console.error('[API] Token refresh failed:', error);
+      // Clear token and user data
+      this.setToken(null);
+      localStorage.removeItem('user');
+      throw error;
+    } finally {
+      this.isRefreshing = false;
     }
   }
 
@@ -72,7 +152,7 @@ class ApiClient {
     if (this.token) {
       headers.Authorization = `Bearer ${this.token}`;
       console.log('[API] Using authentication token in request headers');
-  } else {
+    } else {
       console.warn('[API] No authentication token available for request');
     }
     
@@ -101,10 +181,44 @@ class ApiClient {
         headers: Object.fromEntries(response.headers.entries())
       });
       
-      // Handle authentication errors
-      const authError = new Error('Unauthorized - Authentication token missing or invalid');
-      authError.name = 'AuthError';
-      throw authError;
+      // Try to refresh token if not already refreshing
+      if (!this.isRefreshing) {
+        try {
+          const newToken = await this.refreshToken();
+          // Retry the original request with new token
+          const retryResponse = await fetch(response.url, {
+            ...response,
+            headers: {
+              ...response.headers,
+              Authorization: `Bearer ${newToken}`
+            }
+          });
+          return this.handleResponse<T>(retryResponse);
+        } catch (error) {
+          // If refresh fails, clear auth state and throw error
+          this.setToken(null);
+          localStorage.removeItem('user');
+          const authError = new Error('Session expired. Please login again.');
+          authError.name = 'AuthError';
+          throw authError;
+        }
+      }
+      
+      // If already refreshing, wait for refresh to complete
+      return new Promise((resolve, reject) => {
+        this.subscribeTokenRefresh((token: string) => {
+          // Retry the original request with new token
+          fetch(response.url, {
+            ...response,
+            headers: {
+              ...response.headers,
+              Authorization: `Bearer ${token}`
+            }
+          })
+            .then(res => resolve(this.handleResponse<T>(res)))
+            .catch(reject);
+        });
+      });
     }
     
     if (response.status === 403) {

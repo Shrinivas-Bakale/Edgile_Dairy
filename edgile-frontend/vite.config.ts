@@ -47,5 +47,12 @@ export default defineConfig({
         }
       }
     }
+  },
+  css: {
+    preprocessorOptions: {
+      css: {
+        additionalData: `@import "@/index.css";`
+      }
+    }
   }
 })
