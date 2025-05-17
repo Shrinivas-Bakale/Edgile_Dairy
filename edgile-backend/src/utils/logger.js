@@ -1,5 +1,5 @@
-const winston = require('winston');
-const path = require('path');
+const winston = require("winston");
+const path = require("path");
 
 // Define log levels
 const logLevels = {
@@ -12,39 +12,65 @@ const logLevels = {
 
 // Define colors for each log level
 const colors = {
-  error: 'red',
-  warn: 'yellow',
-  info: 'green',
-  http: 'cyan',
-  debug: 'white',
+  error: "red",
+  warn: "yellow",
+  info: "green",
+  http: "cyan",
+  debug: "white",
 };
 
 // Add colors to winston
 winston.addColors(colors);
 
+// Create a filter format
+const filterFormat = winston.format((info) => {
+  // Filter out common noisy messages
+  if (
+    info.message.includes("heartbeat") ||
+    info.message.includes("connection idle") ||
+    info.message.includes("socket timeout") ||
+    info.message.includes("jwt expired") ||
+    info.message.includes("jwt malformed") ||
+    info.message.includes("invalid signature")
+  ) {
+    return false;
+  }
+  return info;
+})();
+
 // Define custom format for console output
 const consoleFormat = winston.format.combine(
-  winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+  filterFormat,
+  winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
   winston.format.colorize({ all: true }),
   winston.format.printf((info) => {
     const { timestamp, level, message, ...meta } = info;
-    const metaString = Object.keys(meta).length ? JSON.stringify(meta, null, 2) : '';
+    // Only include meta if it's not empty and not just an empty object
+    const metaString =
+      Object.keys(meta).length && JSON.stringify(meta) !== "{}"
+        ? JSON.stringify(meta, null, 2)
+        : "";
     return `${timestamp} [${level}]: ${message} ${metaString}`;
   })
 );
 
 // Define format for file logs (without colors)
 const fileFormat = winston.format.combine(
-  winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+  filterFormat,
+  winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
   winston.format.printf((info) => {
     const { timestamp, level, message, ...meta } = info;
-    const metaString = Object.keys(meta).length ? JSON.stringify(meta, null, 2) : '';
+    // Only include meta if it's not empty and not just an empty object
+    const metaString =
+      Object.keys(meta).length && JSON.stringify(meta) !== "{}"
+        ? JSON.stringify(meta, null, 2)
+        : "";
     return `${timestamp} [${level}]: ${message} ${metaString}`;
   })
 );
 
 // Determine log level based on environment
-const level = process.env.NODE_ENV === 'production' ? 'info' : 'debug';
+const level = process.env.NODE_ENV === "production" ? "warn" : "debug";
 
 // Create the logger
 const logger = winston.createLogger({
@@ -55,42 +81,24 @@ const logger = winston.createLogger({
     new winston.transports.Console({
       format: consoleFormat,
     }),
-    
-    // Error file transport
-    new winston.transports.File({
-      filename: path.join('logs', 'error.log'),
-      level: 'error',
-      format: fileFormat,
-      maxsize: 10485760, // 10MB
-      maxFiles: 5,
-    }),
-    
-    // Combined logs file transport
-    new winston.transports.File({
-      filename: path.join('logs', 'combined.log'),
-      format: fileFormat,
-      maxsize: 10485760, // 10MB
-      maxFiles: 5,
-    }),
+
+    // Error file transport - only in production
+    ...(process.env.NODE_ENV === "production"
+      ? [
+          new winston.transports.File({
+            filename: path.join("logs", "error.log"),
+            level: "error",
+            format: fileFormat,
+            maxsize: 5242880, // 5MB
+            maxFiles: 3,
+            tailable: true,
+          }),
+        ]
+      : []),
   ],
   // Don't exit on error
   exitOnError: false,
 });
-
-// Filter out noisy logs in production
-if (process.env.NODE_ENV === 'production') {
-  logger.filters.push((level, msg, meta) => {
-    // Filter out certain debug messages that clutter the logs
-    if (level === 'debug' && (
-      msg.includes('heartbeat') || 
-      msg.includes('connection idle') ||
-      msg.includes('socket timeout')
-    )) {
-      return false;
-    }
-    return true;
-  });
-}
 
 // Export the logger
 module.exports = logger;

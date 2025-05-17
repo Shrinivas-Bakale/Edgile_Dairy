@@ -5,40 +5,29 @@ import { authAPI } from '../../utils/api';
 const AdminAccess: React.FC = () => {
   const navigate = useNavigate();
   const [accessCode, setAccessCode] = useState('');
-  const [email, setEmail] = useState('');
-  const [otp, setOtp] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [isAccessVerified, setIsAccessVerified] = useState(false);
-  const [isEmailVerified, setIsEmailVerified] = useState(false);
-  const [otpSent, setOtpSent] = useState(false);
 
   // Function to reset verification state
   const resetVerificationState = () => {
     sessionStorage.removeItem('adminAccessVerified');
-    sessionStorage.removeItem('adminEmail');
     setIsAccessVerified(false);
-    setIsEmailVerified(false);
-    setOtpSent(false);
-    setEmail('');
-    setOtp('');
     setAccessCode('');
     setError(null);
   };
 
-  // Check if already verified on mount and set initial state
+  // Check if already verified on mount
   useEffect(() => {
     const verified = sessionStorage.getItem('adminAccessVerified');
     
     // Reset verification state when visiting the page directly
-    // This ensures the access code is always asked first when directly accessing this route
     if (window.location.pathname === '/admin/access') {
       resetVerificationState();
     } 
     // Only preserve verification if coming from another admin page
     else if (verified === 'true') {
       setIsAccessVerified(true);
-      setIsEmailVerified(true);
     }
   }, []);
 
@@ -51,74 +40,24 @@ const AdminAccess: React.FC = () => {
       const response = await authAPI.verifyAccessCode(accessCode);
       
       if (response.success) {
-        // Set full verification directly after access code verification
         setIsAccessVerified(true);
-        setIsEmailVerified(true);
-        
-        // Store verification flag in session storage right away
         sessionStorage.setItem('adminAccessVerified', 'true');
       } else {
         setError('Invalid access code. Please try again.');
       }
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to verify access code');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleGenerateOTP = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-
-    try {
-      const response = await authAPI.generateOTP(email);
-      
-      if (response.success) {
-        setOtpSent(true);
-        setError('OTP has been sent to your email');
-      }
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to send OTP');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleVerifyOTP = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-
-    try {
-      const response = await authAPI.verifyOTP(email, otp);
-      
-      if (response.success) {
-        // Store verification flag in session storage
-        sessionStorage.setItem('adminAccessVerified', 'true');
-        
-        // Store email in session storage for subsequent login
-        sessionStorage.setItem('adminEmail', email);
-        
-        // Set state to show choices
-        setIsEmailVerified(true);
-      } else {
-        setError('Invalid OTP. Please try again.');
-      }
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to verify OTP');
+    } catch (err: unknown) {
+      const error = err as { response?: { data?: { message?: string } } };
+      setError(error.response?.data?.message || 'Failed to verify access code');
     } finally {
       setLoading(false);
     }
   };
 
   const handleChoice = (choice: 'login' | 'register') => {
-    if (!isAccessVerified || !isEmailVerified) {
+    if (!isAccessVerified) {
       setError('Please complete the verification process first');
       return;
     }
-    
     navigate(`/admin/${choice}`);
   };
 
@@ -168,74 +107,6 @@ const AdminAccess: React.FC = () => {
     </form>
   );
 
-  const renderEmailForm = () => (
-    <form className="space-y-6" onSubmit={handleGenerateOTP}>
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-          Email Address
-        </label>
-        <div className="mt-1">
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Enter your email"
-          />
-        </div>
-      </div>
-
-      <div>
-        <button
-          type="submit"
-          disabled={loading}
-          className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
-            loading ? 'opacity-50 cursor-not-allowed' : ''
-          }`}
-        >
-          {loading ? 'Sending...' : 'Send OTP'}
-        </button>
-      </div>
-    </form>
-  );
-
-  const renderOTPForm = () => (
-    <form className="space-y-6" onSubmit={handleVerifyOTP}>
-      <div>
-        <label htmlFor="otp" className="block text-sm font-medium text-gray-700">
-          OTP Verification
-        </label>
-        <div className="mt-1">
-          <input
-            id="otp"
-            name="otp"
-            type="text"
-            required
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-            className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Enter OTP"
-          />
-        </div>
-      </div>
-
-      <div>
-        <button
-          type="submit"
-          disabled={loading}
-          className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
-            loading ? 'opacity-50 cursor-not-allowed' : ''
-          }`}
-        >
-          {loading ? 'Verifying...' : 'Verify OTP'}
-        </button>
-      </div>
-    </form>
-  );
-
   const renderChoiceButtons = () => (
     <div className="space-y-5">
       <button
@@ -267,7 +138,6 @@ const AdminAccess: React.FC = () => {
     if (!isAccessVerified) {
       return renderAccessForm();
     }
-    // Skip email and OTP verification entirely
     return renderChoiceButtons();
   };
 
@@ -302,7 +172,7 @@ const AdminAccess: React.FC = () => {
       <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-blue-100 rounded-bl-full opacity-30" />
       <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-blue-100 rounded-tr-full opacity-30" />
 
-      <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="text-center">
           <svg className="mx-auto h-16 w-16 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
